@@ -7,8 +7,8 @@ from json import dumps
 from functools import reduce
 from operator import iconcat
 
-inp = {"hp": 2,"atk": 5, "def": 0,"spa": 6,"spd": 7,"spe": 8}
-target =['hp', 'atk', 'spa', 'spd', 'spe']
+inp = {"hp": 2,"atk": 8, "def": 12,"spa": 6,"spd": 7,"spe": 8}
+target =['hp', 'atk', 'def', 'spa', 'spd', 'spe']
 
 inp = OrderedDict(sorted(inp.items(), key=lambda t: t[1]))
 inp = {x:y for x,y in inp.items() if y!=0} # Remove 0s, user doesn't want that stat
