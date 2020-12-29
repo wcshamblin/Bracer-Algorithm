@@ -16,7 +16,7 @@ def gtlbreed():
         return("Data")
 
 @app.route('/boxbreed', methods=['GET', 'POST'])
-def gtlbreed():
+def boxbreed():
     if request.method == 'GET':
         return("No data to return - need POST")
     if request.method == 'POST':
