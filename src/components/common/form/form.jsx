@@ -56,27 +56,6 @@ class Form extends Component {
     }
     this.setState({ data, errors });
   };
-  // handleChange = ({ currentTarget: input }) => {
-  //   const errors = { ...this.state.errors };
-  //   const errorMessage = this.validateProperty(input);
-  //   if (errorMessage) errors[input.name] = errorMessage;
-  //   else delete errors[input.name];
-
-  //   const data = { ...this.state.data };
-  //   if (input.type !== "checkbox") {
-  //     data[input.name] = input.value;
-  //   }
-
-  //   if (input.type === "checkbox") {
-  //     data[input.name] = input.checked ? true : false;
-  //   }
-
-  //   if (input.type === "number") {
-  //     data[input.name] = parseInt(input.value);
-  //   }
-
-  //   this.setState({ data, errors });
-  // };
 
   renderButton(label) {
     return (
@@ -159,20 +138,6 @@ class Form extends Component {
       />
     );
   }
-  // renderCheckbox(name, label, type = "checkbox") {
-  //   const { data, errors } = this.state;
-
-  //   return (
-  //     <Checkbox
-  //       type={type}
-  //       name={name}
-  //       value={data[name]}
-  //       label={label}
-  //       onChange={this.handleChange}
-  //       error={errors[name]}
-  //     />
-  //   );
-  // }
 }
 
 export default Form;

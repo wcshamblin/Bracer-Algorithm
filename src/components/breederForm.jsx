@@ -3,20 +3,18 @@ import Form from "./common/form/form";
 import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getAllPokes, getImg, getImgSm } from "../utils/pokeApi";
-import { capitalize } from "../utils/capitalize";
+import { getImg } from "../utils/pokeApi";
 import questionmark from "../question-mark.png";
 
 class BreederForm extends Form {
   state = {
-    allPokes: [],
     data: {
       name: "",
       hp: false,
       atk: false,
       def: false,
       spa: false,
-      spdef: false,
+      spd: false,
       spe: false,
     },
     url: questionmark,
@@ -24,20 +22,14 @@ class BreederForm extends Form {
   };
 
   schema = {
-    name: Joi.string().required().label("Name"),
-    hp: Joi.boolean().required().label("31 HP"),
-    atk: Joi.boolean().required().label("31 atk"),
-    def: Joi.boolean().required().label("31 def"),
-    spa: Joi.boolean().required().label("31 spa"),
-    spdef: Joi.boolean().required().label("31 spdef"),
-    spe: Joi.boolean().required().label("31 spe"),
+    name: Joi.string().required(),
+    hp: Joi.boolean().required(),
+    atk: Joi.boolean().required(),
+    def: Joi.boolean().required(),
+    spa: Joi.boolean().required(),
+    spd: Joi.boolean().required(),
+    spe: Joi.boolean().required(),
   };
-
-  async componentDidMount() {
-    const { data } = await getAllPokes();
-    const allPokes = data.results.map((poke) => capitalize(poke.name));
-    this.setState({ allPokes });
-  }
 
   doSubmit = () => {
     this.props.addPokemon(this.state.data);
@@ -60,7 +52,7 @@ class BreederForm extends Form {
         atk: false,
         def: false,
         spa: false,
-        spdef: false,
+        spd: false,
         spe: false,
       },
       errors: {},
@@ -68,8 +60,9 @@ class BreederForm extends Form {
   };
 
   render() {
-    const { allPokes, url } = this.state;
-    const stats = ["hp", "atk", "def", "spa", "spdef", "spe"];
+    const { url } = this.state;
+    const { allPokes } = this.props;
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
     return (
       <React.Fragment>
         <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
