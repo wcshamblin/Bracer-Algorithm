@@ -23,4 +23,4 @@ def boxbreed():
         # Get data from box breed algo
         return("Data")
 
-app.run(debug = True)
+app.run()
