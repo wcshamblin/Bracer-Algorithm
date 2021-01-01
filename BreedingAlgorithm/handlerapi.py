@@ -8,7 +8,7 @@ def slash():
     return "Use route /gtlbreed/ or /boxbreed/"
 
 @app.route("/gtlbreed", methods=['GET', 'POST'])
-def gtlbreed():
+def gtlroute():
     if request.method == 'GET':
         return("No data to return - need POST")
     if request.method == 'POST':
@@ -16,7 +16,7 @@ def gtlbreed():
         return("Data")
 
 @app.route('/boxbreed', methods=['GET', 'POST'])
-def boxbreed():
+def boxroute():
     if request.method == 'GET':
         return("No data to return - need POST")
     if request.method == 'POST':
