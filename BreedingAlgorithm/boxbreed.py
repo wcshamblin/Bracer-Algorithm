@@ -20,7 +20,7 @@ for iv, amount in inp.items():
     if amount == 0:
         del inp[iv]
 
-def permutate(plevel, lnum):
+def combinate(plevel, lnum):
     # Can't have more than 2 1s due to the structure of the binary tree
     # Permutations after first value must be part of a previous level
     return([p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2])
@@ -36,7 +36,7 @@ lnum=1
 level = [1] # 1x
 while lnum < 7: # 2x - 6x
     level = [(sum(level))]+level # "Spikiest" distribution calculation
-    distdict[lnum] = permutate(level, lnum)
+    distdict[lnum] = combinate(level, lnum)
     lnum+=1
 
 # Distributions are contained in distdict according to level
