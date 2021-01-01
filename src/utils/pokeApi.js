@@ -29,3 +29,7 @@ export async function getImgSm(input) {
 export async function getAllPokes() {
   return await http.get(`${apiUrl}?limit=649`);
 }
+
+export async function getNatures(){
+  return await http.get(`https://pokeapi.co/api/v2/nature?limit=25`)
+}

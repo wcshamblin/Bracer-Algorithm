@@ -18,7 +18,7 @@ class MainForm extends Form {
         atk: Joi.boolean().required(),
         def: Joi.boolean().required(),
         spa: Joi.boolean().required(),
-        spdef: Joi.boolean().required(),
+        spd: Joi.boolean().required(),
         spe: Joi.boolean().required(),
       })
     ),
@@ -46,7 +46,7 @@ class MainForm extends Form {
     const { breeders } = this.state;
     return (
       <React.Fragment>
-        <BreederForm addPokemon={this.addPokemon}></BreederForm>
+        <BreederForm addPokemon={this.addPokemon}> </BreederForm>
         <BreederBoxes
           breeders={breeders}
           deletePoke={this.deletePoke}

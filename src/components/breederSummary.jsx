@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faCheckSquare,
+  faMinusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import { getImgSm } from "../utils/pokeApi";
 
 class BreederSummary extends Component {
@@ -12,19 +16,41 @@ class BreederSummary extends Component {
   }
 
   render() {
-    const stats = ["hp", "atk", "def", "spa", "spdef", "spe"];
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
     const { breeder, index, deletePoke } = this.props;
     const { url } = this.state;
 
     return (
-      <div key={index} className="card col-3 d-inline-block">
+      <div key={index} className="card col-3 d-inline-block p-3">
         <p>{breeder.name}</p>
         <img src={url} alt="not found" />
-        {stats.map((stat, index) => (
-          <div key={index}>
-            {breeder[stat] === true ? <p>31 {stat}</p> : null}
-          </div>
-        ))}
+        <div className="row">
+          {stats.map((stat, index) => (
+            <div
+              className="col-2 d.inline-block"
+              style={{ padding: "1px" }}
+              key={index}
+            >
+              <React.Fragment>
+                {breeder[stat] === true ? (
+                  <FontAwesomeIcon
+                    icon={faCheckSquare}
+                    style={{ color: "limegreen" }}
+                  ></FontAwesomeIcon>
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faMinusSquare}
+                    style={{ color: "tomato" }}
+                  ></FontAwesomeIcon>
+                )}
+                <p>
+                  31<br></br>
+                  {stat}
+                </p>
+              </React.Fragment>
+            </div>
+          ))}
+        </div>
         <button onClick={() => deletePoke(index)} className="btn btn-danger">
           <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon>
         </button>
