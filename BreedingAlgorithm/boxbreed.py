@@ -8,9 +8,6 @@ from json import dumps, load
 from functools import reduce
 from operator import iconcat
 
-#def parse_post(data):
-
-
 # Binary tree deconstructor
 # The most Python code to ever Python
 def get_parents(child, sharedict):
@@ -39,10 +36,11 @@ def boxbreed(data):
     # Data preprocessing
     # Count ivs to get inp
     inp = {"hp": 0,"atk": 0, "def": 0,"spa": 0,"spd": 0,"spe": 0}
+    # This is breaking apart 2xs+
     for breeder in data["breeders"]:
         for iv, state in breeder["ivs"].items():
             if state == "True":
-                inp[iv]+=1
+                inp[iv]+=1 
 
     # Set target
     target = []
@@ -50,15 +48,14 @@ def boxbreed(data):
         if state != "False":
             target.append(iv)
 
-    inp = {iv:state for iv, state in inp.items() if state != 0}
+    print(inp.items())
+    inp = {iv:state for iv, state in inp.items() if state != 0 and iv in target}
     inp = OrderedDict(sorted(inp.items(), key=lambda t: t[1]))
     if len(inp) <= 1:
         return("Not enough breeders")
 
-    print(inp, target)
 
     distdict = {} # key:[list] of (sets)
-
     # Start with 1
     lnum=1
     level = [1] # 1x
@@ -116,6 +113,9 @@ def boxbreed(data):
             branched_children, sharedict = get_parents(child, sharedict)
             for branched_child in branched_children:
                 treedict[level].append(branched_child)
+
+    # Reassign 1x level according to json input
+
 
     return(dumps(treedict, indent=4, sort_keys=True))
 
