@@ -2,10 +2,14 @@
 import copy
 from itertools import combinations_with_replacement as combinations_wr
 from collections import OrderedDict
+from collections import Counter
 import math
-from json import dumps
+from json import dumps, load
 from functools import reduce
 from operator import iconcat
+
+#def parse_post(data):
+
 
 # Binary tree deconstructor
 # The most Python code to ever Python
@@ -31,18 +35,27 @@ def listdistance(l1, l2):
     return sum(squares)**.5
 
 # Breed function
-def boxbreed(breeders):
-    inp = {"hp": 2,"atk": 8, "def": 12,"spa": 6,"spd": 7,"spe": 8}
-    target =['hp', 'atk', 'def', 'spa', 'spd', 'spe']
+def boxbreed(data):
+    # Data preprocessing
+    # Count ivs to get inp
+    inp = {"hp": 0,"atk": 0, "def": 0,"spa": 0,"spd": 0,"spe": 0}
+    for breeder in data["breeders"]:
+        for iv, state in breeder["ivs"].items():
+            if state == "True":
+                inp[iv]+=1
 
+    # Set target
+    target = []
+    for iv, state in data["target"]["ivs"].items():
+        if state != "False":
+            target.append(iv)
+
+    inp = {iv:state for iv, state in inp.items() if state != 0}
     inp = OrderedDict(sorted(inp.items(), key=lambda t: t[1]))
-
     if len(inp) <= 1:
         return("Not enough breeders")
 
-    for iv, amount in inp.items():
-        if amount == None:
-            del inp[iv]
+    print(inp, target)
 
     distdict = {} # key:[list] of (sets)
 
@@ -108,5 +121,6 @@ def boxbreed(breeders):
 
 
 if __name__ == '__main__':
-    breeders = ""
-    print(boxbreed(breeders))
+    with open("test.json") as data:
+        data = load(data)
+    print(boxbreed(data))
