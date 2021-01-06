@@ -4,6 +4,7 @@ import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getImg } from "../utils/pokeApi";
+import { capitalize } from "../utils/capitalize";
 import questionmark from "../question-mark.png";
 
 class BreederForm extends Form {
@@ -16,6 +17,7 @@ class BreederForm extends Form {
       spa: false,
       spd: false,
       spe: false,
+      nature: false,
     },
     url: questionmark,
     errors: {},
@@ -29,6 +31,7 @@ class BreederForm extends Form {
     spa: Joi.boolean().required(),
     spd: Joi.boolean().required(),
     spe: Joi.boolean().required(),
+    nature: Joi.boolean().required(),
   };
 
   doSubmit = () => {
@@ -54,6 +57,7 @@ class BreederForm extends Form {
         spa: false,
         spd: false,
         spe: false,
+        nature: false,
       },
       errors: {},
     });
@@ -62,7 +66,7 @@ class BreederForm extends Form {
   render() {
     const { url } = this.state;
     const { allPokes } = this.props;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
     return (
       <React.Fragment>
         <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
@@ -87,7 +91,12 @@ class BreederForm extends Form {
             <div className="col-6 d-inline-block">
               {/* 31 IV CHECKBOXES */}
               {stats.map((stat) => (
-                <div key={stat}>{this.renderCheckbox(stat, `31 ${stat}`)}</div>
+                <div key={stat}>
+                  {stat !== "nature" &&
+                    this.renderCheckbox(stat, `31 ${stat.toUpperCase()}`)}
+                  {stat === "nature" &&
+                    this.renderCheckbox(stat, capitalize(stat))}
+                </div>
               ))}
             </div>
             {this.renderButton("Enter")}

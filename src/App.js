@@ -11,8 +11,10 @@ class App extends Component {
     pageMin: 1,
     pageMax: 3,
     allPokes: [],
-    target: {},
-    breeders: [],
+    data: {
+      target: {},
+      breeders: [],
+    },
   };
 
   changePage = (value) => {
@@ -23,6 +25,10 @@ class App extends Component {
     this.setState({ page });
   };
 
+  dataSubmit = (object, type) => {
+    this.setState({ data: { ...this.state.data, [type]: object } });
+  };
+
   async componentDidMount() {
     const { data } = await getAllPokes();
     const allPokes = data.results.map((poke) => capitalize(poke.name));
@@ -30,15 +36,32 @@ class App extends Component {
   }
 
   render() {
-    const { page, allPokes } = this.state;
+    const { page, pageMin, pageMax, allPokes } = this.state;
+    const { target } = this.state.data;
     return (
       <React.Fragment>
         <main className="container-fluid">
-          {page === 1 && <TargetForm allPokes={allPokes}></TargetForm>}
+          {page === 1 && (
+            <TargetForm
+              target={target}
+              allPokes={allPokes}
+              dataSubmit={this.dataSubmit}
+            ></TargetForm>
+          )}
           {page === 2 && <p>are you doing gtl breed y/n</p>}
-          {page === 3 && <MainForm allPokes={allPokes}></MainForm>}
+          {page === 3 && (
+            <MainForm
+              allPokes={allPokes}
+              dataSubmit={this.dataSubmit}
+            ></MainForm>
+          )}
         </main>
-        <StickyFooter changePage={this.changePage}></StickyFooter>
+        <StickyFooter
+          changePage={this.changePage}
+          page={page}
+          pageMin={pageMin}
+          pageMax={pageMax}
+        ></StickyFooter>
       </React.Fragment>
     );
   }

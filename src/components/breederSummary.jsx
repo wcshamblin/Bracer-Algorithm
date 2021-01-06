@@ -10,13 +10,21 @@ import { getImgSm } from "../utils/pokeApi";
 class BreederSummary extends Component {
   state = { url: "" };
 
-  async componentDidMount() {
+  setIcon = async () => {
     const url = await getImgSm(this.props.breeder.name.toLowerCase());
     this.setState({ url });
+  };
+
+  async componentDidMount() {
+    this.setIcon();
+  }
+
+  async componentDidUpdate() {
+    this.setIcon();
   }
 
   render() {
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
     const { breeder, index, deletePoke } = this.props;
     const { url } = this.state;
 
@@ -27,25 +35,20 @@ class BreederSummary extends Component {
         <div className="row">
           {stats.map((stat, index) => (
             <div
-              className="col-2 d.inline-block"
+              className="col-4 d.inline-block"
               style={{ padding: "1px" }}
               key={index}
             >
               <React.Fragment>
-                {breeder[stat] === true ? (
-                  <FontAwesomeIcon
-                    icon={faCheckSquare}
-                    style={{ color: "limegreen" }}
-                  ></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faMinusSquare}
-                    style={{ color: "tomato" }}
-                  ></FontAwesomeIcon>
-                )}
+                <FontAwesomeIcon
+                  icon={breeder[stat] ? faCheckSquare : faMinusSquare}
+                  style={{
+                    color: `${breeder[stat] ? "limegreen" : "tomato"}`,
+                  }}
+                ></FontAwesomeIcon>
                 <p>
-                  31<br></br>
-                  {stat}
+                  {stat !== "nature" && `31 ${stat.toUpperCase()}`}
+                  {stat === "nature" && "Nature"}
                 </p>
               </React.Fragment>
             </div>

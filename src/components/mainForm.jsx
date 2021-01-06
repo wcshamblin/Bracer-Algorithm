@@ -31,7 +31,7 @@ class MainForm extends Form {
   };
 
   doSubmit = () => {
-    console.log("SUBMITTING FORM:", this.state.breeders);
+    this.props.dataSubmit(this.state.breeders, "breeders");
   };
 
   deletePoke = (index) => {
@@ -44,14 +44,19 @@ class MainForm extends Form {
 
   render() {
     const { breeders } = this.state;
+    const { allPokes } = this.props;
+
     return (
       <React.Fragment>
-        <BreederForm addPokemon={this.addPokemon}> </BreederForm>
+        <BreederForm
+          addPokemon={this.addPokemon}
+          allPokes={allPokes}
+        ></BreederForm>
         <BreederBoxes
           breeders={breeders}
           deletePoke={this.deletePoke}
         ></BreederBoxes>
-        <form onSubmit={this.handleSubmit} className="text-center mt-2">
+        <form onSubmit={this.handleSubmit} className="text-center mt-2 mb-5">
           {this.renderButton("Calculate!")}
         </form>
       </React.Fragment>

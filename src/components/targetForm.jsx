@@ -7,19 +7,29 @@ import questionmark from "../question-mark.png";
 import { getImg, getNatures } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
+import _ from "lodash";
 
-class BreederForm extends Form {
+class TargetForm extends Form {
   state = {
     data: {
       name: "",
+      nature: "Adamant",
       hp: 31,
       atk: 31,
       def: 31,
       spa: 31,
       spd: 31,
       spe: 31,
-      nature: "",
+    },
+    active: {
+      nature: true,
+      hp: true,
+      atk: true,
+      def: true,
+      spa: true,
+      spd: true,
+      spe: true,
     },
     url: questionmark,
     allNatures: [],
@@ -28,7 +38,7 @@ class BreederForm extends Form {
 
   schema = {
     name: Joi.string().required(),
-    nature: Joi.string().required(),
+    nature: Joi.string(),
     hp: Joi.number().integer().min(0).max(31),
     atk: Joi.number().integer().min(0).max(31),
     def: Joi.number().integer().min(0).max(31),
@@ -38,18 +48,27 @@ class BreederForm extends Form {
   };
 
   async componentDidMount() {
+    //populate natures input
     const { data } = await getNatures();
     const allNatures = data.results
       .map((nature) => capitalize(nature.name))
       .sort();
 
     this.setState({ allNatures });
+
+    //populate form with existing target
+    const { target } = this.props;
+    if (!_.isEmpty(target)) {
+      const url = await getImg(target.name.toLowerCase());
+      this.setState({ data: target, url });
+    }
+
+    console.log("target: ", target);
+    console.log("state: ", this.state);
   }
 
   doSubmit = () => {
-    // this.props.addPokemon(this.state.data);
-    // document.getElementById("reset").reset();
-    console.log(this.state.data);
+    this.props.dataSubmit(this.state.data, "target");
   };
 
   handleInputChange = async (selected) => {
@@ -59,18 +78,22 @@ class BreederForm extends Form {
     this.setState({ data: { ...this.state.data, name }, url });
   };
 
-  deleteItem = (input) => {
-    console.log(`deleted ${input} !`);
+  disableStat = (input) => {
+    let stat = this.state.active[input];
+    stat = !stat;
+
+    this.setState({ active: { ...this.state.active, [input]: stat } });
   };
 
   render() {
-    const { url, allNatures } = this.state;
+    const { url, allNatures, active } = this.state;
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
     const { allPokes } = this.props;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
+
     return (
       <React.Fragment>
         <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
-        <div className="col-4 offset-4 card text-center user-select-none">
+        <div className="col-lg-4 offset-lg-4 card text-center user-select-none">
           <form id="reset" onSubmit={this.handleSubmit}>
             {/* INPUT BOX */}
             <Typeahead
@@ -93,33 +116,35 @@ class BreederForm extends Form {
               {stats.map((stat) => (
                 <div key={stat}>
                   <div className="col-8 d-inline-block">
-                    {this.renderNumInput(stat, stat)}
+                    {stat !== "nature" &&
+                      this.renderNumInput(
+                        stat,
+                        stat.toUpperCase(),
+                        !active[stat]
+                      )}
+                    {stat === "nature" &&
+                      this.renderSelect(
+                        "nature",
+                        "Nature",
+                        allNatures,
+                        !active[stat]
+                      )}
                   </div>
                   <div className="col-4 d-inline-block">
                     <button
+                      onClick={() => this.disableStat(stat)}
+                      className={`btn btn-${
+                        active[stat] ? "success" : "danger"
+                      }`}
                       type="button"
-                      onClick={() => this.deleteItem(stat)}
-                      className="btn btn-danger"
                     >
-                      <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon>
+                      <FontAwesomeIcon
+                        icon={active[stat] ? faCheck : faBan}
+                      ></FontAwesomeIcon>
                     </button>
                   </div>
                 </div>
               ))}
-              <div>
-                <div className="col-8 d-inline-block">
-                  {this.renderSelect("nature", "Nature", allNatures)}
-                </div>
-                <div className="col-4 d-inline-block">
-                  <button
-                    type="button"
-                    onClick={() => this.deleteItem("nature")}
-                    className="btn btn-danger"
-                  >
-                    <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon>
-                  </button>
-                </div>
-              </div>
             </div>
             {this.renderButton("Enter")}
           </form>
@@ -129,4 +154,4 @@ class BreederForm extends Form {
   }
 }
 
-export default BreederForm;
+export default TargetForm;

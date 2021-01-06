@@ -1,6 +1,6 @@
 import React from "react";
 
-const StickyFooter = ({ changePage }) => {
+const StickyFooter = ({ changePage, page, pageMin, pageMax }) => {
   const footer = {
     position: "fixed",
     bottom: "0",
@@ -11,17 +11,25 @@ const StickyFooter = ({ changePage }) => {
     borderRadius: "0.25rem",
   };
 
+  function isDisabled(minmax) {
+    let className = "btn btn-primary";
+    if (page === minmax) {
+      className += " disabled";
+    }
+    return className;
+  }
+
   return (
     <footer style={footer}>
       <div className="row text-center mt-2">
         <div className="col-4 offset-4">
-          <button onClick={() => changePage(-1)} className="btn btn-primary">
+          <button
+            onClick={() => changePage(-1)}
+            className={isDisabled(pageMin)}
+          >
             Prev
           </button>
-          <button
-            onClick={() => changePage(1)}
-            className="btn btn-primary ml-2"
-          >
+          <button onClick={() => changePage(1)} className={isDisabled(pageMax)}>
             Next
           </button>
         </div>
