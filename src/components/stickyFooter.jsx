@@ -1,6 +1,7 @@
 import React from "react";
+import _ from "lodash";
 
-const StickyFooter = ({ changePage, page, pageMin, pageMax }) => {
+const StickyFooter = ({ changePage, page, pageMin, pageMax, target }) => {
   const footer = {
     position: "fixed",
     bottom: "0",
@@ -12,26 +13,33 @@ const StickyFooter = ({ changePage, page, pageMin, pageMax }) => {
   };
 
   function isDisabled(minmax) {
-    let className = "btn btn-primary";
-    if (page === minmax) {
-      className += " disabled";
+    if (page === minmax || _.isEmpty(target)) {
+      return true;
     }
-    return className;
+    return false;
   }
+
+  const buttons = [
+    { num: pageMin, inc: -1, label: "Prev" },
+    { num: pageMax, inc: 1, label: "Next" },
+  ];
 
   return (
     <footer style={footer}>
       <div className="row text-center mt-2">
         <div className="col-4 offset-4">
-          <button
-            onClick={() => changePage(-1)}
-            className={isDisabled(pageMin)}
-          >
-            Prev
-          </button>
-          <button onClick={() => changePage(1)} className={isDisabled(pageMax)}>
-            Next
-          </button>
+          {buttons.map(({ num, inc, label }) => (
+            <button
+              key={num}
+              onClick={() => changePage(inc)}
+              className={`mx-1 btn btn-primary ${
+                isDisabled(num) ? "disabled" : null
+              }`}
+              disabled={isDisabled(num)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
     </footer>

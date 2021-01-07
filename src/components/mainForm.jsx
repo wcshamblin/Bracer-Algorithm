@@ -44,17 +44,19 @@ class MainForm extends Form {
 
   render() {
     const { breeders } = this.state;
-    const { allPokes } = this.props;
+    const { allPokes, target } = this.props;
 
     return (
       <React.Fragment>
         <BreederForm
           addPokemon={this.addPokemon}
           allPokes={allPokes}
+          target={target}
         ></BreederForm>
         <BreederBoxes
           breeders={breeders}
           deletePoke={this.deletePoke}
+          target={target}
         ></BreederBoxes>
         <form onSubmit={this.handleSubmit} className="text-center mt-2 mb-5">
           {this.renderButton("Calculate!")}

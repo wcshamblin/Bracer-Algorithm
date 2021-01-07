@@ -4,7 +4,6 @@ import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getImg } from "../utils/pokeApi";
-import { capitalize } from "../utils/capitalize";
 import questionmark from "../question-mark.png";
 
 class BreederForm extends Form {
@@ -65,8 +64,10 @@ class BreederForm extends Form {
 
   render() {
     const { url } = this.state;
-    const { allPokes } = this.props;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
+    const { allPokes, target } = this.props;
+    const stats = Object.keys(target.active);
+    const activeStats = stats.filter((stat) => target.active[stat] === true);
+
     return (
       <React.Fragment>
         <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
@@ -75,7 +76,7 @@ class BreederForm extends Form {
             {/* INPUT BOX */}
             <Typeahead
               id="typeahead"
-              placeholder="Add a pokemon..."
+              placeholder="Search Pokemon by name..."
               minLength={2}
               highlightOnlyResult
               onChange={(selected) => this.handleInputChange(selected)}
@@ -89,13 +90,15 @@ class BreederForm extends Form {
               />
             </div>
             <div className="col-6 d-inline-block">
-              {/* 31 IV CHECKBOXES */}
-              {stats.map((stat) => (
+              {activeStats.map((stat) => (
                 <div key={stat}>
                   {stat !== "nature" &&
-                    this.renderCheckbox(stat, `31 ${stat.toUpperCase()}`)}
+                    this.renderCheckbox(
+                      stat,
+                      `${target.data[stat]} ${stat.toUpperCase()}`
+                    )}
                   {stat === "nature" &&
-                    this.renderCheckbox(stat, capitalize(stat))}
+                    this.renderCheckbox(stat, `${target.data[stat]}`)}
                 </div>
               ))}
             </div>

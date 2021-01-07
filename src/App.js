@@ -53,6 +53,7 @@ class App extends Component {
             <MainForm
               allPokes={allPokes}
               dataSubmit={this.dataSubmit}
+              target={target}
             ></MainForm>
           )}
         </main>
@@ -61,6 +62,7 @@ class App extends Component {
           page={page}
           pageMin={pageMin}
           pageMax={pageMax}
+          target={target}
         ></StickyFooter>
       </React.Fragment>
     );

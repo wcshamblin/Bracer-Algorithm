@@ -24,33 +24,34 @@ class BreederSummary extends Component {
   }
 
   render() {
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
-    const { breeder, index, deletePoke } = this.props;
+    // const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
+    const { breeder, index, deletePoke, target } = this.props;
     const { url } = this.state;
+    const stats = Object.keys(target.active);
+    const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
       <div key={index} className="card col-3 d-inline-block p-3">
         <p>{breeder.name}</p>
         <img src={url} alt="not found" />
         <div className="row">
-          {stats.map((stat, index) => (
+          {activeStats.map((stat, index) => (
             <div
               className="col-4 d.inline-block"
               style={{ padding: "1px" }}
               key={index}
             >
-              <React.Fragment>
-                <FontAwesomeIcon
-                  icon={breeder[stat] ? faCheckSquare : faMinusSquare}
-                  style={{
-                    color: `${breeder[stat] ? "limegreen" : "tomato"}`,
-                  }}
-                ></FontAwesomeIcon>
-                <p>
-                  {stat !== "nature" && `31 ${stat.toUpperCase()}`}
-                  {stat === "nature" && "Nature"}
-                </p>
-              </React.Fragment>
+              <FontAwesomeIcon
+                icon={breeder[stat] ? faCheckSquare : faMinusSquare}
+                style={{
+                  color: `${breeder[stat] ? "limegreen" : "tomato"}`,
+                }}
+              ></FontAwesomeIcon>
+              <p>
+                {stat !== "nature" &&
+                  `${target.data[stat]} ${stat.toUpperCase()}`}
+                {stat === "nature" && `${target.data[stat]}`}
+              </p>
             </div>
           ))}
         </div>
