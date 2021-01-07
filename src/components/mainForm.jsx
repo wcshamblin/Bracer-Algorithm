@@ -24,10 +24,19 @@ class MainForm extends Form {
     ),
   };
 
+  componentDidMount() {
+    const { breeders } = this.props;
+    console.log(breeders);
+    this.setState({ breeders });
+  }
+
   addPokemon = (newPoke) => {
-    this.setState(({ breeders }) => ({
-      breeders: [...breeders, newPoke],
-    }));
+    this.setState(
+      ({ breeders }) => ({
+        breeders: [...breeders, newPoke],
+      }),
+      this.doSubmit
+    );
   };
 
   doSubmit = () => {
@@ -58,9 +67,10 @@ class MainForm extends Form {
           deletePoke={this.deletePoke}
           target={target}
         ></BreederBoxes>
-        <form onSubmit={this.handleSubmit} className="text-center mt-2 mb-5">
-          {this.renderButton("Calculate!")}
-        </form>
+        <form
+          onSubmit={this.handleSubmit}
+          className="text-center mt-2 mb-5"
+        ></form>
       </React.Fragment>
     );
   }

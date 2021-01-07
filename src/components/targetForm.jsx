@@ -33,12 +33,11 @@ class TargetForm extends Form {
     },
     url: questionmark,
     allNatures: [],
-    saved: false,
     errors: {},
   };
 
   schema = {
-    name: Joi.string().required(),
+    name: Joi.string().required().min(1),
     nature: Joi.string(),
     hp: Joi.number().integer().min(0).max(31),
     atk: Joi.number().integer().min(0).max(31),
@@ -60,7 +59,7 @@ class TargetForm extends Form {
     //populate form with existing target
     const { target } = this.props;
     if (!_.isEmpty(target)) {
-      const url = await getImg(target.data.name.toLowerCase());
+      let url = (await getImg(target.data.name.toLowerCase())) || questionmark;
       this.setState({ data: target.data, active: target.active, url });
     }
   }
@@ -71,7 +70,6 @@ class TargetForm extends Form {
       active: { ...this.state.active },
     };
     this.props.dataSubmit(target, "target");
-    this.setState({ saved: true });
   };
 
   handleInputChange = async (selected) => {
@@ -79,7 +77,7 @@ class TargetForm extends Form {
     if (selected.length === 0) return;
     const name = selected[0];
     const url = await getImg(name.toLowerCase());
-    this.setState({ data: { ...this.state.data, name }, url });
+    this.setState({ data: { ...this.state.data, name }, url }, this.doSubmit);
   };
 
   disableStat = (input) => {
@@ -87,12 +85,14 @@ class TargetForm extends Form {
     let stat = this.state.active[input];
     stat = !stat;
 
-    this.setState({ active: { ...this.state.active, [input]: stat } });
+    this.setState(
+      { active: { ...this.state.active, [input]: stat } },
+      this.doSubmit
+    );
   };
 
   render() {
     const { url, allNatures, active } = this.state;
-    // const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
     const stats = Object.keys(active);
     const { allPokes } = this.props;
 
@@ -157,8 +157,6 @@ class TargetForm extends Form {
                 </div>
               ))}
             </div>
-            {this.renderButton("SAVE")}
-            {this.state.saved && <p>Saved!</p>}
           </form>
         </div>
       </React.Fragment>

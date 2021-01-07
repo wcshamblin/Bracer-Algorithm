@@ -13,7 +13,7 @@ const StickyFooter = ({ changePage, page, pageMin, pageMax, target }) => {
   };
 
   function isDisabled(minmax) {
-    if (page === minmax || _.isEmpty(target)) {
+    if (page === minmax || _.isEmpty(target) || target.data.name.length === 0) {
       return true;
     }
     return false;

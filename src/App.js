@@ -35,9 +35,30 @@ class App extends Component {
     this.setState({ allPokes });
   }
 
+  comparator = (stat) => {
+    const { active, data } = this.state.data.target;
+    if (active[stat]) {
+      return data[stat];
+    }
+    return "False";
+  };
+
+  jsonFactory = () => {
+    const { target, breeders } = this.state.data;
+    const stats = Object.keys(target.active);
+    const schema = {
+      target: { name: target.data.name, ivs: {} },
+      breeders: breeders,
+    };
+    stats.map((stat) => (schema.target.ivs[stat] = this.comparator(stat)));
+    const result = JSON.stringify(schema);
+    console.log(result);
+    return result;
+  };
+
   render() {
     const { page, pageMin, pageMax, allPokes } = this.state;
-    const { target } = this.state.data;
+    const { target, breeders } = this.state.data;
     return (
       <React.Fragment>
         <main className="container-fluid">
@@ -48,13 +69,16 @@ class App extends Component {
               dataSubmit={this.dataSubmit}
             ></TargetForm>
           )}
-          {page === 2 && <p>are you doing gtl breed y/n</p>}
-          {page === 3 && (
+          {page === 2 && (
             <MainForm
               allPokes={allPokes}
               dataSubmit={this.dataSubmit}
               target={target}
+              breeders={breeders}
             ></MainForm>
+          )}
+          {page === 3 && (
+            <button onClick={this.jsonFactory}>calculate!!</button>
           )}
         </main>
         <StickyFooter

@@ -54,6 +54,11 @@ class Form extends Component {
     } else {
       data[input.name] = input.value;
     }
+
+    if (input.type === "number") {
+      this.setState({ data, errors }, this.doSubmit);
+    }
+
     this.setState({ data, errors });
   };
 

@@ -24,7 +24,6 @@ class BreederSummary extends Component {
   }
 
   render() {
-    // const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
     const { breeder, index, deletePoke, target } = this.props;
     const { url } = this.state;
     const stats = Object.keys(target.active);
