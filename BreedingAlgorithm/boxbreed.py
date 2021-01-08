@@ -116,12 +116,16 @@ def boxbreed(data):
     tree = treedict[max(treedict.keys())]
     for treelevel, level in tree.items():
         for breeder in level:
+            match = []
             for targetbreeder in data["breeders"]:
                 if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == "True"]):
-                    if treelevel in treejson.keys():
-                        treejson[treelevel]+=[targetbreeder]
-                    else:
-                        treejson[treelevel] = [targetbreeder]
+                    match = [targetbreeder]
+            if not match:
+                match = [breeder]
+            if treelevel in treejson.keys():
+                treejson[treelevel] += match
+            else:
+                treejson[treelevel] = match
 
     return(dumps(treejson, indent=4, sort_keys=True))
 
