@@ -31,75 +31,7 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-# Breed function
-def boxbreed(data):
-    # Data preprocessing
-    # Count ivs to get inp
-    inp = {"hp": 0,"atk": 0, "def": 0,"spa": 0,"spd": 0,"spe": 0}
-    # This is breaking apart 2xs+
-    for breeder in data["breeders"]:
-        for iv, state in breeder["ivs"].items():
-            if state == "True":
-                inp[iv]+=1 
-
-    # Set target
-    target = []
-    for iv, state in data["target"]["ivs"].items():
-        if state != "False":
-            target.append(iv)
-
-    print(inp.items())
-    inp = {iv:state for iv, state in inp.items() if state != 0 and iv in target}
-    inp = OrderedDict(sorted(inp.items(), key=lambda t: t[1]))
-    if len(inp) <= 1:
-        return("Not enough breeders")
-
-
-    distdict = {} # key:[list] of (sets)
-    # Start with 1
-    lnum=1
-    level = [1] # 1x
-    while lnum < 7: # 2x - 6x
-        level = [(sum(level))]+level # "Spikiest" distribution calculation
-        distdict[lnum] = combinate(level, lnum)
-        lnum+=1
-
-    # Distributions are contained in distdict according to level
-    # Must fit input as best possible according to level and input distribution
-    # Prioritize finding the closest match with the least possible breeders missing
-    optdict={}
-    perfect = False
-    for lst in distdict[len(inp)]:
-        dist=listdistance(sorted(inp.values()), sorted(lst))
-        if dist==0: # We've reached a perfect distribution (the only one), we can stop
-            optdist = lst
-            perfect = True
-            break
-        optdict[dist] = sorted(lst)
-    if not perfect:
-        optdist = sorted(optdict[min(optdict.keys())])
-    # Optimal distribution and input are sorted the same way so we can match
-    inpindex = list(inp.keys())
-
-    distdict={}
-    for value, stat in zip(optdist, inpindex): # Low -> high
-        distdict[stat] = value
-    distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-
-    # We know the distribution, now we need to construct a tree from it
-    # TREE CONSTRUCTION RULES:
-    # A 2x cannot have two of the same IV
-    # 2xs connected to the same 3x must share an IV
-    # 3x branches have two shared IVs, and two new IVs
-    # 4x branches have three shared IVs, and two new IVs
-    # 5x branches have four shared IVs, and two new IVs
-    # 6x branches have five shared IVs, and two new IVs
-    # The amount of time any single stat is shared is the distribution value minus one
-    # In a 4 2 1 1 (4x) distribution, 4 must be shared three times through the tree
-    # This means that it must be present in SIX nodes
-    # Remember, order does not matter if branching from the same node
-
-    # Deconstruction
+def treegen(distdict, target):
     treedict = {}
     sharedict = OrderedDict({iv:amount-1 for iv, amount in distdict.items()})
 
@@ -114,10 +46,85 @@ def boxbreed(data):
             for branched_child in branched_children:
                 treedict[level].append(branched_child)
 
-    # Reassign 1x level according to json input
+    return(treedict)
 
+
+# Breed function
+def boxbreed(data):
+    # Data preprocessing
+    # Count ivs to get inp
+    inp = {"hp": 0,"atk": 0, "def": 0,"spa": 0,"spd": 0,"spe": 0}
+
+    breederlist = []
+    for breeder in data["breeders"]:
+        breederlist.append([iv for iv, state in breeder["ivs"].items() if state == "True"])
+
+    # This is breaking apart 2xs+
+    for breeder in data["breeders"]:
+        for iv, state in breeder["ivs"].items():
+            if state == "True":
+                inp[iv]+=1 
+
+    # Set target
+    target = []
+    for iv, state in data["target"]["ivs"].items():
+        if state != "False":
+            target.append(iv)
+
+    inp = {"hp": 20,"atk": 20, "def": 20,"spa": 20,"spd": 20,"spe": 20}
+    inp = {iv:state for iv, state in inp.items() if state != 0 and iv in target}
+    inp = OrderedDict(sorted(inp.items(), key=lambda t: t[1]))
+    if len(inp) <= 1:
+        return("Not enough breeders")
+
+    distributions = {} # key:[list] of (sets)
+    # Start with 1
+    lnum=1
+    level = [1] # 1x
+    while lnum < 7: # 2x - 6x
+        level = [(sum(level))]+level # "Spikiest" distribution calculation
+        distributions[lnum] = combinate(level, lnum)
+        lnum+=1
+
+    treelist = []
+    for distribution in distributions[len(target)]: # 5x level
+        distdict={}
+        for value, stat in zip(distribution, list(inp.keys())): # Low -> high
+            distdict[stat] = value
+        distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
+        tree = treegen(distdict, target)
+        treelist.append(tree)
+
+    # Find the best distribution and tree for the input
+    treedict = {} # treevalue: tree
+    for tree in treelist:
+        treevalue = 0
+        for level, breeders in tree.items():
+            for breeder in breeders:
+                if breeder in breederlist:
+                    treevalue += 2**(len(breeder)-1)
+        if len(treedict)>0:
+            if treevalue > max(treedict.keys()):
+                del treedict[max(treedict.keys())]
+                treedict[treevalue] = tree
+        else:
+            treedict[treevalue] = tree
+
+
+    # Reassign breeder to tree
+    treejson = {}
+    tree = treedict[max(treedict.keys())]
+    for treelevel, level in tree.items():
+        for breeder in level:
+            for targetbreeder in data["breeders"]:
+                if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == "True"]):
+                    if treelevel in treejson.keys():
+                        treejson[treelevel]+=[targetbreeder]
+                else:
+                    treejson[treelevel] = [targetbreeder]
 
     return(dumps(treedict, indent=4, sort_keys=True))
+    exit()
 
 
 if __name__ == '__main__':
