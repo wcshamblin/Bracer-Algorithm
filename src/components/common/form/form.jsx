@@ -54,6 +54,11 @@ class Form extends Component {
     } else {
       data[input.name] = input.value;
     }
+
+    if (input.type === "number") {
+      this.setState({ data, errors }, this.doSubmit);
+    }
+
     this.setState({ data, errors });
   };
 
@@ -65,7 +70,7 @@ class Form extends Component {
     );
   }
 
-  renderSelect(name, label, options) {
+  renderSelect(name, label, options, disabled) {
     const { data, errors } = this.state;
 
     return (
@@ -74,6 +79,7 @@ class Form extends Component {
         value={data[name]}
         label={label}
         options={options}
+        disabled={disabled}
         onChange={this.handleChange}
         error={errors[name]}
       />
@@ -109,7 +115,7 @@ class Form extends Component {
     );
   }
 
-  renderNumInput(name, label, type = "number") {
+  renderNumInput(name, label, disabled, type = "number") {
     const { data, errors } = this.state;
 
     return (
@@ -118,6 +124,7 @@ class Form extends Component {
         name={name}
         value={data[name]}
         label={label}
+        disabled={disabled}
         onChange={this.handleChange}
         error={errors[name]}
       />

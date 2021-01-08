@@ -10,44 +10,47 @@ import { getImgSm } from "../utils/pokeApi";
 class BreederSummary extends Component {
   state = { url: "" };
 
-  async componentDidMount() {
+  setIcon = async () => {
     const url = await getImgSm(this.props.breeder.name.toLowerCase());
     this.setState({ url });
+  };
+
+  async componentDidMount() {
+    this.setIcon();
+  }
+
+  async componentDidUpdate() {
+    this.setIcon();
   }
 
   render() {
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
-    const { breeder, index, deletePoke } = this.props;
+    const { breeder, index, deletePoke, target } = this.props;
     const { url } = this.state;
+    const stats = Object.keys(target.active);
+    const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
       <div key={index} className="card col-3 d-inline-block p-3">
         <p>{breeder.name}</p>
         <img src={url} alt="not found" />
         <div className="row">
-          {stats.map((stat, index) => (
+          {activeStats.map((stat, index) => (
             <div
-              className="col-2 d.inline-block"
+              className="col-4 d.inline-block"
               style={{ padding: "1px" }}
               key={index}
             >
-              <React.Fragment>
-                {breeder[stat] === true ? (
-                  <FontAwesomeIcon
-                    icon={faCheckSquare}
-                    style={{ color: "limegreen" }}
-                  ></FontAwesomeIcon>
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faMinusSquare}
-                    style={{ color: "tomato" }}
-                  ></FontAwesomeIcon>
-                )}
-                <p>
-                  31<br></br>
-                  {stat}
-                </p>
-              </React.Fragment>
+              <FontAwesomeIcon
+                icon={breeder[stat] ? faCheckSquare : faMinusSquare}
+                style={{
+                  color: `${breeder[stat] ? "limegreen" : "tomato"}`,
+                }}
+              ></FontAwesomeIcon>
+              <p>
+                {stat !== "nature" &&
+                  `${target.data[stat]} ${stat.toUpperCase()}`}
+                {stat === "nature" && `${target.data[stat]}`}
+              </p>
             </div>
           ))}
         </div>

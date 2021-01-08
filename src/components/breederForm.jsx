@@ -16,6 +16,7 @@ class BreederForm extends Form {
       spa: false,
       spd: false,
       spe: false,
+      nature: false,
     },
     url: questionmark,
     errors: {},
@@ -29,6 +30,7 @@ class BreederForm extends Form {
     spa: Joi.boolean().required(),
     spd: Joi.boolean().required(),
     spe: Joi.boolean().required(),
+    nature: Joi.boolean().required(),
   };
 
   doSubmit = () => {
@@ -54,6 +56,7 @@ class BreederForm extends Form {
         spa: false,
         spd: false,
         spe: false,
+        nature: false,
       },
       errors: {},
     });
@@ -61,8 +64,10 @@ class BreederForm extends Form {
 
   render() {
     const { url } = this.state;
-    const { allPokes } = this.props;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
+    const { allPokes, target } = this.props;
+    const stats = Object.keys(target.active);
+    const activeStats = stats.filter((stat) => target.active[stat] === true);
+
     return (
       <React.Fragment>
         <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
@@ -71,7 +76,7 @@ class BreederForm extends Form {
             {/* INPUT BOX */}
             <Typeahead
               id="typeahead"
-              placeholder="Add a pokemon..."
+              placeholder="Search Pokemon by name..."
               minLength={2}
               highlightOnlyResult
               onChange={(selected) => this.handleInputChange(selected)}
@@ -85,9 +90,16 @@ class BreederForm extends Form {
               />
             </div>
             <div className="col-6 d-inline-block">
-              {/* 31 IV CHECKBOXES */}
-              {stats.map((stat) => (
-                <div key={stat}>{this.renderCheckbox(stat, `31 ${stat}`)}</div>
+              {activeStats.map((stat) => (
+                <div key={stat}>
+                  {stat !== "nature" &&
+                    this.renderCheckbox(
+                      stat,
+                      `${target.data[stat]} ${stat.toUpperCase()}`
+                    )}
+                  {stat === "nature" &&
+                    this.renderCheckbox(stat, `${target.data[stat]}`)}
+                </div>
               ))}
             </div>
             {this.renderButton("Enter")}
