@@ -120,11 +120,10 @@ def boxbreed(data):
                 if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == "True"]):
                     if treelevel in treejson.keys():
                         treejson[treelevel]+=[targetbreeder]
-                else:
-                    treejson[treelevel] = [targetbreeder]
+                    else:
+                        treejson[treelevel] = [targetbreeder]
 
-    return(dumps(treedict, indent=4, sort_keys=True))
-    exit()
+    return(dumps(treejson, indent=4, sort_keys=True))
 
 
 if __name__ == '__main__':
