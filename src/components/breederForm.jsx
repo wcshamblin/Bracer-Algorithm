@@ -4,7 +4,6 @@ import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getImg } from "../utils/pokeApi";
-import questionmark from "../question-mark.png";
 
 class BreederForm extends Form {
   state = {
@@ -18,7 +17,7 @@ class BreederForm extends Form {
       spe: false,
       nature: false,
     },
-    url: questionmark,
+    url: null,
     errors: {},
   };
 
@@ -63,17 +62,20 @@ class BreederForm extends Form {
   };
 
   render() {
-    const { url } = this.state;
+    const { url, data } = this.state;
     const { allPokes, target } = this.props;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
       <React.Fragment>
-        <h4 className="text-center mt-2 user-select-none">Add your pokemon:</h4>
-        <div className="col-4 offset-4 card text-center user-select-none">
-          <form id="reset" onSubmit={this.handleSubmit}>
-            {/* INPUT BOX */}
+        <h5 className="text-center user-select-none my-5">Step 2:</h5>
+        <h6 className="text-center user-select-none">
+          Please fill out the details of each breeder you own, and add them to
+          your box:
+        </h6>
+        <div className="col-md-4 offset-md-4 card text-center user-select-none">
+          <form id="reset" className="p-3" onSubmit={this.handleSubmit}>
             <Typeahead
               id="typeahead"
               placeholder="Search Pokemon by name..."
@@ -82,16 +84,14 @@ class BreederForm extends Form {
               onChange={(selected) => this.handleInputChange(selected)}
               options={allPokes}
             ></Typeahead>
-            <div className="col-6 d-inline-block">
-              <img
-                src={url}
-                alt="hello"
-                style={{ border: "1px solid black" }}
-              />
+            <div className="col-md-4 offset-md-4 my-3">
+              <div className="imageParent">
+                <img src={url} alt={data.name} />
+              </div>
             </div>
-            <div className="col-6 d-inline-block">
+            <div className="row">
               {activeStats.map((stat) => (
-                <div key={stat}>
+                <div key={stat} className="col-md-4 col-6">
                   {stat !== "nature" &&
                     this.renderCheckbox(
                       stat,

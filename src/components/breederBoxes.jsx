@@ -6,12 +6,16 @@ class BreederBoxes extends Form {
   render() {
     const { breeders, deletePoke, target } = this.props;
     return (
-      <div className="text-center mt-3 container user-select-none">
-        <h4>Breeders:</h4>
-        <div className="card">
+      <React.Fragment>
+        <h4 className="text-center user-select-none my-3">Breeders:</h4>
+        <div className="container card">
           <div className="row">
             {breeders.length === 0 ? (
-              <p className="ml-4">Your box is empty.</p>
+              <p className="m-5 user-select-none">
+                Your box is currently empty. <br></br> If you do not own any
+                breeders yet and plan to purchase them all, please skip this
+                step.
+              </p>
             ) : null}
             {breeders.map((breeder, index) => (
               <BreederSummary
@@ -24,7 +28,7 @@ class BreederBoxes extends Form {
             ))}
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

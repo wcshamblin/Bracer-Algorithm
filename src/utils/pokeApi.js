@@ -8,12 +8,21 @@ export async function getPoke(input) {
 export async function getImg(input) {
   if (!input) return;
   const poke = await getPoke(input);
-  const spriteUrl = poke.data.sprites.front_default;
+  const spriteUrl = poke.data.sprites.versions["generation-v"]["black-white"].animated.front_default;
   if (spriteUrl === null) {
     return "blank";
   }
   return spriteUrl;
 }
+// export async function getImg(input) {
+//   if (!input) return;
+//   const poke = await getPoke(input);
+//   const spriteUrl = poke.data.sprites.front_default;
+//   if (spriteUrl === null) {
+//     return "blank";
+//   }
+//   return spriteUrl;
+// }
 
 export async function getImgSm(input) {
   if (!input) return;
