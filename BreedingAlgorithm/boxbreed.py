@@ -6,6 +6,7 @@ from itertools import chain
 from collections import OrderedDict
 from collections import Counter
 import math
+from time import time
 from json import dumps, load
 from functools import reduce
 from operator import iconcat
@@ -34,7 +35,9 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-def treegen(distdict, target):
+# Generate tree from distribution and target
+def treegen(distdict, target, breederlist):
+    tempbreeders = breederlist.copy()
     treedict = {}
     sharedict = OrderedDict({iv:amount-1 for iv, amount in distdict.items()})
 
@@ -45,9 +48,18 @@ def treegen(distdict, target):
         children=[]
         treedict[level] = []
         for child in treedict[level+1]:
-            branched_children, sharedict = get_parents(child, sharedict)
-            for branched_child in branched_children:
-                treedict[level].append(branched_child)
+            if child:
+                if sorted(child) not in tempbreeders: # If it's a breeder, don't split it!
+                    branched_children, sharedict = get_parents(child, sharedict)
+                    for branched_child in branched_children:
+                        treedict[level].append(branched_child)
+                else:
+                    treedict[level].append([])
+                    treedict[level].append([])
+                    tempbreeders.remove(sorted(child))
+            else:
+                treedict[level].append([])
+                treedict[level].append([])
     return(treedict)
 
 # Breed function
@@ -60,7 +72,7 @@ def boxbreed(data):
     # Set target
     target = []
     for iv, state in data["target"]["ivs"].items():
-        if state != False:
+        if state is not False:
             target.append(iv)
 
     distributions = {} # key:[list] of (sets)
@@ -73,15 +85,19 @@ def boxbreed(data):
         lnum+=1
 
     # Generate all trees from distributions
+    t1=time()
     treelist = []
     for distribution in distributions[len(target)]:
         distdict={}
         for value, stat in zip(distribution, list(target)): # Low -> high
             distdict[stat] = value
         distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-        tree = treegen(distdict, target)
+        tree = treegen(distdict, target, breederlist)
         treelist.append(tree)
+    t2=time()
+    # print("Treegen:", t2-t1)
 
+    t1=time()
     # Find the best distribution and tree for the input
     treedict = {} # treevalue: tree
     for tree in treelist:
@@ -102,23 +118,36 @@ def boxbreed(data):
                 treedict[treevalue] = tree
         else:
             treedict[treevalue] = tree
+    t2=time()
+    # print("Finding distribution:", t2-t1)
 
+    t1=time()
     # Reassign breeder to tree
     treejson = {}
     tree = treedict[max(treedict.keys())]
     for treelevel, level in tree.items():
+        treejson[treelevel] = []
         for breeder in level:
-            match = []
+            match = {}
             for targetbreeder in data["breeders"]:
                 if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == True]):
                     match = [targetbreeder]
                     data["breeders"].remove(targetbreeder)
             if not match:
-                match = [breeder]
+                match = {"name": False, "ivs": {}, "nature": False}
+                for iv in sorted(['hp', 'atk', 'def', 'spa', 'spd', 'spe']):
+                    if iv in sorted(breeder):
+                        match["ivs"][iv] = True
+                    else:
+                        match["ivs"][iv] = False
+
+
             if treelevel in treejson.keys():
-                treejson[treelevel] += match
+                treejson[treelevel].append(match)
             else:
                 treejson[treelevel] = match
+    t2=time()
+    # print("Assigning breeders:", t2-t1)
     return(treejson)
 
 
