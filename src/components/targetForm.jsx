@@ -3,7 +3,7 @@ import Form from "./common/form/form";
 import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getImg, getNatures } from "../utils/pokeApi";
+import { getImg, getNatures, getItemIcon } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -30,8 +30,10 @@ class TargetForm extends Form {
       spe: true,
       nature: true,
     },
-    url: null,
     allNatures: [],
+    url: null,
+    // braces: [],
+    braces: {},
     errors: {},
   };
 
@@ -61,6 +63,22 @@ class TargetForm extends Form {
       let url = (await getImg(target.data.name.toLowerCase())) || null;
       this.setState({ data: target.data, active: target.active, url });
     }
+
+    //get item icons
+    const braces = ["weight", "bracer", "belt", "lens", "band", "anklet"];
+    const stats = Object.keys(this.state.active);
+    let urls = await Promise.all(
+      braces.map(async (brace) => await getItemIcon(`power-${brace}`))
+    );
+    urls.push(await getItemIcon("everstone"));
+    let braceObject = {};
+    stats.map((stat, index) => (braceObject[stat] = urls[index]));
+    // this.setState({ braces: urls });
+    this.setState({ braces: braceObject });
+  }
+
+  componentDidUpdate() {
+    console.log(this.state);
   }
 
   doSubmit = () => {
@@ -91,7 +109,7 @@ class TargetForm extends Form {
   };
 
   render() {
-    const { url, allNatures, active, data } = this.state;
+    const { url, allNatures, active, data, braces } = this.state;
     const stats = Object.keys(active);
     const { allPokes } = this.props;
 
@@ -120,6 +138,9 @@ class TargetForm extends Form {
             <div className="row">
               {stats.map((stat) => (
                 <div key={stat} className="col-6 d-inline-block">
+                  <div className="col-2 d-inline-block">
+                    {braces[stat] && <img src={braces[stat]} alt="brace" />}
+                  </div>
                   <div className="col-8 d-inline-block">
                     {stat !== "nature" &&
                       this.renderNumInput(
@@ -135,7 +156,7 @@ class TargetForm extends Form {
                         !active[stat]
                       )}
                   </div>
-                  <div className="col-4 d-inline-block">
+                  <div className="col-2 d-inline-block">
                     <button
                       onClick={() => this.disableStat(stat)}
                       className={`btn btn-${
