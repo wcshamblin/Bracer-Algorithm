@@ -67,10 +67,6 @@ class MainForm extends Form {
           deletePoke={this.deletePoke}
           target={target}
         ></BreederBoxes>
-        <form
-          onSubmit={this.handleSubmit}
-          className="text-center mt-2 mb-5"
-        ></form>
       </React.Fragment>
     );
   }

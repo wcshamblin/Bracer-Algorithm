@@ -3,7 +3,6 @@ import Form from "./common/form/form";
 import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import questionmark from "../question-mark.png";
 import { getImg, getNatures } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +30,7 @@ class TargetForm extends Form {
       spe: true,
       nature: true,
     },
-    url: questionmark,
+    url: null,
     allNatures: [],
     errors: {},
   };
@@ -59,7 +58,7 @@ class TargetForm extends Form {
     //populate form with existing target
     const { target } = this.props;
     if (!_.isEmpty(target)) {
-      let url = (await getImg(target.data.name.toLowerCase())) || questionmark;
+      let url = (await getImg(target.data.name.toLowerCase())) || null;
       this.setState({ data: target.data, active: target.active, url });
     }
   }
@@ -92,21 +91,19 @@ class TargetForm extends Form {
   };
 
   render() {
-    const { url, allNatures, active } = this.state;
+    const { url, allNatures, active, data } = this.state;
     const stats = Object.keys(active);
     const { allPokes } = this.props;
 
     return (
       <React.Fragment>
-        <h4 className="text-center mt-2 user-select-none">
-          What would you like to breed?
-        </h4>
+        <h5 className="text-center user-select-none my-5">Step 1:</h5>
+        <h6 className="text-center user-select-none">
+          Please fill out the details of the target Pokemon you would like to
+          breed:
+        </h6>
         <div className="col-lg-4 offset-lg-4 card text-center user-select-none">
           <form id="reset" className="p-3" onSubmit={this.handleSubmit}>
-            {/* INPUT BOX */}
-            <h6 className="text-center user-select-none">
-              Please enter the name of the pokemon you are trying to breed.
-            </h6>
             <Typeahead
               id="typeahead"
               placeholder="Search Pokemon by name..."
@@ -115,17 +112,14 @@ class TargetForm extends Form {
               onChange={(selected) => this.handleInputChange(selected)}
               options={allPokes}
             ></Typeahead>
-            <div className="col-6 d-inline-block">
-              <img
-                src={url}
-                alt="hello"
-                style={{ border: "1px solid black" }}
-              />
+            <div className="col-4 offset-4 my-3">
+              <div className="imageParent">
+                <img src={url} alt={data.name} />
+              </div>
             </div>
-            <div className="col-6 d-inline-block">
-              {/* IV INPUTS */}
+            <div className="row">
               {stats.map((stat) => (
-                <div key={stat}>
+                <div key={stat} className="col-6 d-inline-block">
                   <div className="col-8 d-inline-block">
                     {stat !== "nature" &&
                       this.renderNumInput(
