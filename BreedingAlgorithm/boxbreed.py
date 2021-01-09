@@ -96,14 +96,12 @@ def boxbreed(data):
                         treevalue += 2
                     breedercompare.remove(sorted(breeder)) # If we used a breeder, remove it from the pool
 
-
-        if len(treedict) > 0:
+        if len(treedict) > 0: # If it's not empty, see if our current tree is better than the others
             if treevalue > max(treedict.keys()):
-                del treedict[max(treedict.keys())]
+                del treedict[max(treedict.keys())] # Best tree so far, delete previous, otherwise don't add
                 treedict[treevalue] = tree
         else:
             treedict[treevalue] = tree
-
 
     # Reassign breeder to tree
     treejson = {}
