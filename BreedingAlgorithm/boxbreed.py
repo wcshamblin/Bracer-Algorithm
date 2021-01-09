@@ -38,6 +38,7 @@ def listdistance(l1, l2):
 # Generate tree from distribution and target
 def treegen(distdict, target, breederlist):
     tempbreeders = breederlist.copy()
+    perfect = False
     treedict = {}
     sharedict = OrderedDict({iv:amount-1 for iv, amount in distdict.items()})
 
@@ -48,6 +49,10 @@ def treegen(distdict, target, breederlist):
         children=[]
         treedict[level] = []
         for child in treedict[level+1]:
+            if len(child) == 2:
+                for iv in child:
+                    if [iv] in tempbreeders:
+                        tempbreeders.remove([iv])
             if child:
                 if sorted(child) not in tempbreeders: # If it's a breeder, don't split it!
                     branched_children, sharedict = get_parents(child, sharedict)
@@ -60,7 +65,9 @@ def treegen(distdict, target, breederlist):
             else:
                 treedict[level].append([])
                 treedict[level].append([])
-    return(treedict)
+        if not tempbreeders:
+            perfect = True
+    return(treedict, perfect)
 
 # Breed function
 def boxbreed(data):
@@ -92,8 +99,10 @@ def boxbreed(data):
         for value, stat in zip(distribution, list(target)): # Low -> high
             distdict[stat] = value
         distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-        tree = treegen(distdict, target, breederlist)
+        tree, perfect = treegen(distdict, target, breederlist)
         treelist.append(tree)
+        if perfect:
+            break
     t2=time()
     # print("Treegen:", t2-t1)
 
