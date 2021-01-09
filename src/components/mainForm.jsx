@@ -1,27 +1,11 @@
-import React from "react";
-import Form from "./common/form/form";
+import React, { Component } from "react";
 import BreederForm from "./breederForm";
 import BreederBoxes from "./breederBoxes";
-import Joi from "joi-browser";
 
-class MainForm extends Form {
+class MainForm extends Component {
   state = {
     breeders: [],
     errors: {},
-  };
-
-  schema = {
-    breeders: Joi.array().items(
-      Joi.object({
-        name: Joi.string().required(),
-        hp: Joi.boolean().required(),
-        atk: Joi.boolean().required(),
-        def: Joi.boolean().required(),
-        spa: Joi.boolean().required(),
-        spd: Joi.boolean().required(),
-        spe: Joi.boolean().required(),
-      })
-    ),
   };
 
   componentDidMount() {
@@ -67,6 +51,7 @@ class MainForm extends Form {
           deletePoke={this.deletePoke}
           target={target}
         ></BreederBoxes>
+        <div className="my-5"></div>
       </React.Fragment>
     );
   }

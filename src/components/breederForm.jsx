@@ -33,7 +33,20 @@ class BreederForm extends Form {
   };
 
   doSubmit = () => {
-    this.props.addPokemon(this.state.data);
+    const { name, hp, atk, def, spa, spd, spe, nature } = this.state.data;
+    const breederSchema = {
+      name,
+      ivs: {
+        hp,
+        atk,
+        def,
+        spa,
+        spd,
+        spe,
+      },
+      nature,
+    };
+    this.props.addPokemon(breederSchema);
     this.clearForm();
     document.getElementById("reset").reset();
   };

@@ -40,14 +40,14 @@ class App extends Component {
     if (active[stat]) {
       return data[stat];
     }
-    return "False";
+    return false;
   };
 
   jsonFactory = () => {
     const { target, breeders } = this.state.data;
-    const stats = Object.keys(target.active);
+    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
     const schema = {
-      target: { name: target.data.name, ivs: {} },
+      target: { name: target.data.name, ivs: {}, nature: target.data.nature },
       breeders: breeders,
     };
     stats.map((stat) => (schema.target.ivs[stat] = this.comparator(stat)));

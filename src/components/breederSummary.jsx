@@ -41,9 +41,15 @@ class BreederSummary extends Component {
               key={index}
             >
               <FontAwesomeIcon
-                icon={breeder[stat] ? faCheckSquare : faMinusSquare}
+                icon={
+                  breeder.ivs[stat] || breeder[stat]
+                    ? faCheckSquare
+                    : faMinusSquare
+                }
                 style={{
-                  color: `${breeder[stat] ? "limegreen" : "tomato"}`,
+                  color: `${
+                    breeder.ivs[stat] || breeder[stat] ? "limegreen" : "tomato"
+                  }`,
                 }}
               ></FontAwesomeIcon>
               <p>
