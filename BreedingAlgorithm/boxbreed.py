@@ -92,8 +92,8 @@ def boxbreed(data):
                 # print("Breeder, breeders", breeder, breeders)
                 if sorted(breeder) in breedercompare: # Both are sorted
                     treevalue += (2**(len(breeder)-1))
-                    if len(breeder) == 2:
-                        treevalue += 2
+                    if len(breeder) > 1:
+                        treevalue += treevalue/2
                     breedercompare.remove(sorted(breeder)) # If we used a breeder, remove it from the pool
 
         if len(treedict) > 0: # If it's not empty, see if our current tree is better than the others
