@@ -142,6 +142,7 @@ def boxbreed(data):
                 if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == True]):
                     match = [targetbreeder]
                     data["breeders"].remove(targetbreeder)
+                    break
             if not match:
                 match = {"name": False, "ivs": {}, "nature": False}
                 for iv in sorted(['hp', 'atk', 'def', 'spa', 'spd', 'spe']):
@@ -149,7 +150,6 @@ def boxbreed(data):
                         match["ivs"][iv] = True
                     else:
                         match["ivs"][iv] = False
-
 
             if treelevel in treejson.keys():
                 treejson[treelevel].append(match)
