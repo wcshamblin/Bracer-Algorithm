@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for,request
 from flask import make_response
+from flask import make_response
+from flask import jsonify
 from json import dumps
 
 from boxbreed import boxbreed
@@ -26,6 +28,9 @@ def boxroute():
         return("No data to return - need POST")
     if request.method == 'POST':
         # Get data from box breed algo
-        return(boxbreed(request.json))
-
+        data = jsonify(boxbreed(request.json))
+        resp = make_response(data)
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.mimetype = "application/json"
+        return(resp)
 app.run(debug=True)
