@@ -30,9 +30,7 @@ export async function getImgSm(input) {
 }
 
 export async function getItemIcon(input) {
-  console.log(input);
   const item = await http.get(`https://pokeapi.co/api/v2/item/${input}`);
-  console.log("item:", item);
   const spriteUrl = item.data.sprites.default;
   return spriteUrl;
 }

@@ -10,7 +10,6 @@ class MainForm extends Component {
 
   componentDidMount() {
     const { breeders } = this.props;
-    console.log(breeders);
     this.setState({ breeders });
   }
 

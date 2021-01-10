@@ -32,7 +32,6 @@ class TargetForm extends Form {
     },
     allNatures: [],
     url: null,
-    // braces: [],
     braces: {},
     errors: {},
   };
@@ -73,20 +72,18 @@ class TargetForm extends Form {
     urls.push(await getItemIcon("everstone"));
     let braceObject = {};
     stats.map((stat, index) => (braceObject[stat] = urls[index]));
-    // this.setState({ braces: urls });
     this.setState({ braces: braceObject });
   }
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
-
   doSubmit = () => {
-    const target = {
-      data: { ...this.state.data },
-      active: { ...this.state.active },
+    const data = {
+      target: {
+        data: { ...this.state.data },
+        active: { ...this.state.active },
+      },
+      breeders: [],
     };
-    this.props.dataSubmit(target, "target");
+    this.props.dataSubmit(data, "data");
   };
 
   handleInputChange = async (selected) => {

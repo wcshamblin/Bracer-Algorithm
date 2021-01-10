@@ -30,10 +30,12 @@ class BreederSummary extends Component {
     const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
-      <div key={index} className="card col-3 d-inline-block p-3">
-        <p>{breeder.name}</p>
-        <img src={url} alt="not found" />
-        <div className="row">
+      <div key={index} className="card col-3 d-inline-block p-3 text-center">
+        {breeder.name}
+        <div className="iconParent">
+          {url && <img src={url} alt={breeder.name} />}
+        </div>
+        <div className="row mt-1">
           {activeStats.map((stat, index) => (
             <div
               className="col-4 d.inline-block"
