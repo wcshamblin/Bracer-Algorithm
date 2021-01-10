@@ -24,11 +24,10 @@ def get_parents(child, sharedict):
     return([parent, parent2], sharedict)
 
 # Combinator - returns all distributions from spikiest distribution
-def combinate(plevel, lnum):
+def combinate(lnum):
     # Can't have more than 2 1s because you cannot have more than two braces in any particular 2 pokemon breed
     # Combinations after first value must be part of a previous level
     return(list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in [p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2]])))
-    #return([p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2])
 
 # List distance for finding optimal distribution from input
 def listdistance(l1, l2):
@@ -84,12 +83,8 @@ def boxbreed(data):
 
     distributions = {} # key:[list] of (sets)
     # Start with 1
-    lnum=1
-    level = [1] # 1x
-    while lnum < 7: # 2x - 6x
-        level = [(sum(level))]+level # "Spikiest" distribution calculation
-        distributions[lnum] = combinate(level, lnum)
-        lnum+=1
+    for lnum in range(2,7): # 2x - 6x
+        distributions[lnum] = combinate(lnum)
 
     # Generate all trees from distributions
     t1=time()
