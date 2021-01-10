@@ -74,6 +74,7 @@ def boxbreed(data):
     breederlist = []
     for breeder in data["breeders"]:
         breederlist.append(sorted([iv for iv, state in breeder["ivs"].items() if state == True]))
+    breederlist = [b for b in breederlist if b]
 
     # Set target
     target = []
@@ -133,11 +134,14 @@ def boxbreed(data):
         treejson[treelevel] = []
         for breeder in level:
             match = {}
-            for targetbreeder in data["breeders"]:
-                if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == True]):
-                    match = targetbreeder
-                    data["breeders"].remove(targetbreeder)
-                    break
+            if not breeder:
+                match = {"ivs": {"hp": False, "atk": False, "def": False, "spa": False, "spd": False, "spe": False}, "name": False, "nature": False}
+            else:
+                for targetbreeder in data["breeders"]:
+                    if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == True]):
+                        match = targetbreeder
+                        data["breeders"].remove(targetbreeder)
+                        break
             if not match:
                 match = {"name": False, "ivs": {}, "nature": False}
                 for iv in sorted(['hp', 'atk', 'def', 'spa', 'spd', 'spe']):
