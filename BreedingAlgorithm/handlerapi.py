@@ -31,6 +31,7 @@ def boxroute():
         data = jsonify(boxbreed(request.json))
         resp = make_response(data)
         resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Headers'] = '*'
         resp.mimetype = "application/json"
         return(resp)
 app.run(debug=True)
