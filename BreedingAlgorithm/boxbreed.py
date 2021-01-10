@@ -140,7 +140,7 @@ def boxbreed(data):
             match = {}
             for targetbreeder in data["breeders"]:
                 if sorted(breeder) == sorted([iv for iv, state in targetbreeder["ivs"].items() if state == True]):
-                    match = [targetbreeder]
+                    match = targetbreeder
                     data["breeders"].remove(targetbreeder)
                     break
             if not match:
