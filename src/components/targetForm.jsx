@@ -3,7 +3,12 @@ import Form from "./common/form/form";
 import Joi from "joi-browser";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getImg, getNatures, getItemIcon } from "../utils/pokeApi";
+import {
+  getImg,
+  getNatures,
+  getItemIcon,
+  findEggGroup,
+} from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -32,6 +37,7 @@ class TargetForm extends Form {
     },
     allNatures: [],
     url: null,
+    eggGroups: [],
     braces: {},
     errors: {},
   };
@@ -48,6 +54,8 @@ class TargetForm extends Form {
   };
 
   async componentDidMount() {
+    await findEggGroup("blastoise");
+
     //populate natures input
     const { data } = await getNatures();
     const allNatures = data.results
@@ -75,6 +83,10 @@ class TargetForm extends Form {
     this.setState({ braces: braceObject });
   }
 
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
   doSubmit = () => {
     const data = {
       target: {
@@ -89,9 +101,14 @@ class TargetForm extends Form {
   handleInputChange = async (selected) => {
     this.setState({ saved: false });
     if (selected.length === 0) return;
-    const name = selected[0];
-    const url = await getImg(name.toLowerCase());
-    this.setState({ data: { ...this.state.data, name }, url }, this.doSubmit);
+    const name = selected[0].toLowerCase();
+    const url = await getImg(name);
+    const eggGroups = await findEggGroup(name);
+
+    this.setState(
+      { data: { ...this.state.data, name }, url, eggGroups },
+      this.doSubmit
+    );
   };
 
   disableStat = (input) => {
@@ -106,7 +123,7 @@ class TargetForm extends Form {
   };
 
   render() {
-    const { url, allNatures, active, data, braces } = this.state;
+    const { url, eggGroups, allNatures, active, data, braces } = this.state;
     const stats = Object.keys(active);
     const { allPokes } = this.props;
 
@@ -127,9 +144,17 @@ class TargetForm extends Form {
               onChange={(selected) => this.handleInputChange(selected)}
               options={allPokes}
             ></Typeahead>
-            <div className="col-4 offset-4 my-3">
-              <div className="imageParent">
-                <img src={url} alt={data.name} />
+            <div className="row">
+              <div className="col-4 offset-4 my-3">
+                <div className="imageParent">
+                  <img src={url} alt={data.name} />
+                </div>
+              </div>
+              <div className="col-4">
+                Egg Group:{" "}
+                {eggGroups.map((group) => (
+                  <p>{capitalize(group)}</p>
+                ))}
               </div>
             </div>
             <div className="row">
