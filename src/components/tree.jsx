@@ -6,6 +6,7 @@ class Tree extends Component {
 
   render() {
     const { getTree, tree, target } = this.props;
+    const levels = Object.keys(tree);
     console.log("TREE", tree);
 
     return (
@@ -15,13 +16,23 @@ class Tree extends Component {
             Calculate!
           </button>
         </div>
-        <div className="d-flex">
-          {Object.keys(tree).map((level) => (
-            <div className="col-2 d-inline-block">
-              <p>{level}x</p>
-              {tree[level].map((item) => (
-                <TreeCell item={item} target={target} level={level}></TreeCell>
+        <div className="d-flex justify-content-center">
+          {levels.map((level) => (
+            <div className="col-2 d-inline-block d-flex flex-column justify-content-between text-center">
+              {/* <p>{level}x</p> */}
+              <br></br>
+              {tree[level].map((item, index) => (
+                <React.Fragment>
+                  <TreeCell
+                    item={item}
+                    target={target}
+                    level={level}
+                    index={index}
+                  ></TreeCell>
+                  {/* {index % 2 === 0 && <div className="connector"></div>} */}
+                </React.Fragment>
               ))}
+              <br></br>
             </div>
           ))}
         </div>

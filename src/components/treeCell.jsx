@@ -41,34 +41,41 @@ class TreeCell extends Component {
   }
 
   render() {
-    const { target } = this.props;
+    const { target, level } = this.props;
     const { name, ivs } = this.props.item;
     const { url, type } = this.state;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
+    const stats = Object.keys(target.active);
+    const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
-      <div className={`card my-2 text-center ${type ? type.class : null}`}>
-        {type.value === "empty" ? (
-          <div>
-            <br></br>
+      <div
+        className={`treeCell card text-center d-flex justify-content-center ${
+          type ? type.class : null
+        }`}
+      >
+        <div>
+          <small>{name}</small>
+          <div className="iconParent">
+            {url && <img src={url} alt="icon" />}
           </div>
-        ) : null}
-        {name && (
-          <div>
-            {name}
-            <div className="iconParent">
-              {url && <img src={url} alt="icon" />}
-            </div>
-          </div>
-        )}
-        {stats.map(
-          (stat) =>
-            ivs[stat] && (
-              <div>
-                {target.data[stat]} {stat.toUpperCase()}{" "}
-              </div>
-            )
-        )}
+        </div>
+
+        <div className="row">
+          {activeStats.map(
+            (stat) =>
+              ivs[stat] && (
+                <div
+                  className={`col-md-${Math.max(12 / level, 4)} d-inline-block`}
+                >
+                  <div>
+                    <small>
+                      {target.data[stat]} {stat.toUpperCase()}
+                    </small>
+                  </div>
+                </div>
+              )
+          )}
+        </div>
       </div>
     );
   }

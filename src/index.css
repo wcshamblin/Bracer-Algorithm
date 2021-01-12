@@ -27,3 +27,14 @@ code {
   line-height: 40px;
   margin: auto;
 }
+
+.connector {
+  height: 20px;
+  background-color: grey;
+  width: 5px;
+}
+
+.treeCell {
+  height: 120px;
+  margin: 1px;
+}
