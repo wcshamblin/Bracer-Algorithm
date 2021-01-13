@@ -5,7 +5,7 @@ import {
   faCheckSquare,
   faMinusSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { getImgSm } from "../utils/pokeApi";
+import { getImgSm, cancelTokenSource } from "../utils/pokeApi";
 
 class BreederSummary extends Component {
   state = { url: "" };
@@ -21,6 +21,10 @@ class BreederSummary extends Component {
 
   async componentDidUpdate() {
     this.setIcon();
+  }
+
+  componentWillUnmount() {
+    cancelTokenSource.cancel();
   }
 
   render() {

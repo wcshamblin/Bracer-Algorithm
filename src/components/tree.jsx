@@ -7,7 +7,6 @@ class Tree extends Component {
   render() {
     const { getTree, tree, target } = this.props;
     const levels = Object.keys(tree);
-    console.log("TREE", tree);
 
     return (
       <div className="user-select-none">

@@ -54,8 +54,6 @@ class TargetForm extends Form {
   };
 
   async componentDidMount() {
-    await findEggGroup("blastoise");
-
     //populate natures input
     const { data } = await getNatures();
     const allNatures = data.results
@@ -84,7 +82,7 @@ class TargetForm extends Form {
   }
 
   componentDidUpdate() {
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   doSubmit = () => {
@@ -151,9 +149,9 @@ class TargetForm extends Form {
                 </div>
               </div>
               <div className="col-4">
-                Egg Group:{" "}
-                {eggGroups.map((group) => (
-                  <p>{capitalize(group)}</p>
+                Egg Group:
+                {eggGroups.map((group, index) => (
+                  <p key={index}>{capitalize(group)}</p>
                 ))}
               </div>
             </div>

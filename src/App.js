@@ -34,7 +34,6 @@ class App extends Component {
     } else {
       this.setState({ data: { ...this.state.data, [type]: object } });
     }
-    console.log(this.state);
   };
 
   async componentDidMount() {
@@ -74,11 +73,8 @@ class App extends Component {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    console.log("before...");
     const response = await http.post(url, data, config);
-    console.log("after...");
     this.setState({ tree: response.data });
-    console.log(this.state.tree);
   };
 
   render() {
