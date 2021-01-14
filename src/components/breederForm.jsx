@@ -1,9 +1,10 @@
 import React from "react";
 import Form from "./common/form/form";
 import Joi from "joi-browser";
-import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { getImg } from "../utils/pokeApi";
+import { findEggGroup, getImg } from "../utils/pokeApi";
+import { mapBreederSchema } from "../utils/remap";
+import PokeSearch from "./pokeSearch";
 
 class BreederForm extends Form {
   state = {
@@ -16,6 +17,7 @@ class BreederForm extends Form {
       spd: false,
       spe: false,
       nature: false,
+      eggGroups: [],
     },
     url: null,
     errors: {},
@@ -30,22 +32,12 @@ class BreederForm extends Form {
     spd: Joi.boolean().required(),
     spe: Joi.boolean().required(),
     nature: Joi.boolean().required(),
+    eggGroups: Joi.array().items(Joi.string()).required(),
   };
 
   doSubmit = () => {
-    const { name, hp, atk, def, spa, spd, spe, nature } = this.state.data;
-    const breederSchema = {
-      name,
-      ivs: {
-        hp,
-        atk,
-        def,
-        spa,
-        spd,
-        spe,
-      },
-      nature,
-    };
+    const { data } = this.state;
+    const breederSchema = mapBreederSchema(data);
     this.props.addPokemon(breederSchema);
     this.clearForm();
     document.getElementById("reset").reset();
@@ -53,9 +45,14 @@ class BreederForm extends Form {
 
   handleInputChange = async (selected) => {
     if (selected.length === 0) return;
-    const name = selected[0];
-    const url = await getImg(name.toLowerCase());
-    this.setState({ data: { ...this.state.data, name }, url });
+    let name = selected[0];
+    name = name.toLowerCase();
+    const eggGroups = await findEggGroup(name);
+    const url = await getImg(name);
+    this.setState({
+      data: { ...this.state.data, name, eggGroups },
+      url,
+    });
   };
 
   clearForm = () => {
@@ -75,7 +72,7 @@ class BreederForm extends Form {
   };
 
   render() {
-    const { url, data } = this.state;
+    const { data, url } = this.state;
     const { allPokes, target } = this.props;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);
@@ -89,19 +86,12 @@ class BreederForm extends Form {
         </h6>
         <div className="col-md-4 offset-md-4 card text-center user-select-none">
           <form id="reset" className="p-3" onSubmit={this.handleSubmit}>
-            <Typeahead
-              id="typeahead"
-              placeholder="Search Pokemon by name..."
-              minLength={2}
-              highlightOnlyResult
-              onChange={(selected) => this.handleInputChange(selected)}
-              options={allPokes}
-            ></Typeahead>
-            <div className="col-md-4 offset-md-4 my-3">
-              <div className="imageParent">
-                <img src={url} alt={data.name} />
-              </div>
-            </div>
+            <PokeSearch
+              allPokes={allPokes}
+              data={data}
+              url={url}
+              handleInputChange={this.handleInputChange}
+            ></PokeSearch>
             <div className="row">
               {activeStats.map((stat) => (
                 <div key={stat} className="col-md-4 col-6">
@@ -116,6 +106,11 @@ class BreederForm extends Form {
               ))}
             </div>
             {this.renderButton("Enter")}
+            <p className="mt-3">
+              Only the stats relevant to the target will be rendered as
+              checkboxes. <br></br>
+              All other stats can be omitted.
+            </p>
           </form>
         </div>
       </React.Fragment>

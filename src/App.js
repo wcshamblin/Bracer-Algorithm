@@ -5,6 +5,7 @@ import StickyFooter from "./components/stickyFooter";
 import Tree from "./components/tree";
 import { getAllPokes } from "./utils/pokeApi";
 import { capitalize } from "./utils/capitalize";
+import { convertToJSON } from "./utils/remap";
 import http from "./services/httpService";
 
 class App extends Component {
@@ -42,31 +43,10 @@ class App extends Component {
     this.setState({ allPokes });
   }
 
-  comparator = (stat) => {
-    const { active, data } = this.state.data.target;
-    if (active[stat]) {
-      return data[stat];
-    }
-    return false;
-  };
-
-  jsonFactory = () => {
-    const { target, breeders } = this.state.data;
-    const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
-    const schema = {
-      target: { name: target.data.name, ivs: {}, nature: target.data.nature },
-      breeders: breeders,
-    };
-    stats.map((stat) => (schema.target.ivs[stat] = this.comparator(stat)));
-    const result = JSON.stringify(schema);
-    console.log("JSON:", result);
-    return result;
-  };
-
   getTree = async () => {
     console.log("getting tree...");
     const url = "http://127.0.0.1:5000/boxbreed/";
-    const data = this.jsonFactory();
+    const data = convertToJSON(this.state);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -109,6 +89,9 @@ class App extends Component {
           pageMax={pageMax}
           target={target}
         ></StickyFooter>
+        <div className="my-3">
+          <br />
+        </div>
       </React.Fragment>
     );
   }

@@ -38,6 +38,18 @@ export async function getItemIcon(input) {
   return spriteUrl;
 }
 
+export async function getAllBraceIcons() {
+  const braces = ["weight", "bracer", "belt", "lens", "band", "anklet"];
+  const stats = ["hp", "atk", "def", "spa", "spd", "spe", "nature"];
+  let urls = await Promise.all(
+    braces.map(async (brace) => await getItemIcon(`power-${brace}`))
+  );
+  urls.push(await getItemIcon("everstone"));
+  let braceObject = {};
+  stats.map((stat, index) => (braceObject[stat] = urls[index]));
+  return braceObject;
+}
+
 export async function getAllPokes() {
   return await http.get(`${apiUrl}/pokemon/?limit=649`);
 }

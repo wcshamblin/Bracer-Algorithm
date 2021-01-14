@@ -24,6 +24,7 @@ class BreederSummary extends Component {
   }
 
   componentWillUnmount() {
+    console.log("canceling", this.props.breeder.name);
     cancelTokenSource.cancel();
   }
 
