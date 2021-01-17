@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getImgSm } from "../utils/pokeApi";
+import { capitalize } from "../utils/capitalize";
 
 class TreeCell extends Component {
   state = {
@@ -7,16 +8,16 @@ class TreeCell extends Component {
     type: {},
   };
 
-  async getUrl() {
+  getUrl = async () => {
     const { name } = this.props.item;
     let newUrl = "";
     if (name) {
       newUrl = await getImgSm(name.toLowerCase());
     }
     return newUrl;
-  }
+  };
 
-  getType() {
+  getType = () => {
     const { name, ivs } = this.props.item;
     if (name) {
       return { value: "breeder", class: "border-success" };
@@ -24,19 +25,30 @@ class TreeCell extends Component {
       return { value: "empty", class: "" };
     }
     return { value: "generated", class: "border-warning" };
-  }
+  };
+
+  getCoordinates = () => {
+    let box = this.getBoundingClientRect();
+    console.log("top", box.top);
+    console.log("bottom", box.bottom);
+    console.log("left", box.left);
+  };
 
   async componentDidMount() {
     const url = await this.getUrl();
     const type = this.getType();
     this.setState({ url, type });
+    this.getCoordinates();
   }
 
   async componentDidUpdate() {
     const url = await this.getUrl();
     const type = this.getType();
     if (url !== this.state.url) {
-      this.setState({ url, type });
+      this.setState({ url });
+    }
+    if (type.value !== this.state.type.value) {
+      this.setState({ type });
     }
   }
 
@@ -54,7 +66,7 @@ class TreeCell extends Component {
         }`}
       >
         <div>
-          <small>{name}</small>
+          {name && <small>{capitalize(name)}</small>}
           <div className="iconParent">
             {url && <img src={url} alt="icon" />}
           </div>

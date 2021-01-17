@@ -6,13 +6,16 @@ import {
   faMinusSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { getImgSm, cancelTokenSource } from "../utils/pokeApi";
+import { capitalize } from "../utils/capitalize";
 
 class BreederSummary extends Component {
   state = { url: "" };
 
   setIcon = async () => {
     const url = await getImgSm(this.props.breeder.name.toLowerCase());
-    this.setState({ url });
+    if (url !== this.state.url) {
+      this.setState({ url });
+    }
   };
 
   async componentDidMount() {
@@ -24,7 +27,6 @@ class BreederSummary extends Component {
   }
 
   componentWillUnmount() {
-    console.log("canceling", this.props.breeder.name);
     cancelTokenSource.cancel();
   }
 
@@ -36,7 +38,7 @@ class BreederSummary extends Component {
 
     return (
       <div key={index} className="card col-3 d-inline-block p-3 text-center">
-        {breeder.name}
+        {capitalize(breeder.name)}
         <div className="iconParent">
           {url && <img src={url} alt={breeder.name} />}
         </div>
