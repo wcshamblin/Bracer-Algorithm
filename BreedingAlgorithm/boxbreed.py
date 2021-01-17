@@ -10,6 +10,8 @@ from time import time
 from json import dumps, load
 from functools import reduce
 from operator import iconcat
+from multiprocessing import Pool
+from multiprocessing import cpu_count
 
 # Binary tree deconstructor
 # The most Python code to ever Python
@@ -27,14 +29,17 @@ def get_parents(child, sharedict):
 def combinate(lnum):
     # Can't have more than 2 1s because you cannot have more than two braces in any particular 2 pokemon breed
     # Combinations after first value must be part of a previous level
-    return(list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in [p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2]])))
+    combs = [p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2]
+    # Braced IVs can switch order without affecting tree - (4, 2, 1, 1) is identical to (4, 2, 1, 1) where 1s switch
+    perms = list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in combs])) # Set removes dups (4 2 1 <-> 1)
+    return(perms)
 
 # List distance for finding optimal distribution from input
 def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-# Generate tree from distribution and target
+# Generate tree from distribution and target - this is poorly optimized, at least pool tasks here
 def treegen(distdict, target, breederlist):
     tempbreeders = breederlist.copy()
     perfect = False
@@ -87,20 +92,35 @@ def boxbreed(data):
     for lnum in range(2,7): # 2x - 6x
         distributions[lnum] = combinate(lnum)
 
-    # Generate all trees from distributions
+    # Generate all trees from distributions - THIS IS A BOTTLENECK
     t1=time()
+    procpool = Pool(cpu_count()) # Set up processing pool
+    args = []
     treelist = []
+    # for distribution in distributions[len(target)]:
+    #     distdict={}
+    #     for value, stat in zip(distribution, list(target)): # Low -> high
+    #         distdict[stat] = value
+    #     distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
+    #     tree, perfect = treegen(distdict, target, breederlist)
+    #     treelist.append(tree)
+    #     if perfect:
+    #         break
+
     for distribution in distributions[len(target)]:
         distdict={}
         for value, stat in zip(distribution, list(target)): # Low -> high
             distdict[stat] = value
-        distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-        tree, perfect = treegen(distdict, target, breederlist)
-        treelist.append(tree)
-        if perfect:
-            break
+        distdict = OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
+        args.append((distdict, target, breederlist))
+
+    results = procpool.starmap_async(treegen, args)
+    results = results.get()
+    treelist = [res[0] for res in results]
+
     t2=time()
     # print("Treegen:", t2-t1)
+
 
     t1=time()
     # Find the best distribution and tree for the input
