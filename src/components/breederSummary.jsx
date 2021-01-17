@@ -6,6 +6,7 @@ import {
   faMinusSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { getImgSm, cancelTokenSource } from "../utils/pokeApi";
+import { capitalize } from "../utils/capitalize";
 
 class BreederSummary extends Component {
   state = { url: "" };
@@ -37,7 +38,7 @@ class BreederSummary extends Component {
 
     return (
       <div key={index} className="card col-3 d-inline-block p-3 text-center">
-        {breeder.name}
+        {capitalize(breeder.name)}
         <div className="iconParent">
           {url && <img src={url} alt={breeder.name} />}
         </div>
