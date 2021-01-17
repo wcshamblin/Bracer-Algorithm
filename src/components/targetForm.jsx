@@ -53,8 +53,6 @@ class TargetForm extends Form {
   };
 
   async componentDidMount() {
-    console.log("TARGET MOUNTED");
-    console.log(this.state.data);
     //populate natures dropdown
     const { data } = await getNatures();
     const allNatures = data.results
@@ -72,10 +70,6 @@ class TargetForm extends Form {
     //get item icons
     const braces = await getAllBraceIcons();
     this.setState({ braces });
-  }
-
-  componentDidUpdate() {
-    console.log("target form updated", this.state);
   }
 
   doSubmit = () => {

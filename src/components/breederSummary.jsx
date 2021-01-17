@@ -12,7 +12,9 @@ class BreederSummary extends Component {
 
   setIcon = async () => {
     const url = await getImgSm(this.props.breeder.name.toLowerCase());
-    this.setState({ url });
+    if (url !== this.state.url) {
+      this.setState({ url });
+    }
   };
 
   async componentDidMount() {
@@ -24,7 +26,6 @@ class BreederSummary extends Component {
   }
 
   componentWillUnmount() {
-    console.log("canceling", this.props.breeder.name);
     cancelTokenSource.cancel();
   }
 
