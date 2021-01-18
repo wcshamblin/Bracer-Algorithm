@@ -1,7 +1,6 @@
 import React from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { capitalize } from "../utils/capitalize";
 
 const pokeSearch = ({ allPokes, data, url, handleInputChange }) => {
   const { eggGroups, name } = data;
@@ -24,7 +23,7 @@ const pokeSearch = ({ allPokes, data, url, handleInputChange }) => {
         <div className="col-4 d-flex justify-content-center flex-column">
           {eggGroups.map((group, index) => (
             <p key={index} className="badge badge-secondary d-block">
-              {capitalize(group)}
+              {group}
             </p>
           ))}
         </div>

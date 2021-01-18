@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getImgSm, cancelTokenSource } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
+import { genderIcons } from "../utils/remap";
 
 class BreederSummary extends Component {
   state = { url: "" };
@@ -37,7 +38,15 @@ class BreederSummary extends Component {
     const activeStats = stats.filter((stat) => target.active[stat] === true);
 
     return (
-      <div key={index} className="card col-3 d-inline-block p-3 text-center">
+      <div
+        key={index}
+        className="card col-3 d-inline-block p-3 text-center user-select-none"
+      >
+        <FontAwesomeIcon
+          className="mr-1"
+          icon={genderIcons[breeder.gender].icon}
+          style={{ color: `${genderIcons[breeder.gender].color}` }}
+        ></FontAwesomeIcon>
         {capitalize(breeder.name)}
         <div className="iconParent">
           {url && <img src={url} alt={breeder.name} />}

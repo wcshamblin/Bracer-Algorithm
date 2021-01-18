@@ -54,6 +54,7 @@ class App extends Component {
       },
     };
     const response = await http.post(url, data, config);
+    console.log(response);
     this.setState({ tree: response.data });
   };
 

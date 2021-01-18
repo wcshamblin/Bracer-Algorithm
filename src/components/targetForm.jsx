@@ -6,6 +6,7 @@ import {
   findEggGroup,
   getAllBraceIcons,
   getImg,
+  getPokemonSpecies,
 } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -87,7 +88,8 @@ class TargetForm extends Form {
     this.setState({ saved: false });
     if (selected.length === 0) return;
     const name = selected[0].toLowerCase();
-    const eggGroups = await findEggGroup(name);
+    const species = await getPokemonSpecies(name);
+    const eggGroups = await findEggGroup(species);
     const url = await getImg(name);
     this.setState(
       { data: { ...this.state.data, name, eggGroups }, url },

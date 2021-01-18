@@ -59,49 +59,49 @@ export async function getNatures() {
 }
 
 const eggGroups = [
-  { old: "monster", new: "monster" },
-  { old: "water1", new: "water A" },
-  { old: "bug", new: "bug" },
-  { old: "flying", new: "flying" },
-  { old: "ground", new: "field" },
-  { old: "fairy", new: "fairy" },
-  { old: "plant", new: "grass" },
-  { old: "humanshape", new: "humanoid" },
-  { old: "water3", new: "water C" },
-  { old: "mineral", new: "mineral" },
-  { old: "indeterminate", new: "chaos" },
-  { old: "water2", new: "water B" },
-  { old: "ditto", new: "ditto" },
-  { old: "dragon", new: "dragon" },
-  { old: "no-eggs", new: "cannot breed" },
+  { old: "monster", new: "Monster" },
+  { old: "water1", new: "Water A" },
+  { old: "bug", new: "Bug" },
+  { old: "flying", new: "Flying" },
+  { old: "ground", new: "Field" },
+  { old: "fairy", new: "Fairy" },
+  { old: "plant", new: "Grass" },
+  { old: "humanshape", new: "Humanoid" },
+  { old: "water3", new: "Water C" },
+  { old: "mineral", new: "Mineral" },
+  { old: "indeterminate", new: "Chaos" },
+  { old: "water2", new: "Water B" },
+  { old: "ditto", new: "Ditto" },
+  { old: "dragon", new: "Dragon" },
+  { old: "no-eggs", new: "Cannot breed" },
 ];
-
-export async function getEggGroup(group) {
-  const { data } = await http.get(`${apiUrl}/egg-group/${group.old}`);
-  return data;
-}
-
-export async function findEggGroup(input) {
-  if (!input) return;
-  const { data } = await getPoke(input);
-  const { name } = data;
-  const results = [];
-  for await (const group of eggGroups) {
-    const eggGroup = await getEggGroup(group);
-    const names = eggGroup.pokemon_species.map((poke) => poke.name);
-    const isIncluded = names.includes(name);
-    if (isIncluded) {
-      const newName = convertEggGroup(eggGroup.name);
-      results.push(newName);
-      if (results.length === 2) {
-        return results;
-      }
-    }
-  }
-  return results;
-}
 
 function convertEggGroup(input) {
   eggGroups.forEach((group) => (input = input.replace(group.old, group.new)));
   return input;
+}
+
+export async function getPokemonSpecies(name) {
+  const { data } = await http.get(`${apiUrl}/pokemon-species/${name}`);
+  return data;
+}
+
+export async function findEggGroup(data) {
+  if (!data) return;
+  const eggGroups = data.egg_groups.map((group) => convertEggGroup(group.name));
+  return eggGroups;
+}
+
+export async function getGenders(data) {
+  if (!data) return;
+  switch (data.gender_rate) {
+    case -1:
+      return ["genderless"];
+    case 0:
+      return ["male"];
+    case 8:
+      return ["female"];
+    default:
+      return ["male", "female"];
+  }
 }

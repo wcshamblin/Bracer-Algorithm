@@ -2,9 +2,15 @@ import React from "react";
 import Form from "./common/form/form";
 import Joi from "joi-browser";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import { findEggGroup, getImg } from "../utils/pokeApi";
-import { mapBreederSchema } from "../utils/remap";
+import {
+  findEggGroup,
+  getGenders,
+  getImg,
+  getPokemonSpecies,
+} from "../utils/pokeApi";
+import { mapBreederSchema, genderIcons } from "../utils/remap";
 import PokeSearch from "./pokeSearch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class BreederForm extends Form {
   state = {
@@ -18,7 +24,9 @@ class BreederForm extends Form {
       spe: false,
       nature: false,
       eggGroups: [],
+      gender: "",
     },
+    genders: [],
     url: null,
     errors: {},
   };
@@ -33,6 +41,7 @@ class BreederForm extends Form {
     spe: Joi.boolean().required(),
     nature: Joi.boolean().required(),
     eggGroups: Joi.array().items(Joi.string()).required(),
+    gender: Joi.string().required(),
   };
 
   doSubmit = () => {
@@ -47,12 +56,24 @@ class BreederForm extends Form {
     if (selected.length === 0) return;
     let name = selected[0];
     name = name.toLowerCase();
-    const eggGroups = await findEggGroup(name);
+    const species = await getPokemonSpecies(name);
+    const genders = await getGenders(species);
+    const eggGroups = await findEggGroup(species);
     const url = await getImg(name);
     this.setState({
-      data: { ...this.state.data, name, eggGroups },
+      data: {
+        ...this.state.data,
+        name,
+        eggGroups,
+        gender: `${genders.length === 1 ? genders[0] : ""}`,
+      },
       url,
+      genders,
     });
+  };
+
+  genderSelect = (gender) => {
+    this.setState({ data: { ...this.state.data, gender } });
   };
 
   clearForm = () => {
@@ -72,7 +93,7 @@ class BreederForm extends Form {
   };
 
   render() {
-    const { data, url } = this.state;
+    const { data, url, genders } = this.state;
     const { allPokes, target } = this.props;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);
@@ -92,6 +113,23 @@ class BreederForm extends Form {
               url={url}
               handleInputChange={this.handleInputChange}
             ></PokeSearch>
+            <div className="row d-flex justify-content-center">
+              {genders.map((gender) => (
+                <button
+                  key={gender}
+                  type="button"
+                  className={`m-1 btn btn-light ${
+                    gender === data.gender && "active"
+                  }`}
+                  onClick={() => this.genderSelect(gender)}
+                >
+                  <FontAwesomeIcon
+                    icon={genderIcons[gender].icon}
+                    style={{ color: `${genderIcons[gender].color}` }}
+                  ></FontAwesomeIcon>
+                </button>
+              ))}
+            </div>
             <div className="row">
               {activeStats.map((stat) => (
                 <div key={stat} className="col-md-4 col-6">

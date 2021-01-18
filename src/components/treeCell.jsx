@@ -3,6 +3,13 @@ import { getImgSm } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 
 class TreeCell extends Component {
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+    // this.inputRef.current is null here
+  }
+
   state = {
     url: "",
     type: {},
@@ -28,17 +35,15 @@ class TreeCell extends Component {
   };
 
   getCoordinates = () => {
-    let box = this.getBoundingClientRect();
-    console.log("top", box.top);
-    console.log("bottom", box.bottom);
-    console.log("left", box.left);
+    let box = this.inputRef.current.getBoundingClientRect();
+    console.log(box);
   };
 
   async componentDidMount() {
     const url = await this.getUrl();
     const type = this.getType();
     this.setState({ url, type });
-    this.getCoordinates();
+    this.getCoordinates(this);
   }
 
   async componentDidUpdate() {
@@ -61,6 +66,7 @@ class TreeCell extends Component {
 
     return (
       <div
+        ref={this.inputRef}
         className={`treeCell card text-center d-flex justify-content-center ${
           type ? type.class : null
         }`}

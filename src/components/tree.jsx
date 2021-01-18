@@ -28,13 +28,22 @@ class Tree extends Component {
                     level={level}
                     index={index}
                   ></TreeCell>
-                  {/* {index % 2 === 0 && <div className="connector"></div>} */}
                 </React.Fragment>
               ))}
               <br></br>
             </div>
           ))}
         </div>
+        {/* <svg>
+          <line
+            x1="0"
+            y1="0"
+            x2="100"
+            y2="100"
+            stroke-width="1"
+            stroke="black"
+          />
+        </svg> */}
       </div>
     );
   }
