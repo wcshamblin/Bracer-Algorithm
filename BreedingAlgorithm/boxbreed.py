@@ -58,11 +58,11 @@ def treegen(distdict, target, breederlist):
                     if [iv] in tempbreeders:
                         tempbreeders.remove([iv])
             if child:
-                if sorted(child) not in tempbreeders: # If it's a breeder, don't split it!
+                if sorted(child) not in tempbreeders: # If it isn't a breeder, split it
                     branched_children, sharedict = get_parents(child, sharedict)
                     for branched_child in branched_children:
                         treedict[level].append(branched_child)
-                else:
+                else: # Is a breeder
                     treedict[level].append([])
                     treedict[level].append([])
                     tempbreeders.remove(sorted(child))
@@ -97,6 +97,7 @@ def boxbreed(data):
     procpool = Pool(cpu_count()) # Set up processing pool
     args = []
     treelist = []
+
     # for distribution in distributions[len(target)]:
     #     distdict={}
     #     for value, stat in zip(distribution, list(target)): # Low -> high
@@ -119,7 +120,7 @@ def boxbreed(data):
     treelist = [res[0] for res in results]
 
     t2=time()
-    # print("Treegen:", t2-t1)
+    print("Treegen:", t2-t1)
 
 
     t1=time()
@@ -144,7 +145,7 @@ def boxbreed(data):
         else:
             treedict[treevalue] = tree
     t2=time()
-    # print("Finding distribution:", t2-t1)
+    print("Finding distribution:", t2-t1)
 
     t1=time()
     # Reassign breeder to tree
