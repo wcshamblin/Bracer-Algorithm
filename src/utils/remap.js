@@ -5,7 +5,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export function mapBreederSchema(object) {
-  const { name, hp, atk, def, spa, spd, spe, nature, eggGroups, gender } = object;
+  const {
+    name,
+    hp,
+    atk,
+    def,
+    spa,
+    spd,
+    spe,
+    nature,
+    eggGroups,
+    gender,
+  } = object;
   const breederSchema = {
     name,
     ivs: {

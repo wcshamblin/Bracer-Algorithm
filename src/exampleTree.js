@@ -1,0 +1,196 @@
+const object = {
+  1: [
+    {
+      eggGroups: ["Field", "Fairy"],
+      gender: "male",
+      ivs: {
+        atk: false,
+        def: false,
+        hp: true,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: "pikachu",
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      eggGroups: ["Field", "Fairy"],
+      gender: "female",
+      ivs: {
+        atk: true,
+        def: false,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: "pikachu",
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: true,
+        def: false,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: false,
+        hp: false,
+        spa: false,
+        spd: true,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+  ],
+  2: [
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: true,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: true,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: true,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: false,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: true,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+  ],
+  3: [
+    {
+      ivs: {
+        atk: true,
+        def: true,
+        hp: true,
+        spa: false,
+        spd: false,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+    {
+      ivs: {
+        atk: true,
+        def: true,
+        hp: false,
+        spa: false,
+        spd: true,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+  ],
+  4: [
+    {
+      ivs: {
+        atk: true,
+        def: true,
+        hp: true,
+        spa: false,
+        spd: true,
+        spe: false,
+      },
+      name: false,
+      nature: false,
+    },
+  ],
+};
+
+export default object;
