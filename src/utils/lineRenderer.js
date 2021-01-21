@@ -5,11 +5,11 @@ const lineColors = {
 };
 
 function fitToContainer(canvas) {
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
 
 export function offsetCoords(box, offset) {
   const { x, y, left, right, type } = box;
@@ -41,8 +41,8 @@ export function drawLines(boxes, canvas) {
   keys.forEach((key) => {
     const level = parseInt(key);
     for (let i = 0; i < Object.keys(boxes[level]).length; i++) {
-      ctx.strokeStyle = lineColors[boxes[level][i].type];
       for (let j = 0; j <= 1; j++) {
+        ctx.strokeStyle = lineColors[boxes[level - 1][i * 2 + j].type];
         ctx.beginPath();
         ctx.moveTo(boxes[level][i].left, boxes[level][i].y);
         ctx.lineTo(
