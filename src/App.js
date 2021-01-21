@@ -7,6 +7,7 @@ import { getAllPokes } from "./utils/pokeApi";
 import { capitalize } from "./utils/capitalize";
 import { convertToJSON } from "./utils/remap";
 import http from "./services/httpService";
+import object from "./exampleTree.js";
 
 class App extends Component {
   state = {
@@ -54,8 +55,9 @@ class App extends Component {
       },
     };
     const response = await http.post(url, data, config);
-    console.log(response);
+    // console.log(response);
     this.setState({ tree: response.data });
+    // this.setState({ tree: object });
   };
 
   render() {

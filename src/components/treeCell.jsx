@@ -5,9 +5,7 @@ import { capitalize } from "../utils/capitalize";
 class TreeCell extends Component {
   constructor(props) {
     super(props);
-
     this.inputRef = React.createRef();
-    // this.inputRef.current is null here
   }
 
   state = {
@@ -34,16 +32,25 @@ class TreeCell extends Component {
     return { value: "generated", class: "border-warning" };
   };
 
-  getCoordinates = () => {
+  getCoordinates = (level, index) => {
     let box = this.inputRef.current.getBoundingClientRect();
-    console.log(box);
+    let { x, y, width, height } = box;
+    const coords = {
+      x: x + width / 2,
+      y: y + height / 2,
+      left: x,
+      right: x + width,
+      type: this.state.type.value,
+    };
+    this.props.logCoordinates(coords, level, index);
   };
 
   async componentDidMount() {
+    const { level, index } = this.props;
     const url = await this.getUrl();
     const type = this.getType();
     this.setState({ url, type });
-    this.getCoordinates(this);
+    this.getCoordinates(level, index);
   }
 
   async componentDidUpdate() {
@@ -83,7 +90,8 @@ class TreeCell extends Component {
             (stat) =>
               ivs[stat] && (
                 <div
-                  className={`col-md-${Math.max(12 / level, 4)} d-inline-block`}
+                  key={stat}
+                  className={`col-lg-${Math.max(12 / level, 4)} d-inline-block`}
                 >
                   <div>
                     <small>
