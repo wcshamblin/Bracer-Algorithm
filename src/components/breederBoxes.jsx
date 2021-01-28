@@ -17,7 +17,7 @@ class BreederBoxes extends Form {
                 step.
               </p>
             ) : null}
-            {breeders.map((breeder, index) => (
+            {breeders.reverse().map((breeder, index) => (
               <BreederSummary
                 breeder={breeder}
                 index={index}

@@ -11,6 +11,7 @@ import {
 import { mapBreederSchema, genderIcons } from "../utils/remap";
 import PokeSearch from "./pokeSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CheckButton from "./checkButton";
 
 class BreederForm extends Form {
   state = {
@@ -76,6 +77,12 @@ class BreederForm extends Form {
     this.setState({ data: { ...this.state.data, gender } });
   };
 
+  disableStat = (stat) => {
+    const { data } = this.state;
+    data[stat] = !data[stat];
+    this.setState({ data });
+  };
+
   clearForm = () => {
     this.setState({
       data: {
@@ -133,13 +140,20 @@ class BreederForm extends Form {
             <div className="row">
               {activeStats.map((stat) => (
                 <div key={stat} className="col-md-4 col-6">
-                  {stat !== "nature" &&
-                    this.renderCheckbox(
-                      stat,
-                      `${target.data[stat]} ${stat.toUpperCase()}`
-                    )}
-                  {stat === "nature" &&
-                    this.renderCheckbox(stat, `${target.data[stat]}`)}
+                  {
+                    <React.Fragment>
+                      <CheckButton
+                        stat={stat}
+                        active={data}
+                        disableStat={this.disableStat}
+                      ></CheckButton>
+                      <p>
+                        {stat === "nature"
+                          ? target.data.nature
+                          : stat.toUpperCase()}
+                      </p>
+                    </React.Fragment>
+                  }
                 </div>
               ))}
             </div>

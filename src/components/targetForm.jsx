@@ -9,10 +9,9 @@ import {
   getPokemonSpecies,
 } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
 import PokeSearch from "./pokeSearch";
 import _ from "lodash";
+import CheckButton from "./checkButton";
 
 class TargetForm extends Form {
   state = {
@@ -78,6 +77,7 @@ class TargetForm extends Form {
       target: {
         data: { ...this.state.data },
         active: { ...this.state.active },
+        errors: { ...this.state.errors },
       },
       breeders: [],
     };
@@ -150,17 +150,11 @@ class TargetForm extends Form {
                       )}
                   </div>
                   <div className="col-2 d-inline-block">
-                    <button
-                      onClick={() => this.disableStat(stat)}
-                      className={`btn btn-${
-                        active[stat] ? "success" : "danger"
-                      }`}
-                      type="button"
-                    >
-                      <FontAwesomeIcon
-                        icon={active[stat] ? faCheck : faBan}
-                      ></FontAwesomeIcon>
-                    </button>
+                    <CheckButton
+                      stat={stat}
+                      active={active}
+                      disableStat={this.disableStat}
+                    ></CheckButton>
                   </div>
                 </div>
               ))}

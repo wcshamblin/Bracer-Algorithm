@@ -76,20 +76,38 @@ const eggGroups = [
   { old: "no-eggs", new: "Cannot breed" },
 ];
 
-function convertEggGroup(input) {
-  eggGroups.forEach((group) => (input = input.replace(group.old, group.new)));
+const HyphenedPokes = [
+  { old: "deoxys-normal", new: "deoxys" },
+  { old: "wormadam-plant", new: "wormadam" },
+  { old: "giratina-altered", new: "giratina" },
+  { old: "shaymin-land", new: "shaymin" },
+  { old: "basculin-red-striped", new: "basculin" },
+  { old: "darmanitan-standard", new: "darmanitan" },
+  { old: "tornadus-incarnate", new: "tornadus" },
+  { old: "thundurus-incarnate", new: "thundurus" },
+  { old: "landorus-incarnate", new: "landorus" },
+  { old: "keldeo-ordinary", new: "keldeo" },
+  { old: "meloetta-aria", new: "meloetta" },
+];
+
+function convertObjectProp(input, array) {
+  array.forEach((group) => (input = input.replace(group.old, group.new)));
   return input;
 }
 
 export async function getPokemonSpecies(name) {
-  const { data } = await http.get(`${apiUrl}/pokemon-species/${name}`);
+  const { data } = await http.get(
+    `${apiUrl}/pokemon-species/${convertObjectProp(name, HyphenedPokes)}`
+  );
   return data;
 }
 
 export async function findEggGroup(data) {
   if (!data) return;
-  const eggGroups = data.egg_groups.map((group) => convertEggGroup(group.name));
-  return eggGroups;
+  const newEggGroups = data.egg_groups.map((group) =>
+    convertObjectProp(group.name, eggGroups)
+  );
+  return newEggGroups;
 }
 
 export async function getGenders(data) {

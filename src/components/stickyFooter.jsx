@@ -2,18 +2,14 @@ import React from "react";
 import _ from "lodash";
 
 const StickyFooter = ({ changePage, page, pageMin, pageMax, target }) => {
-  const footer = {
-    position: "fixed",
-    bottom: "0",
-    width: "100%",
-    height: "50px",
-    backgroundColor: "#f5f5f5",
-    border: "1px solid rgba(0, 0, 0, 0.125)",
-    borderRadius: "0.25rem",
-  };
-
   function isDisabled(minmax) {
-    if (page === minmax || _.isEmpty(target) || target.data.name.length === 0) {
+    if (
+      page === minmax ||
+      _.isEmpty(target) ||
+      !_.isEmpty(target.errors) ||
+      target.data.name.length === 0 ||
+      target.data.eggGroups[0] === "Cannot breed"
+    ) {
       return true;
     }
     return false;
@@ -25,7 +21,7 @@ const StickyFooter = ({ changePage, page, pageMin, pageMax, target }) => {
   ];
 
   return (
-    <footer style={footer}>
+    <footer className="stickyFooter">
       <div className="row text-center mt-2">
         <div className="col-4 offset-4">
           {buttons.map(({ num, inc, label }) => (

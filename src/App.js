@@ -7,7 +7,6 @@ import { getAllPokes } from "./utils/pokeApi";
 import { capitalize } from "./utils/capitalize";
 import { convertToJSON } from "./utils/remap";
 import http from "./services/httpService";
-import object from "./exampleTree.js";
 
 class App extends Component {
   state = {
@@ -19,7 +18,6 @@ class App extends Component {
       target: {},
       breeders: [],
     },
-    tree: {},
   };
 
   changePage = (value) => {
@@ -45,8 +43,7 @@ class App extends Component {
   }
 
   getTree = async () => {
-    console.log("getting tree...");
-    const url = "http://127.0.0.1:5000/boxbreed/";
+    const url = "http://70.130.72.57:5000/boxbreed/";
     const data = convertToJSON(this.state);
     const config = {
       headers: {
@@ -54,14 +51,11 @@ class App extends Component {
         "Access-Control-Allow-Origin": "*",
       },
     };
-    const response = await http.post(url, data, config);
-    // console.log(response);
-    this.setState({ tree: response.data });
-    // this.setState({ tree: object });
+    return await http.post(url, data, config);
   };
 
   render() {
-    const { page, pageMin, pageMax, allPokes, tree } = this.state;
+    const { page, pageMin, pageMax, allPokes } = this.state;
     const { target, breeders } = this.state.data;
     return (
       <React.Fragment>
@@ -81,9 +75,7 @@ class App extends Component {
               breeders={breeders}
             ></MainForm>
           )}
-          {page === 3 && (
-            <Tree target={target} getTree={this.getTree} tree={tree}></Tree>
-          )}
+          {page === 3 && <Tree target={target} getTree={this.getTree}></Tree>}
         </main>
         <StickyFooter
           changePage={this.changePage}
@@ -92,9 +84,6 @@ class App extends Component {
           pageMax={pageMax}
           target={target}
         ></StickyFooter>
-        <div className="my-3">
-          <br />
-        </div>
       </React.Fragment>
     );
   }

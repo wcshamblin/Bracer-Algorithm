@@ -8,10 +8,13 @@ class Tree extends Component {
     this.inputRef = React.createRef();
   }
 
-  state = { boxes: {}, loaded: 0 };
+  state = { boxes: {}, loaded: 0, tree: {} };
 
   async componentDidMount() {
-    await this.props.getTree();
+    const { data } = await this.props.getTree();
+    console.log("tree", data);
+    console.log("target", this.props.target);
+    this.setState({ tree: data });
     this.drawTree();
   }
 
@@ -19,10 +22,16 @@ class Tree extends Component {
     this.drawTree();
   }
 
-  drawTree = async () => {
-    const { tree } = this.props;
-    const { loaded } = this.state;
+  pageIsLoaded() {
+    const { loaded, tree } = this.state;
     if (loaded === countChildren(tree)) {
+      return true;
+    }
+    return false;
+  }
+
+  drawTree = () => {
+    if (this.pageIsLoaded()) {
       const { boxes } = this.state;
       const canvas = this.inputRef.current;
       drawLines(boxes, canvas);
@@ -39,7 +48,8 @@ class Tree extends Component {
   };
 
   render() {
-    const { tree, target } = this.props;
+    const { target } = this.props;
+    const { tree } = this.state;
     const levels = Object.keys(tree);
 
     return (
