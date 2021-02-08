@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrashAlt,
-  faCheckSquare,
-  faMinusSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faBan, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { getImgSm, cancelTokenSource } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import { genderIcons } from "../utils/remap";
@@ -54,19 +50,17 @@ class BreederSummary extends Component {
         <div className="row mt-1">
           {activeStats.map((stat, index) => (
             <div
-              className="col-4 d.inline-block"
+              className="col-md-4 col-6 d.inline-block text-nowrap"
               style={{ padding: "1px" }}
               key={index}
             >
               <FontAwesomeIcon
-                icon={
-                  breeder.ivs[stat] || breeder[stat]
-                    ? faCheckSquare
-                    : faMinusSquare
-                }
+                icon={breeder.ivs[stat] || breeder[stat] ? faCheck : faBan}
                 style={{
                   color: `${
-                    breeder.ivs[stat] || breeder[stat] ? "limegreen" : "tomato"
+                    breeder.ivs[stat] || breeder[stat]
+                      ? "rgb(58,167,77)"
+                      : "rgb(216,45,69)"
                   }`,
                 }}
               ></FontAwesomeIcon>

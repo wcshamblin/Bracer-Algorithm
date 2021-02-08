@@ -28,9 +28,7 @@ class MainForm extends Component {
 
   deletePoke = (index) => {
     let pokes = this.state.breeders;
-    if (index > -1) {
-      pokes.splice(index, 1);
-    }
+    pokes.splice(pokes.length - index - 1, 1);
     this.setState({ breeders: pokes });
   };
 
