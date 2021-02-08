@@ -81,25 +81,24 @@ def treegen(distdict, target, breederlist):
                 else:
                     treedict[level].append(branched_children[0])
 
-                foundcompat = False
+                addedcompat = False
                 if branched_children[1] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]:
                     if firstisbreeder: # First is already a breeder, need to match second against it
                         for breeder in tempbreeders:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
                                 if fancybreeder["name"] == breeder["name"]: # Placeholder compat check
+                                    addedcompat = True
                                     treedict[level].append(breeder)
                                     tempbreeders.remove(breeder)
-                                    foundcompat = True
 
                     else: # First isn't a breeder - we can just add another fancybreeder without compat checking
                         for breeder in tempbreeders:
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                                fancybreeder = breeder
                                 tempbreeders.remove(breeder)
                                 break
                         treedict[level].append(breeder)
 
-                if branched_children[1] not in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders] or not foundcompat: # If we don't have a matching breeder OR we don't have a compatable breeder
+                if branched_children[1] not in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # If we don't have a matching breeder OR we don't have a compatable breeder
                     treedict[level].append(branched_children[1])
 
             else: # Is a breeder - don't split it, add placeholders to branch
