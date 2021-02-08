@@ -60,7 +60,9 @@ def treegen(distdict, target, breederlist):
         treedict[level] = []
 
         for child in treedict[level+1]:
+            print(child)
             if not child: # Is a placeholder - fill placeholders below
+                print("Placeholder, filling placeholders below")
                 treedict[level].append([])
                 treedict[level].append([])
 
@@ -76,9 +78,11 @@ def treegen(distdict, target, breederlist):
                             fancybreeder = breeder
                             tempbreeders.remove(breeder)
                             break
+                    print("Adding first as breeder", fancybreeder)
                     treedict[level].append(fancybreeder)
 
                 else:
+                    print("Adding first simple", branched_children[0])
                     treedict[level].append(branched_children[0])
 
                 addedcompat = False
@@ -88,6 +92,7 @@ def treegen(distdict, target, breederlist):
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
                                 if fancybreeder["name"] == breeder["name"]: # Placeholder compat check
                                     addedcompat = True
+                                    print("Adding second with compat")
                                     treedict[level].append(breeder)
                                     tempbreeders.remove(breeder)
 
@@ -96,12 +101,15 @@ def treegen(distdict, target, breederlist):
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
                                 tempbreeders.remove(breeder)
                                 break
+                        print("Adding second without compat", breeder)
                         treedict[level].append(breeder)
 
-                if branched_children[1] not in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # If we don't have a matching breeder OR we don't have a compatable breeder
+                if branched_children[1] not in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders] and not firstisbreeder: # If we don't have a matching breeder OR we don't have a compatable breeder
+                    print("Adding second simple", branched_children[1])
                     treedict[level].append(branched_children[1])
 
             else: # Is a breeder - don't split it, add placeholders to branch
+                print("Is breeder, filling placeholders below")
                 treedict[level].append([])
                 treedict[level].append([])
 
@@ -110,7 +118,7 @@ def treegen(distdict, target, breederlist):
             perfect = True
         else:
             for breeder in tempbreeders:
-                score += (2**len([sorted([iv for iv, state in breeder["ivs"].items() if state == True])])-1)
+                score += (2**len([sorted([iv for iv, state in breeder["ivs"].items() if state == True])])+1)
     return(treedict, perfect, score)
 
 
