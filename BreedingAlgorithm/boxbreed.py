@@ -84,7 +84,7 @@ def treegen(distdict, target, breederlist):
                 foundcompat = False
                 if branched_children[1] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]:
                     if firstisbreeder: # First is already a breeder, need to match second against it
-                        for breeder in data["breeders"]:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
+                        for breeder in tempbreeders:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
                                 if fancybreeder["name"] == breeder["name"]: # Placeholder compat check
                                     treedict[level].append(breeder)
@@ -92,7 +92,7 @@ def treegen(distdict, target, breederlist):
                                     foundcompat = True
 
                     else: # First isn't a breeder - we can just add another fancybreeder without compat checking
-                        for breeder in data["breeders"]:
+                        for breeder in tempbreeders:
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
                                 fancybreeder = breeder
                                 tempbreeders.remove(breeder)
