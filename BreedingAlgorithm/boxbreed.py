@@ -51,7 +51,7 @@ def listdistance(l1, l2):
     return sum(squares)**.5
 
 def jsonify(ivlist):
-    breeder = {"ivs": {"hp": False, "atk": False, "def": False, "spa": False, "spd": False, "spe": False}, "name": False, "nature": False}
+    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[]}
     for iv in ivlist:
         breeder["ivs"][iv] = True
     return breeder
@@ -64,19 +64,18 @@ def treegen(distdict, target, breederlist):
     perfect = False
     treedict = {}
     sharedict = OrderedDict({iv:amount-1 for iv, amount in distdict.items()})
-
     treedict[len(distdict)] = [target]
-
     for level in list(range(1, len(distdict)))[::-1]:
         treedict[level] = []
-
         for child in treedict[level+1]:
+            print("Child:", child)
             if not child: # Is a placeholder - fill placeholders below
                 treedict[level].append([])
                 treedict[level].append([])
 
-            if type(child) != dict and child: # Isn't a breeder - we can split it!
+            if type(child) != dict and child: # Isn't a breeder and not a placeholder - we can split it!
                 branched_children, sharedict = get_parents(child, sharedict) # Split
+                print("Split children:", branched_children)
                 firstisbreeder = False
 
                 if branched_children[0] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # is the first child a breeder?
@@ -108,8 +107,9 @@ def treegen(distdict, target, breederlist):
                                 tempbreeders.remove(breeder)
                                 break
                         treedict[level].append(breeder)
+                        addedcompat = True
 
-                if branched_children[1] not in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders] and not firstisbreeder: # If we don't have a matching breeder OR we don't have a compatable breeder
+                if not addedcompat: # If we don't have a matching breeder OR we don't have a compatable breeder
                     treedict[level].append(branched_children[1])
 
             else: # Is a breeder - don't split it, add placeholders to branch
