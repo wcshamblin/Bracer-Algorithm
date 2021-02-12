@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getImgSm } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
+import { genderIcons } from "../utils/remap";
 
 class TreeCell extends Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class TreeCell extends Component {
 
   render() {
     const { target, level } = this.props;
-    const { name, ivs } = this.props.item;
+    const { name, ivs, gender } = this.props.item;
     const { url, type } = this.state;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);
@@ -79,7 +81,16 @@ class TreeCell extends Component {
         }`}
       >
         <div>
-          {name && <small>{capitalize(name)}</small>}
+          {name && (
+            <div>
+              <FontAwesomeIcon
+                className="mr-1"
+                icon={genderIcons[gender].icon}
+                style={{ color: `${genderIcons[gender].color}` }}
+              ></FontAwesomeIcon>
+              <small>{capitalize(name)}</small>
+            </div>
+          )}
           <div className="iconParent">
             {url && <img src={url} alt="icon" />}
           </div>

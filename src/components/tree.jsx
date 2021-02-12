@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TreeCell from "./treeCell";
 import { drawLines, countChildren, offsetCoords } from "../utils/lineRenderer";
+import axios from "axios";
 
 class Tree extends Component {
   constructor(props) {
@@ -10,16 +11,20 @@ class Tree extends Component {
 
   state = { boxes: {}, loaded: 0, tree: {} };
 
+  cancelTokenSource = axios.CancelToken.source();
+
   async componentDidMount() {
-    const { data } = await this.props.getTree();
-    console.log("tree", data);
-    console.log("target", this.props.target);
+    const { data } = await this.props.getTree(this.cancelTokenSource);
     this.setState({ tree: data });
     this.drawTree();
   }
 
   componentDidUpdate() {
     this.drawTree();
+  }
+
+  componentWillUnmount() {
+    this.cancelTokenSource.cancel("The POST request was canceled by the user.");
   }
 
   pageIsLoaded() {

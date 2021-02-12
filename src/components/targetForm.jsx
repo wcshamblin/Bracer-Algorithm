@@ -7,6 +7,7 @@ import {
   getAllBraceIcons,
   getImg,
   getPokemonSpecies,
+  cancelTokenSource,
 } from "../utils/pokeApi";
 import { capitalize } from "../utils/capitalize";
 import PokeSearch from "./pokeSearch";
@@ -70,6 +71,10 @@ class TargetForm extends Form {
     //get item icons
     const braces = await getAllBraceIcons();
     this.setState({ braces });
+  }
+
+  componentWillUnmount() {
+    cancelTokenSource.cancel();
   }
 
   doSubmit = () => {

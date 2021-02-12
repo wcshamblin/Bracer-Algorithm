@@ -45,11 +45,11 @@ export function drawLines(boxes, canvas) {
         ctx.strokeStyle = lineColors[boxes[level - 1][i * 2 + j].type];
         ctx.beginPath();
         ctx.moveTo(
-          boxes[level][i].left+5,
+          boxes[level][i].left + 5,
           boxes[level][i].y + parseInt(`${j !== 0 ? 5 : -5}`)
         );
         ctx.lineTo(
-          boxes[level - 1][i + 1].right-5,
+          boxes[level - 1][i + 1].right - 5,
           boxes[level - 1][i * 2 + j].y
         );
         ctx.stroke();
