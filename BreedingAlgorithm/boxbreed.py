@@ -30,9 +30,20 @@ def combinate(lnum):
     # Can't have more than 2 1s because you cannot have more than two braces in any particular 2 pokemon breed
     # Combinations after first value must be part of a previous level
     combs = [p for p in combinations_wr(list(range(1,int((2**(lnum-1)/2))+1)), r=lnum) if sum(p)==(2**(lnum-1)) and p.count(1) <=2]
+    combs_validated = []
+    for comb in combs:
+        comb = sorted(comb)
+        valid = True
+        for index in range(1, len(comb)):
+            if sum(comb[0:index]) < (2**(index-1)):
+                valid = False
+        if valid:
+            combs_validated.append(comb)
     # Braced IVs can switch order without affecting tree - (4, 2, 1, 1) is identical to (4, 2, 1, 1) where 1s switch
-    perms = list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in combs])) # Set removes dups (4 2 1 <-> 1)
+    perms = list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in combs_validated])) # Set removes dups (4 2 1 <-> 1)
     return(perms)
+
+
 
 # List distance for finding optimal distribution from input
 def listdistance(l1, l2):
@@ -64,7 +75,7 @@ def treegen(distdict, target, breederlist):
                 treedict[level].append([])
                 treedict[level].append([])
 
-            if type(child) != dict: # Isn't a breeder - we can split it!
+            if type(child) != dict and child: # Isn't a breeder - we can split it!
                 branched_children, sharedict = get_parents(child, sharedict) # Split
                 firstisbreeder = False
 
