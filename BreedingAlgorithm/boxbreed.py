@@ -68,14 +68,12 @@ def treegen(distdict, target, breederlist):
     for level in list(range(1, len(distdict)))[::-1]:
         treedict[level] = []
         for child in treedict[level+1]:
-            print("Child:", child)
             if not child: # Is a placeholder - fill placeholders below
                 treedict[level].append([])
                 treedict[level].append([])
 
             if type(child) != dict and child: # Isn't a breeder and not a placeholder - we can split it!
                 branched_children, sharedict = get_parents(child, sharedict) # Split
-                print("Split children:", branched_children)
                 firstisbreeder = False
 
                 if branched_children[0] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # is the first child a breeder?
