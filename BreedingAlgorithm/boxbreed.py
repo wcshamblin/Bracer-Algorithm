@@ -43,6 +43,28 @@ def combinate(lnum):
     perms = list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in combs_validated])) # Set removes dups (4 2 1 <-> 1)
     return(perms)
 
+def eggroupcompat(breeder1, breeder2):
+    if (breeder1["name"] == "ditto" or breeder2["name"] == "ditto") and (breeder2["name"] != breeder1["name"]):
+        return True
+    if bool(set(breeder1["eggGroups"]) & set(breeder2["eggGroups"])):
+        return True
+    return False
+
+def gendercompat(breeder1, breeder2):
+    genders = sorted([breeder1["gender"], breeder2["gender"]])
+
+    if genders == ["female", "male"]:
+        return True
+    if genders == ["genderless", "genderless"] and breeder1["name"] == breeder2["name"]:
+        return True
+
+    return False
+
+def breedercompat(breeder1, breeder2):
+    if eggroupcompat(breeder1, breeder2) and gendercompat(breeder1, breeder2):
+        return True
+    else:
+        return False
 
 
 # List distance for finding optimal distribution from input
@@ -95,7 +117,7 @@ def treegen(distdict, target, breederlist):
                     if firstisbreeder: # First is already a breeder, need to match second against it
                         for breeder in tempbreeders:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                                if fancybreeder["name"] == breeder["name"]: # Placeholder compat check
+                                if breedercompat(fancybreeder, breeder): # Are the breeders compatable
                                     addedcompat = True
                                     treedict[level].append(breeder)
                                     tempbreeders.remove(breeder)
