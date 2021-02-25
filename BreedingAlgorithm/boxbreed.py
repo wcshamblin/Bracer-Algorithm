@@ -65,7 +65,6 @@ def breedercompat(breeder1, breeder2):
     else:
         return False
 
-
 # List distance for finding optimal distribution from input
 def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
@@ -76,6 +75,14 @@ def jsonify(ivlist):
     for iv in ivlist:
         breeder["ivs"][iv] = True
     return breeder
+
+def findaddbreeder(treelevel, branched_children, tempbreeders, index):
+    for breeder in tempbreeders:
+        if branched_children[index] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
+            tempbreeders.remove(breeder)
+            break
+    treelevel.append(breeder)
+
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
@@ -101,32 +108,24 @@ def treegen(distdict, target, breederlist):
                 if branched_children[0] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # is the first child a breeder?
                     firstisbreeder = True
                     # Find fancybreeder, remove from pool
-                    for breeder in tempbreeders:
-                        if branched_children[0] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                            fancybreeder = breeder
-                            tempbreeders.remove(breeder)
-                            break
-                    treedict[level].append(fancybreeder)
+                    findaddbreeder(treedict[level], branched_children, tempbreeders, 0)
+                    firstbreeder = treedict[level][-1]
 
                 else:
                     treedict[level].append(branched_children[0])
 
                 addedcompat = False
-                if branched_children[1] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]:
+                if branched_children[1] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # is the second child a breeder?
                     if firstisbreeder: # First is already a breeder, need to match second against it
                         for breeder in tempbreeders:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
                             if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                                if breedercompat(fancybreeder, breeder): # Are the breeders compatable
+                                if breedercompat(firstbreeder, breeder): # Are the breeders compatable
                                     addedcompat = True
                                     treedict[level].append(breeder)
                                     tempbreeders.remove(breeder)
 
                     else: # First isn't a breeder - we can just add another fancybreeder without compat checking
-                        for breeder in tempbreeders:
-                            if branched_children[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                                tempbreeders.remove(breeder)
-                                break
-                        treedict[level].append(breeder)
+                        findaddbreeder(treedict[level], branched_children, tempbreeders, 1)
                         addedcompat = True
 
                 if not addedcompat: # If we don't have a matching breeder OR we don't have a compatable breeder
@@ -136,11 +135,12 @@ def treegen(distdict, target, breederlist):
                 treedict[level].append([])
                 treedict[level].append([])
 
+        # Scoring
         score = 0
         if not tempbreeders: # No more breeders to take from - tree is perfect
             perfect = True
         else:
-            for breeder in tempbreeders:
+            for breeder in tempbreeders: 
                 score += (2**len([sorted([iv for iv, state in breeder["ivs"].items() if state == True])])+1)
     return(treedict, perfect, score)
 
@@ -181,20 +181,8 @@ def boxbreed(data):
             break
     treedict = treedict[min(treedict.keys())]    
 
-    # for distribution in distributions[len(target)]:
-    #     distdict={}
-    #     for value, stat in zip(distribution, list(target)): # Low -> high
-    #         distdict[stat] = value
-    #     distdict = OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-    #     args.append((distdict, target, breederlist))
-
-    # results = procpool.starmap_async(treegen, args)
-    # results = results.get()
-    # treelist = [res[0] for res in results]
-
     t2=time()
     # print("Treegen:", t2-t1)
-
 
 
     t1=time()
