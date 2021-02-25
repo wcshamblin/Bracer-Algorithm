@@ -57,7 +57,6 @@ def gendercompat(breeder1, breeder2):
         return True
     if genders == ["genderless", "genderless"] and breeder1["name"] == breeder2["name"]:
         return True
-
     return False
 
 def breedercompat(breeder1, breeder2):
