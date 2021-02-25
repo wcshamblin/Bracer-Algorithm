@@ -61,15 +61,47 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-def jsonify(ivlist):
-    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[]}
+def jsonify(ivlist, isbreeder):
+    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":isbreeder}
     for iv in ivlist:
         breeder["ivs"][iv] = True
     return breeder
 
-def findaddbreeder(treelevel, branched_children, tempbreeders, index):
+def convertbreeder(breeder, isbreeder):
+    if type(breeder) == dict:
+        return sorted([iv for iv, state in breeder["ivs"].items() if state != False])
+    if type(breeder) == list:
+        return jsonify(breeder, isbreeder)
+    return []
+    
+def findaddbreeder(treelevel, branched_parents, tempbreeders, index):
     for breeder in tempbreeders:
-        if branched_children[index] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
+        if branched_parents[index] == sorted([iv for iv, state in breeder["ivs"].items() if state != False]):
             tempbreeders.remove(breeder)
             break
     treelevel.append(breeder)
+
+def isinbreeders(inputmon, breeders):
+    for breeder in breeders:
+        isbreeder = True
+        for attribute, value in inputmon.items():
+            if value != False:
+                if breeder[attribute] != value:
+                    isbreeder = False
+                    continue
+        if isbreeder:
+            return True, breeder
+    return False, inputmon
+
+def findcompatbreeder(inputmon, compatto, breeders):
+    for breeder in breeders:
+        isbreeder = True
+        for attribute, value in inputmon.items():
+            if value != False:
+                if breeder[attribute] != value:
+                    isbreeder = False
+                    continue
+        if isbreeder:
+            if breedercompat(breeder, compatto):
+                return True, breeder
+    return False, inputmon
