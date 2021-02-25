@@ -41,7 +41,9 @@ class BreederForm extends Form {
     spd: Joi.boolean().required(),
     spe: Joi.boolean().required(),
     nature: Joi.boolean().required(),
-    eggGroups: Joi.array().items(Joi.string()).required(),
+    eggGroups: Joi.array()
+      .items(Joi.string().invalid("Cannot breed"))
+      .required(),
     gender: Joi.string().required(),
   };
 

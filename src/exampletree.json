@@ -1,47 +1,8 @@
 {
   "data": {
-    "6": [
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": true,
-          "spd": true,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
-      }
-    ],
-    "5": [
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": true,
-          "spd": true,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": true,
-          "spd": false,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
-      }
-    ],
     "4": [
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": true,
@@ -50,48 +11,14 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": false,
-          "spd": true,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       }
     ],
     "3": [
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": true,
@@ -100,96 +27,28 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
-          "atk": true,
-          "def": false,
+          "atk": false,
+          "def": true,
           "spa": true,
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": true,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       }
     ],
     "2": [
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": true,
@@ -198,10 +57,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": false,
@@ -210,22 +71,26 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
-          "atk": true,
-          "def": false,
+          "atk": false,
+          "def": true,
           "spa": false,
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": false,
@@ -234,156 +99,14 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": true,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       }
     ],
     "1": [
       {
+        "name": "pikachu",
         "ivs": {
           "hp": true,
           "atk": false,
@@ -392,10 +115,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": "male",
+        "eggGroups": ["Field", "Fairy"]
       },
       {
+        "name": "pikachu",
         "ivs": {
           "hp": false,
           "atk": true,
@@ -404,10 +129,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": "female",
+        "eggGroups": ["Field", "Fairy"]
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": false,
@@ -416,10 +143,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": false,
           "atk": false,
@@ -428,10 +157,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": false,
@@ -440,22 +171,26 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": false,
-          "atk": true,
-          "def": false,
+          "atk": false,
+          "def": true,
           "spa": false,
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": true,
           "atk": false,
@@ -464,10 +199,12 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       },
       {
+        "name": false,
         "ivs": {
           "hp": false,
           "atk": false,
@@ -476,296 +213,9 @@
           "spd": false,
           "spe": false
         },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": true,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": false,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": true,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "name": false,
-        "nature": false
-      },
-      {
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": true
-        },
-        "name": false,
-        "nature": false
+        "nature": false,
+        "gender": false,
+        "eggGroups": []
       }
     ]
   }

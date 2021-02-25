@@ -42,7 +42,8 @@ export function drawLines(boxes, canvas) {
     const level = parseInt(key);
     for (let i = 0; i < Object.keys(boxes[level]).length; i++) {
       for (let j = 0; j <= 1; j++) {
-        ctx.strokeStyle = lineColors[boxes[level - 1][i * 2 + j].type];
+        ctx.strokeStyle =
+          lineColors[boxes[level - 1][i * 2 + j].type];
         ctx.beginPath();
         ctx.moveTo(
           boxes[level][i].left + 5,

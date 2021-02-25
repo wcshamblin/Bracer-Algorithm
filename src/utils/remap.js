@@ -30,6 +30,7 @@ export function mapBreederSchema(object) {
     nature,
     gender,
     eggGroups,
+    breeder: true,
   };
   return breederSchema;
 }
