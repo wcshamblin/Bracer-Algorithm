@@ -59,7 +59,7 @@ def treegen(distdict, target, breederlist):
             perfect = True
         else:
             for breeder in tempbreeders: 
-                score += (2**len([sorted([iv for iv, state in breeder["ivs"].items() if state == True])])+1)
+                score += (2**len(convertbreeder(breeder))+1)
     return(treedict, perfect, score)
 
 
