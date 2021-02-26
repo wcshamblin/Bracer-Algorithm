@@ -85,8 +85,10 @@ class TreeCell extends Component {
             <div>
               <FontAwesomeIcon
                 className="mr-1"
-                icon={genderIcons[gender].icon}
-                style={{ color: `${genderIcons[gender].color}` }}
+                icon={gender ? genderIcons[gender].icon : null}
+                style={{
+                  color: `${gender ? genderIcons[gender].color : null}`,
+                }}
               ></FontAwesomeIcon>
               <small>{capitalize(name)}</small>
             </div>

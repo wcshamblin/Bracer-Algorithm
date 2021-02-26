@@ -26,6 +26,7 @@ class TargetForm extends Form {
       spe: 31,
       nature: "Adamant",
       eggGroups: [],
+      breeder: false,
     },
     active: {
       hp: true,

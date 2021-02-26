@@ -51,9 +51,15 @@ export const genderIcons = {
 
 export function convertToJSON(state) {
   const { target, breeders } = state.data;
+  const { name, nature, breeder } = target.data;
   const stats = ["hp", "atk", "def", "spa", "spd", "spe"];
   const schema = {
-    target: { name: target.data.name, ivs: {}, nature: target.data.nature },
+    target: {
+      name,
+      ivs: {},
+      nature,
+      breeder,
+    },
     breeders: breeders,
   };
   stats.map((stat) => (schema.target.ivs[stat] = comparator(state, stat)));
