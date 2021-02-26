@@ -6,7 +6,7 @@ from json import dumps, load
 from functools import reduce
 from multiprocessing import Pool
 from multiprocessing import cpu_count
-from boxbreedutils import get_parents, combinate, breedercompat, jsonify, convertbreeder, findbreeder, findcompatbreeder
+from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
@@ -33,14 +33,12 @@ def treegen(distdict, target, breederlist):
 
                 firstisbreeder, firstbreeder = findbreeder(branched_parents[0], tempbreeders)
                 if firstisbreeder:
-                    print("Found breeder")
                     tempbreeders.remove(firstbreeder)
                 treedict[level].append(firstbreeder)
 
                 if firstisbreeder: # They're both breeders, we need to do compat checking
                     addedcompat, secondbreeder = findcompatbreeder(branched_parents[1], firstbreeder, tempbreeders)
                     if addedcompat:
-                        print("Found compat")
                         tempbreeders.remove(secondbreeder)
                     treedict[level].append(secondbreeder)
 
@@ -48,7 +46,6 @@ def treegen(distdict, target, breederlist):
                     # Add without compat
                     secondisbreeder, secondbreeder = findbreeder(branched_parents[1], tempbreeders)
                     if secondisbreeder:
-                        print("Found secondbreeder")
                         tempbreeders.remove(secondbreeder)
                     treedict[level].append(secondbreeder)
 
