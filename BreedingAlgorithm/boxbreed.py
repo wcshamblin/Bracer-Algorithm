@@ -59,7 +59,7 @@ def treegen(distdict, target, breederlist):
             perfect = True
         else:
             for breeder in tempbreeders: 
-                score += (2**len(convertbreeder(breeder))+1)
+                score += round(len(convertbreeder(breeder))**2.08)
     return(treedict, perfect, score)
 
 
