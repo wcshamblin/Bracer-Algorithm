@@ -79,7 +79,6 @@ def findbreeder(inputmon, breeders):
         isbreeder = True
         for attribute, value in inputmon.items():
             if value != False and value:
-                print(attribute, value)
                 if breeder[attribute] != value:
                     isbreeder = False
                     continue
