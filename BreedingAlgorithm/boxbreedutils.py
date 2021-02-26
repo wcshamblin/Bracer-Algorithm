@@ -61,31 +61,25 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-def jsonify(ivlist, isbreeder):
-    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":isbreeder}
+def jsonify(ivlist):
+    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":False}
     for iv in ivlist:
         breeder["ivs"][iv] = True
     return breeder
 
-def convertbreeder(breeder, isbreeder):
+def convertbreeder(breeder):
     if type(breeder) == dict:
         return sorted([iv for iv, state in breeder["ivs"].items() if state != False])
     if type(breeder) == list:
-        return jsonify(breeder, isbreeder)
+        return jsonify(breeder)
     return []
     
-def findaddbreeder(treelevel, branched_parents, tempbreeders, index):
-    for breeder in tempbreeders:
-        if branched_parents[index] == sorted([iv for iv, state in breeder["ivs"].items() if state != False]):
-            tempbreeders.remove(breeder)
-            break
-    treelevel.append(breeder)
-
-def isinbreeders(inputmon, breeders):
+def findbreeder(inputmon, breeders):
     for breeder in breeders:
         isbreeder = True
         for attribute, value in inputmon.items():
-            if value != False:
+            if value != False and value:
+                print(attribute, value)
                 if breeder[attribute] != value:
                     isbreeder = False
                     continue
@@ -97,7 +91,7 @@ def findcompatbreeder(inputmon, compatto, breeders):
     for breeder in breeders:
         isbreeder = True
         for attribute, value in inputmon.items():
-            if value != False:
+            if value != False and value:
                 if breeder[attribute] != value:
                     isbreeder = False
                     continue
