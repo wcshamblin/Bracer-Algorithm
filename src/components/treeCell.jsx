@@ -25,11 +25,13 @@ class TreeCell extends Component {
   };
 
   getType = () => {
-    const { name, ivs } = this.props.item;
-    if (name) {
+    const { name, ivs, breeder } = this.props.item;
+    if (breeder) {
       return { value: "breeder", class: "border-success" };
     } else if (Object.keys(ivs).every((k) => !ivs[k])) {
       return { value: "empty", class: "" };
+    } else if (name) {
+      return { value: "target", class: "border-info" };
     }
     return { value: "generated", class: "border-warning" };
   };
@@ -83,13 +85,15 @@ class TreeCell extends Component {
         <div>
           {name && (
             <div>
-              <FontAwesomeIcon
-                className="mr-1"
-                icon={gender ? genderIcons[gender].icon : null}
-                style={{
-                  color: `${gender ? genderIcons[gender].color : null}`,
-                }}
-              ></FontAwesomeIcon>
+              {gender && (
+                <FontAwesomeIcon
+                  className="mr-1"
+                  icon={genderIcons[gender].icon}
+                  style={{
+                    color: `${genderIcons[gender].color}`,
+                  }}
+                ></FontAwesomeIcon>
+              )}
               <small>{capitalize(name)}</small>
             </div>
           )}
