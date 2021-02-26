@@ -6,7 +6,7 @@ from json import dumps, load
 from functools import reduce
 from multiprocessing import Pool
 from multiprocessing import cpu_count
-from boxbreedutils import get_parents, combinate, breedercompat, jsonify, findaddbreeder, convertbreeder, isinbreeders
+from boxbreedutils import get_parents, combinate, breedercompat, jsonify, convertbreeder, findbreeder, findcompatbreeder
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
@@ -27,44 +27,30 @@ def treegen(distdict, target, breederlist):
 
             # if type(child) != dict: # Isn't a breeder - we can split it!
             if not child["breeder"]: # Isn't a breeder - we can split it!
-                child = convertbreeder(child, isbreeder=False) # dict -> list
+                child = convertbreeder(child) # dict -> list
                 branched_parents, sharedict = get_parents(child, sharedict) # Split
-                branched_parents = [convertbreeder(parent, isbreeder=False) for parent in branched_parents] # Convert split back into dict
+                branched_parents = [convertbreeder(parent) for parent in branched_parents] # Convert split back into dict
 
-                firstisbreeder, firstbreeder = isinbreeders(branched_parents[0], tempbreeders)
+                firstisbreeder, firstbreeder = findbreeder(branched_parents[0], tempbreeders)
                 if firstisbreeder:
+                    print("Found breeder")
                     tempbreeders.remove(firstbreeder)
                 treedict[level].append(firstbreeder)
 
                 if firstisbreeder: # They're both breeders, we need to do compat checking
                     addedcompat, secondbreeder = findcompatbreeder(branched_parents[1], firstbreeder, tempbreeders)
                     if addedcompat:
+                        print("Found compat")
                         tempbreeders.remove(secondbreeder)
                     treedict[level].append(secondbreeder)
 
                 else:
                     # Add without compat
-                    secondisbreeder, secondbreeder = isinbreeders(branched_parents[1], tempbreeders)
+                    secondisbreeder, secondbreeder = findbreeder(branched_parents[1], tempbreeders)
                     if secondisbreeder:
+                        print("Found secondbreeder")
                         tempbreeders.remove(secondbreeder)
                     treedict[level].append(secondbreeder)
-
-                # addedcompat = False
-                # if branched_parents[1] in [sorted([iv for iv, state in breeder["ivs"].items() if state == True]) for breeder in tempbreeders]: # is the second child a breeder?
-                #     if firstisbreeder: # First is already a breeder, need to match second against it
-                #         for breeder in tempbreeders:  # Find a second fancy breeder that matches the first - if none found, add simplebreeder
-                #             if branched_parents[1] == sorted([iv for iv, state in breeder["ivs"].items() if state == True]):
-                #                 if breedercompat(firstbreeder, breeder): # Are the breeders compatable
-                #                     addedcompat = True
-                #                     treedict[level].append(breeder)
-                #                     tempbreeders.remove(breeder)
-
-                #     else: # First isn't a breeder - we can just add another fancybreeder without compat checking
-                #         findaddbreeder(treedict[level], branched_parents, tempbreeders, 1)
-                #         addedcompat = True
-
-                # if not addedcompat: # If we don't have a matching breeder OR we don't have a compatable breeder
-                #     treedict[level].append(branched_parents[1])
 
             else: # Is a breeder - don't split it, add placeholders to branch
                 treedict[level].append([])
@@ -102,7 +88,7 @@ def boxbreed(data):
     # In a 6x tree, if there is a 5x and 1 1xs, then you have to use the 5x in the most optimal tree
 
 
-    # Generate all trees from distributions - THIS IS A BOTTLENECK
+    # Generate all trees from distributions
     t1=time()
     procpool = Pool(cpu_count()) # Set up processing pool
     args = []
