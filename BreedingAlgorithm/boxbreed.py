@@ -10,6 +10,7 @@ from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findb
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
+    print("New tree")
     # simplebreeders follows the format of [iv, iv, iv] (sorted)
     tempbreeders = breederlist.copy()
     simplebreeders = []
@@ -20,34 +21,39 @@ def treegen(distdict, target, breederlist):
     for level in list(range(1, len(distdict)))[::-1]:
         treedict[level] = []
         for child in treedict[level+1]:
+            print("Child:", child)
             if not child: # Is an empty list placeholder - fill placeholders below
                 treedict[level].append([])
                 treedict[level].append([])
                 continue # Restart loop
 
-            # if type(child) != dict: # Isn't a breeder - we can split it!
             if not child["breeder"]: # Isn't a breeder - we can split it!
                 child = convertbreeder(child) # dict -> list
                 branched_parents, sharedict = get_parents(child, sharedict) # Split
                 branched_parents = [convertbreeder(parent) for parent in branched_parents] # Convert split back into dict
+                [print(branched_parent) for branched_parent in branched_parents]
 
-                firstisbreeder, firstbreeder = findbreeder(branched_parents[0], tempbreeders)
-                if firstisbreeder:
-                    tempbreeders.remove(firstbreeder)
-                treedict[level].append(firstbreeder)
+                # If findbreeder, findcompatbreeder fails, input mon is returned (simple)
+                firstisbreeder, firstbreeders = findbreeder(branched_parents[0], tempbreeders)
+
+                if not firstisbreeder:
+                    treedict[level].append(firstbreeders[0])
 
                 if firstisbreeder: # They're both breeders, we need to do compat checking
-                    addedcompat, secondbreeder = findcompatbreeder(branched_parents[1], firstbreeder, tempbreeders)
+                    addedcompat, firstbreeder, secondbreeder = findcompatbreeder(branched_parents, firstbreeders, tempbreeders)
                     if addedcompat:
+                        tempbreeders.remove(firstbreeder)
                         tempbreeders.remove(secondbreeder)
+
+                    treedict[level].append(firstbreeder)
                     treedict[level].append(secondbreeder)
 
                 else:
                     # Add without compat
-                    secondisbreeder, secondbreeder = findbreeder(branched_parents[1], tempbreeders)
+                    secondisbreeder, secondbreeders = findbreeder(branched_parents[1], tempbreeders)
                     if secondisbreeder:
-                        tempbreeders.remove(secondbreeder)
-                    treedict[level].append(secondbreeder)
+                        tempbreeders.remove(secondbreeders[0])
+                    treedict[level].append(secondbreeders[0])
 
             else: # Is a breeder - don't split it, add placeholders to branch
                 treedict[level].append([])
@@ -58,8 +64,9 @@ def treegen(distdict, target, breederlist):
         if not tempbreeders: # No more breeders to take from - tree is perfect
             perfect = True
         else:
-            for breeder in tempbreeders: 
-                score += round(len(convertbreeder(breeder))**2.08)
+            for breeder in tempbreeders:
+                # x^2 for naive non-brace score, .08 added to accomidate for bracing and misc prices
+                score += round(len(convertbreeder(breeder))**2.08) 
     return(treedict, perfect, score)
 
 
