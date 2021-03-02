@@ -43,7 +43,6 @@ def egggroupcompat(breeder1, breeder2):
 
 def gendercompat(breeder1, breeder2):
     genders = sorted([breeder1["gender"], breeder2["gender"]])
-
     if genders == ["female", "male"]:
         return True
     if genders == ["genderless", "genderless"] and breeder1["name"] == breeder2["name"]:
@@ -53,8 +52,7 @@ def gendercompat(breeder1, breeder2):
 def breedercompat(breeder1, breeder2):
     if egggroupcompat(breeder1, breeder2) and gendercompat(breeder1, breeder2):
         return True
-    else:
-        return False
+    return False
 
 # List distance for finding optimal distribution from input
 def listdistance(l1, l2):
@@ -75,6 +73,7 @@ def convertbreeder(breeder):
     return []
     
 def findbreeder(inputmon, breeders):
+    matchedbreeders = []
     for breeder in breeders:
         isbreeder = True
         for attribute, value in inputmon.items():
@@ -83,18 +82,21 @@ def findbreeder(inputmon, breeders):
                     isbreeder = False
                     continue
         if isbreeder:
-            return True, breeder
-    return False, inputmon
+            matchedbreeders.append(breeder)
+    if matchedbreeders: # There is a match found
+        return True, matchedbreeders
+    return False, [inputmon]
 
 def findcompatbreeder(inputmon, compatto, breeders):
     for breeder in breeders:
         isbreeder = True
-        for attribute, value in inputmon.items():
+        for attribute, value in inputmon[1].items():
             if value != False and value:
                 if breeder[attribute] != value:
                     isbreeder = False
                     continue
         if isbreeder:
-            if breedercompat(breeder, compatto):
-                return True, breeder
-    return False, inputmon
+            for possiblecompat in compatto:
+                if breedercompat(breeder, possiblecompat):
+                    return True, possiblecompat, breeder
+    return False, inputmon[0], inputmon[1]
