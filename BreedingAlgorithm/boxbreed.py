@@ -67,7 +67,7 @@ def treegen(distdict, target, breederlist):
             for breeder in tempbreeders:
                 # x^2 for naive non-brace score, .08 added to accomidate for bracing and misc prices
                 score += round(len(convertbreeder(breeder))**2.08) 
-    return(treedict, perfect, score)
+    return(treedict, perfect, score, tempbreeders)
 
 
 
@@ -102,8 +102,8 @@ def boxbreed(data):
         for value, stat in zip(distribution, list(simpletarget)): # Low -> high
             distdict[stat] = value
         distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-        tree, perfect, score = treegen(distdict, target, breederlist)
-        treedict[score] = tree
+        tree, perfect, score, remainingbreeders = treegen(distdict, target, breederlist)
+        treedict[score] = {"tree":tree, "remaining": remainingbreeders}
         if perfect:
             break
     treedict = treedict[min(treedict.keys())]    
@@ -115,7 +115,8 @@ def boxbreed(data):
     t1=time()
     # JSONify entire tree
     outtree = {}
-    for lnum, breeders in treedict.items():
+
+    for lnum, breeders in treedict["tree"].items():
         outtree[lnum] = []
         for breeder in breeders:
             if type(breeder) == list:
@@ -125,7 +126,7 @@ def boxbreed(data):
     t2=time()
     # print("JSONify:", t2-t1)
 
-    return(outtree)
+    return({"tree": outtree, "remainingbreeders": remainingbreeders})
 
 
 if __name__ == '__main__':
