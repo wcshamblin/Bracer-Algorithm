@@ -38,4 +38,4 @@ def boxroute():
         resp = make_response(data)
         resp.mimetype = "application/json"
         return(resp)
-app.run(host='0.0.0.0', debug=True)
+app.run(host='0.0.0.0', port=3000, debug=True)
