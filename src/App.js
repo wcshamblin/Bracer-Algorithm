@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   getTree = async (cancelTokenSource) => {
-    const url = "/boxbreed/";
+    const url = `${process.env.REACT_APP_API_URL}/boxbreed/`;
     const payload = convertToJSON(this.state);
     const config = {
       headers: {
@@ -60,6 +60,7 @@ class App extends Component {
   render() {
     const { page, pageMin, pageMax, allPokes } = this.state;
     const { target, breeders } = this.state.data;
+    console.log(process.env.REACT_APP_API_URL);
     return (
       <React.Fragment>
         <main className="container-fluid mb-5">
