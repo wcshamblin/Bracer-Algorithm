@@ -126,7 +126,7 @@ def boxbreed(data):
     t2=time()
     # print("JSONify:", t2-t1)
 
-    return({"tree": outtree, "remainingbreeders": treedict["remainingbreeders"]})
+    return({"tree": outtree, "remainingbreeders": treedict["remaining"]})
 
 
 if __name__ == '__main__':
