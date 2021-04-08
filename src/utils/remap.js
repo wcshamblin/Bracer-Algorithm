@@ -64,6 +64,5 @@ export function convertToJSON(state) {
   };
   stats.map((stat) => (schema.target.ivs[stat] = comparator(state, stat)));
   const result = JSON.stringify(schema);
-  console.log("JSON:", result);
   return result;
 }

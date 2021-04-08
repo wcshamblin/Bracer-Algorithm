@@ -1,49 +1,18 @@
 {
   "data": {
-    "4": [
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      }
-    ],
     "3": [
       {
-        "name": false,
+        "name": "pikachu",
         "ivs": {
-          "hp": true,
-          "atk": true,
-          "def": true,
+          "hp": 31,
+          "atk": 31,
+          "def": 31,
           "spa": false,
           "spd": false,
           "spe": false
         },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": true,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
+        "nature": "Adamant",
+        "breeder": false
       }
     ],
     "2": [
@@ -59,7 +28,8 @@
         },
         "nature": false,
         "gender": false,
-        "eggGroups": []
+        "eggGroups": [],
+        "breeder": false
       },
       {
         "name": false,
@@ -73,35 +43,8 @@
         },
         "nature": false,
         "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
+        "eggGroups": [],
+        "breeder": false
       }
     ],
     "1": [
@@ -117,7 +60,8 @@
         },
         "nature": false,
         "gender": "male",
-        "eggGroups": ["Field", "Fairy"]
+        "eggGroups": ["Field", "Fairy"],
+        "breeder": true
       },
       {
         "name": "pikachu",
@@ -130,25 +74,27 @@
           "spe": false
         },
         "nature": false,
+        "gender": "male",
+        "eggGroups": ["Field", "Fairy"],
+        "breeder": true
+      },
+      {
+        "name": "pikachu",
+        "ivs": {
+          "hp": true,
+          "atk": false,
+          "def": false,
+          "spa": false,
+          "spd": false,
+          "spe": false
+        },
+        "nature": false,
         "gender": "female",
-        "eggGroups": ["Field", "Fairy"]
+        "eggGroups": ["Field", "Fairy"],
+        "breeder": true
       },
       {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
+        "name": "pikachu",
         "ivs": {
           "hp": false,
           "atk": false,
@@ -158,64 +104,9 @@
           "spe": false
         },
         "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": true,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": true,
-          "atk": false,
-          "def": false,
-          "spa": false,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
-      },
-      {
-        "name": false,
-        "ivs": {
-          "hp": false,
-          "atk": false,
-          "def": false,
-          "spa": true,
-          "spd": false,
-          "spe": false
-        },
-        "nature": false,
-        "gender": false,
-        "eggGroups": []
+        "gender": "female",
+        "eggGroups": ["Field", "Fairy"],
+        "breeder": true
       }
     ]
   }

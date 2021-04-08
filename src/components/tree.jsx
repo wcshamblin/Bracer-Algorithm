@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TreeCell from "./treeCell";
+import TreeCellLite from "./treeCellLite";
 import { drawLines, countChildren, offsetCoords } from "../utils/lineRenderer";
 import axios from "axios";
 
@@ -9,13 +10,16 @@ class Tree extends Component {
     this.inputRef = React.createRef();
   }
 
-  state = { boxes: {}, loaded: 0, tree: {} };
+  state = { boxes: {}, loaded: 0, tree: {}, remainingbreeders: [] };
 
   cancelTokenSource = axios.CancelToken.source();
 
   async componentDidMount() {
     const { data } = await this.props.getTree(this.cancelTokenSource);
-    this.setState({ tree: data });
+    console.log("data", data);
+    const { tree, remainingbreeders } = data;
+    this.setState({ tree, remainingbreeders });
+    console.log("state", this.state);
     this.drawTree();
   }
 
@@ -54,11 +58,15 @@ class Tree extends Component {
 
   render() {
     const { target } = this.props;
-    const { tree } = this.state;
+    const { tree, remainingbreeders } = this.state;
     const levels = Object.keys(tree);
+    console.log(remainingbreeders);
 
     return (
       <div className="user-select-none">
+        <h6 className="text-center user-select-none mt-5">
+          The optimal pattern was calculated for you based off given breeders:
+        </h6>
         <div className="d-flex justify-content-center relative">
           {levels.map((level) => (
             <div
@@ -83,6 +91,23 @@ class Tree extends Component {
           ))}
           <canvas className="canvas" ref={this.inputRef}></canvas>
         </div>
+        {remainingbreeders.length !== 0 && (
+          <div className="mt-5">
+            <h6 className="text-center user-select-none">
+              The following breeders did not fit into the tree and were not
+              used:
+            </h6>
+            <div className="container card">
+              <div className="row">
+                {remainingbreeders.map((poke) => (
+                  <div className="col-3 d-inline-block">
+                    <TreeCellLite item={poke} target={target}></TreeCellLite>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
