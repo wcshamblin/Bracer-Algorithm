@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   getTree = async (cancelTokenSource) => {
-    const url = "http://127.0.0.1:3000/boxbreed/";
+    const url = "http://localhost:3000/boxbreed/";
     const payload = convertToJSON(this.state);
     const config = {
       headers: {
