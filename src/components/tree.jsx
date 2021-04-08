@@ -16,10 +16,8 @@ class Tree extends Component {
 
   async componentDidMount() {
     const { data } = await this.props.getTree(this.cancelTokenSource);
-    console.log("data", data);
     const { tree, remainingbreeders } = data;
     this.setState({ tree, remainingbreeders });
-    console.log("state", this.state);
     this.drawTree();
   }
 
@@ -60,7 +58,6 @@ class Tree extends Component {
     const { target } = this.props;
     const { tree, remainingbreeders } = this.state;
     const levels = Object.keys(tree);
-    console.log(remainingbreeders);
 
     return (
       <div className="user-select-none">

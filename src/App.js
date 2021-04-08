@@ -7,7 +7,6 @@ import { getAllPokes } from "./utils/pokeApi";
 import { capitalize } from "./utils/capitalize";
 import { convertToJSON } from "./utils/remap";
 import http from "./services/httpService";
-import * as exampleTree from "./exampletree.json";
 
 class App extends Component {
   state = {
@@ -44,7 +43,7 @@ class App extends Component {
   }
 
   getTree = async (cancelTokenSource) => {
-    const url = "http://70.130.72.57:5000/boxbreed/";
+    const url = "http://localhost:3000/boxbreed/";
     const payload = convertToJSON(this.state);
     const config = {
       headers: {
@@ -56,8 +55,6 @@ class App extends Component {
     const tree = await http.post(url, payload, config);
     console.log("response:", tree);
     return tree;
-    // console.log("exampletree", exampleTree.default);
-    // return exampleTree.default;
   };
 
   render() {
