@@ -6,7 +6,7 @@ from json import dumps, load
 from functools import reduce
 from multiprocessing import Pool
 from multiprocessing import cpu_count
-from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder
+from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder, itemify
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
@@ -116,13 +116,20 @@ def boxbreed(data):
     # JSONify entire tree
     outtree = {}
 
+
     for lnum, breeders in treedict["tree"].items():
         outtree[lnum] = []
-        for breeder in breeders:
-            if type(breeder) == list:
-                outtree[lnum].append(jsonify(breeder))
-            else:
-                outtree[lnum].append(breeder)
+        if len(breeders) == 1:
+            outtree[lnum] = jsonify(breeders[0])
+            continue
+
+        for i in range(0, len(breeders), 2):
+            b1 = jsonify(breeders[i])
+            b2 = jsonify(breeders[i+1])
+
+            outtree[lnum].append(itemify(b1, b2))
+            outtree[lnum].append(itemify(b2, b1))
+
     t2=time()
     # print("JSONify:", t2-t1)
 
