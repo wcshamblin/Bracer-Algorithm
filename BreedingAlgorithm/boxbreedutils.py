@@ -59,11 +59,24 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-def jsonify(ivlist):
-    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":False}
+def jsonify(ivlist, item=False):
+    if type(ivlist) == dict:
+        ivlist["item"] = item
+        return ivlist
+    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":False, "item": False}
+    breeder["item"] = item
     for iv in ivlist:
         breeder["ivs"][iv] = True
     return breeder
+
+def itemify(breeder1, breeder2):
+    # Define power items
+    poweritem = {"hp": "weight", "atk": "bracer", "def": "belt", "spa": "lens", "spd": "band", "spe": "anklet"}
+    for iv, state in breeder1["ivs"].items():
+        if state and not breeder2["ivs"][iv]:
+            breeder1 = jsonify(breeder1, poweritem[iv])
+            break
+    return breeder1
 
 def convertbreeder(breeder):
     if type(breeder) == dict:
