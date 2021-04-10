@@ -33,7 +33,7 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 #### - Distributions must sum to 2 to the power of the number of stats in the tree minus one
 Assuming *D* is a set containing the distribution, this is represented by the following equation:
 
-![Distribution rule equation 1](https://imgur.com/9KUE3oO.png)
+![Distribution rule equation 1](https://i.imgur.com/YK1I8M9.gif)
 
 
 
@@ -51,7 +51,7 @@ In a 5x31, there are 5 targeted stats. This means the sum of each distribution f
 #### - Distributions cannot contain more than two 1s
 Again assuming *D* is a set containing the distribution;
 
-![Distribution rule equation 2](https://imgur.com/atW1y3L.png)
+![Distribution rule equation 2](https://i.imgur.com/nJFyZNU.gif)
 
 This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
@@ -99,7 +99,7 @@ Breeders are not split as that would not make sense, but empty slots are added b
 
 If splitting a slot from above results in two potential breeders below, they are evaluated for compatibility, and if they are not compatable the second breeder is replaced with a placeholder.
 
-Scoring is currently done through the equation n^2.08 where n is the number of remaining breeders left. The additional .08 is added to compensate for power item prices as well as the additional miscellaneous costs. This is graphed relative to n^2 which represents absolute cost in terms of breeder count.
+Scoring is currently done through the equation n^2.08 where n is the number of remaining breeders left. The additional .08 is added to compensate for power item prices as well as the additional miscellaneous costs. This is graphed below relative to n^2 which represents absolute cost in terms of breeder count.
 
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
 
