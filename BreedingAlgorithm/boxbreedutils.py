@@ -71,10 +71,9 @@ def jsonify(ivlist, item=False):
 
 def itemify(breeder1, breeder2):
     # Define power items
-    poweritem = {"hp": "weight", "atk": "bracer", "def": "belt", "spa": "lens", "spd": "band", "spe": "anklet"}
     for iv, state in breeder1["ivs"].items():
         if state and not breeder2["ivs"][iv]:
-            breeder1 = jsonify(breeder1, poweritem[iv])
+            breeder1 = jsonify(breeder1, iv)
             break
     return breeder1
 
