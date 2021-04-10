@@ -30,9 +30,10 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 
 
-#### - Distributions must sum to 2 to the the number of stats in the tree minus one
+#### - Distributions must sum to 2 to the power of the number of stats in the tree minus one
+Assuming *D* is a set containing the distribution, this is represented by the following equation:
 
-![Distribution rule equation 1](https://imgur.com/Z9EUlvy.png)
+![Distribution rule equation 1](https://imgur.com/9KUE3oO.png)
 
 
 
@@ -48,16 +49,19 @@ In a 5x31, there are 5 targeted stats. This means the sum of each distribution f
 
 
 #### - Distributions cannot contain more than two 1s
+Again assuming *D* is a set containing the distribution;
+
+![Distribution rule equation 2](https://imgur.com/atW1y3L.png)
 
 This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
 
 
-#### - Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the slot index minus one.
+#### - Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the power of the slot index minus one.
 
 Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
 
-![Distribution rule equation 2](https://imgur.com/ZceFXrK.png)
+![Distribution rule equation 2](https://imgur.com/ccZRXy8.png)
 
 
 Represented programatically;
@@ -140,4 +144,4 @@ Contributions are done through pull request. Allow at least a week for code revi
 ## Acknowledgments
 EggplantHero - All frontend work, algorithm designing
 
-wcshamblin - Algorithm designing,  Python + Flask backend
+wcshamblin - Algorithm designing,  Python + Flask backend, README
