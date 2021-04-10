@@ -32,7 +32,7 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 #### - Distributions must sum to 2 to the the number of stats in the tree minus one
 
-![Distribution rule equation 1](https://imgur.com/a/gljCrNe.png)
+![Distribution rule equation 1](https://imgur.com/Z9EUlvy.png)
 
 
 
