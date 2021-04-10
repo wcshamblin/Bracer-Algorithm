@@ -93,7 +93,7 @@ The treegen algorithm traverses the binary tree from one below top of the tree d
 
 ![Binary tree example + treegen direction](https://imgur.com/XYI5E7H.png)
 
-As it traverses downwards, it looks one level above the level it is currently on, and splits the breeders above it according to distribution popularity (prioritize the highest stat in the distribution), and ads them on the current level. 
+As it traverses downwards, it looks one level above the level it is currently on, and splits the breeders above it according to distribution popularity (prioritize the highest stat in the distribution), and adds them on the current level.
 
 Breeders are not split as that would not make sense, but empty slots are added below to retain tree structure. 
 
