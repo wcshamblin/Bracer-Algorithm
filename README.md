@@ -92,7 +92,7 @@ Scoring is currently done through the equation n^2.08 where n is the number of r
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
 
 ### Diagram
-```py
+```
                _______________________
               |Frontend - React + Node|
 +--------------------------------------------------------+
