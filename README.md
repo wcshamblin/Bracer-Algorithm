@@ -32,6 +32,10 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 #### - Distributions must sum to 2 to the the number of stats in the tree minus one
 
+![Distribution rule equation 1](https://imgur.com/a/gljCrNe.png)
+
+
+
 In a 5x31, there are 5 targeted stats. This means the sum of each distribution for a 5x31 must sum to `2^(5-1) = 16`.
 
 
@@ -49,8 +53,12 @@ This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
 
 
-
 #### - Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the slot index minus one.
+
+Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
+
+![Distribution rule equation 2](https://imgur.com/ZceFXrK.png)
+
 
 Represented programatically;
 ```py
@@ -68,7 +76,7 @@ This is easier to visualize by taking the spikiest distribution for the target l
 
 The spikiest distribution is unstable as the water level is uneven, and since *water only flows downward*, every valid distribution is generated as the water comes to rest at the most even state.
 
-![Water flows downward](https://i.imgur.com/QWVxDfI.png)
+![Water visualization](https://i.imgur.com/QWVxDfI.png)
 
 For more details on programatic distribution generation, see `combinate()` within `BreedingAlgorithm/boxbreedutils.py`
 
