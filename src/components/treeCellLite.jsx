@@ -16,7 +16,7 @@ class TreeCell extends Component {
   };
 
   getUrl = async () => {
-    const { name } = this.props.item;
+    const { name } = this.props.poke;
     let newUrl = "";
     if (name) {
       newUrl = await getImgSm(name.toLowerCase());
@@ -43,7 +43,7 @@ class TreeCell extends Component {
 
   render() {
     const { target } = this.props;
-    const { name, ivs, gender } = this.props.item;
+    const { name, ivs, gender } = this.props.poke;
     const { url, type } = this.state;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);

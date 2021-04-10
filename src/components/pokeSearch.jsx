@@ -15,12 +15,12 @@ const pokeSearch = ({ allPokes, data, url, handleInputChange }) => {
         options={allPokes}
       ></Typeahead>
       <div className="row">
-        <div className="col-4 offset-4 my-3">
+        <div className="col-md-4 offset-md-4 col-6 my-3">
           <div className="imageParent">
             <img src={url} alt={name} />
           </div>
         </div>
-        <div className="col-4 d-flex justify-content-center flex-column">
+        <div className="col-md-4 col-6 d-flex justify-content-center flex-column">
           {eggGroups.map((group, index) => (
             <p key={index} className="badge badge-secondary d-block">
               {group}
