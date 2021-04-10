@@ -120,7 +120,7 @@ def boxbreed(data):
     for lnum, breeders in treedict["tree"].items():
         outtree[lnum] = []
         if len(breeders) == 1:
-            outtree[lnum] = jsonify(breeders[0])
+            outtree[lnum].append(jsonify(breeders[0]))
             continue
 
         for i in range(0, len(breeders), 2):
