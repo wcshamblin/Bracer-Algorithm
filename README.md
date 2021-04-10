@@ -9,9 +9,9 @@
 ## How it works
 
 ### Distributions
-Distributions refer to the number of breeders in any one stat.
+Distributions refer to the number of breeders in any one stat within a tree.
 
-So, for example, in a 4x31, a possible distribution is `4 2 1 1`, where 4 is the number of hp breeders, 2 is the number of atk breeders, and so on.
+So, for example, in a 4x31 tree, a possible distribution is `4 2 1 1`, where 4 is the number of hp breeders, 2 is the number of atk breeders, and so on.
 
 Distributions are assumed to be sorted with the highest value on the left, and follow the following order of stats:
 
