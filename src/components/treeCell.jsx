@@ -16,7 +16,7 @@ class TreeCell extends Component {
   };
 
   getUrl = async () => {
-    const { name } = this.props.item;
+    const { name } = this.props.poke;
     let newUrl = "";
     if (name) {
       newUrl = await getImgSm(name.toLowerCase());
@@ -25,7 +25,7 @@ class TreeCell extends Component {
   };
 
   getType = () => {
-    const { name, ivs, breeder } = this.props.item;
+    const { name, ivs, breeder } = this.props.poke;
     if (breeder) {
       return { value: "breeder", class: "border-success" };
     } else if (Object.keys(ivs).every((k) => !ivs[k])) {
@@ -69,8 +69,8 @@ class TreeCell extends Component {
   }
 
   render() {
-    const { target, level } = this.props;
-    const { name, ivs, gender } = this.props.item;
+    const { target, level, braces } = this.props;
+    const { name, ivs, gender, item } = this.props.poke;
     const { url, type } = this.state;
     const stats = Object.keys(target.active);
     const activeStats = stats.filter((stat) => target.active[stat] === true);
@@ -97,8 +97,17 @@ class TreeCell extends Component {
               <small>{capitalize(name)}</small>
             </div>
           )}
-          <div className="iconParent">
-            {url && <img src={url} alt="icon" />}
+          <div className="d-inline-block d-flex">
+            {name && (
+              <div className="iconParent">
+                {url && <img src={url} alt="icon" />}
+              </div>
+            )}
+            {item && (
+              <div className="iconParent">
+                <img src={braces[item]} alt={item} />
+              </div>
+            )}
           </div>
         </div>
 

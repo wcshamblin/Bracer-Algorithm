@@ -22,21 +22,19 @@ const StickyFooter = ({ changePage, page, pageMin, pageMax, target }) => {
 
   return (
     <footer className="stickyFooter">
-      <div className="row text-center mt-2">
-        <div className="col-4 offset-4">
-          {buttons.map(({ num, inc, label }) => (
-            <button
-              key={num}
-              onClick={() => changePage(inc)}
-              className={`mx-1 btn btn-primary ${
-                isDisabled(num) ? "disabled" : null
-              }`}
-              disabled={isDisabled(num)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+      <div className="row text-center mt-2 d-flex justify-content-center">
+        {buttons.map(({ num, inc, label }) => (
+          <button
+            key={num}
+            onClick={() => changePage(inc)}
+            className={`mx-1 btn btn-primary ${
+              isDisabled(num) ? "disabled" : null
+            }`}
+            disabled={isDisabled(num)}
+          >
+            {label}
+          </button>
+        ))}
       </div>
     </footer>
   );

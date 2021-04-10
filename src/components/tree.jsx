@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TreeCell from "./treeCell";
 import TreeCellLite from "./treeCellLite";
 import { drawLines, countChildren, offsetCoords } from "../utils/lineRenderer";
+import { getAllBraceIcons } from "../utils/pokeApi";
 import axios from "axios";
 
 class Tree extends Component {
@@ -10,14 +11,15 @@ class Tree extends Component {
     this.inputRef = React.createRef();
   }
 
-  state = { boxes: {}, loaded: 0, tree: {}, remainingbreeders: [] };
+  state = { boxes: {}, loaded: 0, tree: {}, remainingbreeders: [], braces: {} };
 
   cancelTokenSource = axios.CancelToken.source();
 
   async componentDidMount() {
     const { data } = await this.props.getTree(this.cancelTokenSource);
     const { tree, remainingbreeders } = data;
-    this.setState({ tree, remainingbreeders });
+    const braces = await getAllBraceIcons();
+    this.setState({ tree, remainingbreeders, braces });
     this.drawTree();
   }
 
@@ -56,7 +58,7 @@ class Tree extends Component {
 
   render() {
     const { target } = this.props;
-    const { tree, remainingbreeders } = this.state;
+    const { tree, remainingbreeders, braces } = this.state;
     const levels = Object.keys(tree);
 
     return (
@@ -71,13 +73,14 @@ class Tree extends Component {
               className="col-2 d-inline-block d-flex flex-column justify-content-between text-center"
             >
               <br></br>
-              {tree[level].map((item, index) => (
+              {tree[level].map((poke, index) => (
                 <div key={level + index}>
                   <TreeCell
-                    item={item}
+                    poke={poke}
                     target={target}
                     level={level}
                     index={index}
+                    braces={braces}
                     logCoordinates={this.logCoordinates}
                   ></TreeCell>
                 </div>
@@ -98,7 +101,7 @@ class Tree extends Component {
               <div className="row">
                 {remainingbreeders.map((poke) => (
                   <div className="col-3 d-inline-block">
-                    <TreeCellLite item={poke} target={target}></TreeCellLite>
+                    <TreeCellLite poke={poke} target={target}></TreeCellLite>
                   </div>
                 ))}
               </div>
