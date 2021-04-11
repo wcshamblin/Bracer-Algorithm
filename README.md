@@ -24,16 +24,16 @@ Distributions are assumed to be sorted with the highest value on the left, and f
 At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 
-#### - The spikiest (most uneven) distribution at any level l is represented by the following equation:
+#### - The spikiest (most uneven) distribution is represented by the following sequence:
 
-![Spikiest distribution equation](https://imgur.com/vZq1lxl.png)
+![Spikiest distribution equation](https://imgur.com/tnSH9jM.png)
 
 
 
 #### - Distributions must sum to 2 to the power of the number of stats in the tree minus one
-Assuming *D* is a set containing the distribution, this is represented by the following equation:
+Assuming *x sub n* is a sequence containing a potential distribution, and *l* being the target level, this is represented by the following equation:
 
-![Distribution rule equation 1](https://i.imgur.com/YK1I8M9.gif)
+![Distribution rule equation 1](https://imgur.com/KBMTX0I.png)
 
 
 
@@ -44,14 +44,11 @@ In a 5x31, there are 5 targeted stats. This means the sum of each distribution f
 
 9+5+2+1+1 = 18 - this distribution is not valid
 
-7+4+2+1+1 = 15 - this distribution is not valid
-
-
 
 #### - Distributions cannot contain more than two 1s
-Again assuming *D* is a set containing the distribution;
+Again assuming *x sub n* is a sequence containing the distribution and *l* being the target level;
 
-![Distribution rule equation 2](https://i.imgur.com/nJFyZNU.gif)
+![Distribution rule equation 2](https://imgur.com/dPX68VM.png)
 
 This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
@@ -61,7 +58,7 @@ The two 1s are able to rest on the very outside edge of the base of the tree and
 
 Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
 
-![Distribution rule equation 2](https://imgur.com/ccZRXy8.png)
+![Distribution rule equation 3](https://imgur.com/PQzMfMWS.png)
 
 
 Represented programatically;
