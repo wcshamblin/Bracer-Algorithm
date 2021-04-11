@@ -58,7 +58,7 @@ The two 1s are able to rest on the very outside edge of the base of the tree and
 
 Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
 
-![Distribution rule equation 3](https://imgur.com/PQzMfMWS.png)
+![Distribution rule equation 3](https://imgur.com/DuBfhSz.png)
 
 
 Represented programatically;
