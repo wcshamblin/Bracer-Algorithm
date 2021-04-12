@@ -96,6 +96,8 @@ Breeders are not split as that would not make sense, but empty slots are added b
 
 If splitting a slot from above results in two potential breeders below, they are evaluated for compatibility, and if they are not compatable the second breeder is replaced with a placeholder.
 
+![Breeder split compat check](https://i.imgur.com/gz2JXac.png)
+
 Scoring is currently done through the equation n^2.08 where n is the number of remaining breeders left. The additional .08 is added to compensate for power item prices as well as the additional miscellaneous costs. This is graphed below relative to n^2 which represents absolute cost in terms of breeder count.
 
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
