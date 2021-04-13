@@ -9,7 +9,7 @@
 ## How it works
 
 ### Distributions
-Distributions refer to the number of breeders in any one stat within a tree.
+Distributions refer to the number of breeders in any one stat within a tree. They correspond immediately with trees, there is only one distribution associated with any one tree (order withstanding), and there is only one tree associated with any one distribution
 
 So, for example, in a 4x31 tree, a possible distribution is `4 2 1 1`, where 4 is the number of hp breeders, 2 is the number of atk breeders, and so on.
 
@@ -79,6 +79,8 @@ The spikiest distribution is unstable as the water level is uneven, and since *w
 
 ![Water visualization](https://i.imgur.com/QWVxDfI.png)
 
+After permutation, generation of all distributions falls (about) under O(n!).
+
 For more details on programatic distribution generation, see `combinate()` within `BreedingAlgorithm/boxbreedutils.py`
 
 ### Tree generation
@@ -101,6 +103,8 @@ If splitting a slot from above results in two potential breeders below, they are
 Scoring is currently done through the equation n^2.08 where n is the number of remaining breeders left. The additional .08 is added to compensate for power item prices as well as the additional miscellaneous costs. This is graphed below relative to n^2 which represents absolute cost in terms of breeder count.
 
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
+
+As of now, tree generation falls under (about) O(n!), identical to distribution generation, as one distribution corresponds exactly one tree. In the future this will hopefully be drastically reduced through distribution pruning, reducing the input to the algorithm.
 
 ### Diagram
 ```
