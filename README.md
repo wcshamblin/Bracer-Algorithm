@@ -155,7 +155,8 @@ Scoring is currently done through the equation n^2.08 where n is the number of r
 
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
 
-As of now, tree generation falls under (about) O(n!), identical to distribution generation, as one distribution corresponds exactly one tree. In the future this will hopefully be drastically reduced through distribution pruning, reducing the input to the algorithm.
+As of now, tree generation falls under (about) O(1) with distributions. This is fine, but since input is O(n!), it makes sense to optimize here. A goal is to hopefully reduce input to the algorithm through distribution pruning.
+
 
 ### Diagram
 ```
