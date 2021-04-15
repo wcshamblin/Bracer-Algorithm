@@ -8,6 +8,57 @@
 
 ## How it works
 
+### The basics of Pokemon breeding
+
+The intent of Pokemon breeding is to mate certain Pokemon together to result in one Pokemon that has certain IVs and a certain nature. Pokemon have 6 IVs, and 25 available natures. The function of these doesn't really matter for understanding this algorithm, but you can read about IVs [here](https://bulbapedia.bulbagarden.net/wiki/Individual_values) and natures [here](https://pokemondb.net/mechanics/natures).
+
+Just some basic notation:
+
+```
+HP  - Health Points
+Atk - Attack
+Def - Defense
+Spa - Special Attack
+Spd - Special Defense
+Spe - Speed
+```
+
+When you read (number)x - 1x, 2x, 3x, 4x, 5x, 6x - this refers to the number of target stats. So in a Pokemon where you want a specific HP, attack, and defense, that would be a 3x, as 3 stats are being targeted.
+
+
+IV sharing works through things called "power items". The power items are listed as follows:
+
+```
+HP  - Power Weight
+Atk - Power Bracer
+Def - Power Belt
+Spa - Power Lens
+Spd - Power Band
+Spe - Power Anklet
+```
+
+Here are some basic rules:
+
+- Power items, when held by a Pokemon, ensure that when bred, that IV from that Pokemon will carry down to its child. A Pokemon can only hold *one* of these items.
+- If two breeding Pokemon share an IV, that IV is guaranteed.
+- If a Pokemon is holding an Everstone, it will pass down its nature.
+- **A Pokemon can only hold one item.**
+
+
+Natures aren't particularly important as they are not really utilized in the algorithm and are accounted for later, so forget about Everstones for now.
+
+With these rules in place, here's a basic breeding tree:
+
+![Basic breeding tree](https://imgur.com/r7vbpDn.png)
+
+And here's a breeding tree for a 5x target:
+
+![5x breeding tree](https://imgur.com/mx4A4Fl.png)
+
+The indicators in the middle show the number of shared IVs between each Pokemon of that certain level, and numbers 1 - 5 represent stats.
+
+Now, for some more complex rules. Everything that follows is not an "official" rule and it is something that we have developed to make sense of the breeding tree and implement the algorithm.
+
 ### Distributions
 Distributions refer to the number of breeders in any one stat within a tree. They correspond immediately with trees, there is only one distribution associated with any one tree (order withstanding), and there is only one tree associated with any one distribution
 
@@ -92,7 +143,7 @@ The treegen algorithm traverses the binary tree from one below top of the tree d
 
 ![Binary tree example + treegen direction](https://imgur.com/XYI5E7H.png)
 
-As it traverses downwards, it looks one level above the level it is currently on, and splits the breeders above it according to distribution popularity (prioritize the highest stat in the distribution), and adds them on the current level.
+As it traverses downwards, it looks one level above the level it is currently on, and splits the Pokemon's IVs above it according to distribution popularity (prioritize the highest stat in the distribution), and adds them on the current level. As they are being added, if a placeholder's IVs match one of the user's Pokemon, that Pokemon is assigned instead of a placeholder.
 
 Breeders are not split as that would not make sense, but empty slots are added below to retain tree structure. 
 
