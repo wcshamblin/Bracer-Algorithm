@@ -43,7 +43,11 @@ class App extends Component {
   }
 
   getTree = async (cancelTokenSource) => {
+<<<<<<< HEAD
     const url = `${process.env.REACT_APP_API_URL}/api/boxbreed/`;
+=======
+    const url = `https://70.130.72.57:5001/boxbreed/`;
+>>>>>>> 10126d7701d45e46d9e19de7bca58654290db4de
     const payload = convertToJSON(this.state);
     const config = {
       headers: {
