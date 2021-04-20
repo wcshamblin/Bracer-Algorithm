@@ -1,1 +1,1 @@
-gunicorn3 -w 4 -b 127.0.0.1:5001 --chdir /home/mcserver/Bracer/BreedingAlgorithm/ handlerapi:app
+tmux new-session -d -n "BracerAPI" gunicorn3 -w 4 -b 127.0.0.1:5001 --chdir /home/mcserver/Bracer/BreedingAlgorithm/ handlerapi:app
