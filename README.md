@@ -1,4 +1,4 @@
-# Bracer
+# [Bracer](https://bracer.app/)
 
 ## Planned features
 
