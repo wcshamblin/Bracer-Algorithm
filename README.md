@@ -162,38 +162,40 @@ Treegen returns the tree with the highest score found, JSONified.
 
 ### Diagram
 ```
-               _______________________
-              |Frontend - React + Node|
+       ____________________________________________
+      |Frontend - React + Node served through NGINX|
 +--------------------------------------------------------+
 |                                                        |
 | 1. Choose target -> Enter breeders -> Submit form - || |
 |                                                     \/ |
 |         \/------------------------------------------<  |
-| 2. POST to Flask API                                   |
+| 2. POST to NGINX                                       |
+|         \/                                             |
+| 3. NGINX reverse proxy -> Gunicorn -> Flask            |
 |         ||    ________________________                 |
 |         ||   |Backend - Python + Flask|                |
 |  +------\/------------------------------------------+  |
-|  | 3. Data preprocessing                            |  |
+|  | 4. Data preprocessing                            |  |
 |  |      \/                                          |  |
-|  | 4. Distribution generation through combinations  |  |
+|  | 5. Distribution generation through combinations  |  |
 |  |      \/                                          |  |
-|  | 5. Generate all trees from distributions         |  |
+|  | 6. Generate all trees from distributions         |  |
 |  |      \/                                          |  |
-|  | 6. Choose best fitting tree, or stop on perfect  |  |
+|  | 7. Choose best fitting tree, or stop on perfect  |  |
 |  |      \/                                          |  |
-|  | 7. Assign breeders to tree                       |  |
+|  | 8. Assign breeders to tree                       |  |
 |  |      \/                                          |  |
-|  | 8. Assign items to tree, JSONify                 |  |
+|  | 9. Assign items to tree, JSONify                 |  |
 |  |     \/                                           |  |
-|  | 9. Return tree, remaining breeders               |  |
+|  | 10. Return tree, remaining breeders              |  |
 |  +-----\/-------------------------------------------+  |
-| 10. Retrieve response                                  |
+| 11. Retrieve response                                  |
 |        \/                                              |
-| 11. Render tree, items, remaining breeders             |
+| 12. Render tree, items, remaining breeders             |
 |                                                        |
 +--------------------------------------------------------+
 ```
-Note: This is wildly oversimplified, especially step 5 and 11.
+Note: This is wildly oversimplified, especially step 6 and 12.
 
 ## Contributing
 Contributions are done through pull request. Allow at least a week for code review.
