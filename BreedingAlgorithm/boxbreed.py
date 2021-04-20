@@ -10,7 +10,6 @@ from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findb
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist):
-    print("New tree")
     # simplebreeders follows the format of [iv, iv, iv] (sorted)
     tempbreeders = breederlist.copy()
     simplebreeders = []
@@ -21,7 +20,6 @@ def treegen(distdict, target, breederlist):
     for level in list(range(1, len(distdict)))[::-1]:
         treedict[level] = []
         for child in treedict[level+1]:
-            print("Child:", child)
             if not child: # Is an empty list placeholder - fill placeholders below
                 treedict[level].append([])
                 treedict[level].append([])
@@ -31,7 +29,6 @@ def treegen(distdict, target, breederlist):
                 child = convertbreeder(child) # dict -> list
                 branched_parents, sharedict = get_parents(child, sharedict) # Split
                 branched_parents = [convertbreeder(parent) for parent in branched_parents] # Convert split back into dict
-                [print(branched_parent) for branched_parent in branched_parents]
 
                 # If findbreeder, findcompatbreeder fails, input mon is returned (simple)
                 firstisbreeder, firstbreeders = findbreeder(branched_parents[0], tempbreeders)
