@@ -45,9 +45,13 @@ def treegen(distdict, target, breederlist):
                         print("Found compat, both are breeders")
                         tempbreeders.remove(firstbreeder)
                         tempbreeders.remove(secondbreeder)
-
-                    treedict[level].append(firstbreeder)
-                    treedict[level].append(secondbreeder)
+                        
+                        treedict[level].append(firstbreeder)
+                        treedict[level].append(secondbreeder)
+                    
+                    else:
+                        treedict[level].append(firstbreeders[0])
+                        treedict[level].append(secondbreeder)
 
                 else:
                     # Add without compat
