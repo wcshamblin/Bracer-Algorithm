@@ -155,7 +155,7 @@ Scoring is currently done through the equation n^2.08 where n is the number of r
 
 ![Compensation scoring vs absolute](https://imgur.com/ftiIHVy.png)
 
-As of now, tree generation falls under (about) O(1) with distributions. This is fine, but since input is O(n!), it makes sense to optimize here. A goal is to hopefully reduce input to the algorithm through distribution pruning.
+As of now, tree generation falls under (about) O(n) with distributions. This is fine, but since input is O(n!), it makes sense to optimize here. A goal is to hopefully reduce input to the algorithm through distribution pruning.
 
 
 Treegen returns the tree with the highest score found, JSONified.
