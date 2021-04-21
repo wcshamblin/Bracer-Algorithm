@@ -37,7 +37,7 @@ def combinate(lnum):
 def egggroupcompat(breeder1, breeder2):
     if (breeder1["name"] == "ditto" or breeder2["name"] == "ditto") and (breeder2["name"] != breeder1["name"]):
         return True
-    if bool(set(breeder1["eggGroups"]) & set(breeder2["eggGroups"])) and not breeder1["name"]==breeder2["name"]=="ditto":
+    if bool(set(breeder1["eggGroups"]) & set(breeder2["eggGroups"])):
         return True
     return False
 
