@@ -51,6 +51,7 @@ def treegen(distdict, target, breederlist):
                     
                     else:
                         treedict[level].append(firstbreeders[0])
+                        tempbreeders.remove(firstbreeders[0])
                         treedict[level].append(secondbreeder)
 
                 else:
