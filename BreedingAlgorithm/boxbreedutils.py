@@ -35,8 +35,6 @@ def combinate(lnum):
     return(perms)
 
 def egggroupcompat(breeder1, breeder2):
-    if (breeder1["name"] == "ditto" or breeder2["name"] == "ditto") and (breeder2["name"] != breeder1["name"]):
-        return True
     if bool(set(breeder1["eggGroups"]) & set(breeder2["eggGroups"])) and not breeder1["name"]==breeder2["name"]=="ditto":
         return True
     return False
@@ -50,6 +48,8 @@ def gendercompat(breeder1, breeder2):
     return False
 
 def breedercompat(breeder1, breeder2):
+    if (breeder1["name"] == "ditto" or breeder2["name"] == "ditto") and (breeder2["name"] != breeder1["name"]):
+        return True
     if egggroupcompat(breeder1, breeder2) and gendercompat(breeder1, breeder2):
         return True
     return False
