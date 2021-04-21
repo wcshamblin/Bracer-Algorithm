@@ -34,11 +34,15 @@ def treegen(distdict, target, breederlist):
                 firstisbreeder, firstbreeders = findbreeder(branched_parents[0], tempbreeders)
 
                 if not firstisbreeder:
+                    print("First is not breeder, using placeholder")
                     treedict[level].append(firstbreeders[0])
 
-                if firstisbreeder: # They're both breeders, we need to do compat checking
+                if firstisbreeder:
+                    print("First is breeder, compat checking")
+                    # Compat checking
                     addedcompat, firstbreeder, secondbreeder = findcompatbreeder(branched_parents, firstbreeders, tempbreeders)
                     if addedcompat:
+                        print("Found compat, both are breeders")
                         tempbreeders.remove(firstbreeder)
                         tempbreeders.remove(secondbreeder)
 
@@ -49,7 +53,9 @@ def treegen(distdict, target, breederlist):
                     # Add without compat
                     secondisbreeder, secondbreeders = findbreeder(branched_parents[1], tempbreeders)
                     if secondisbreeder:
+                        print("Secondbreeder is breeder")
                         tempbreeders.remove(secondbreeders[0])
+                    print("Adding secondbreeder")
                     treedict[level].append(secondbreeders[0])
 
             else: # Is a breeder - don't split it, add placeholders to branch
