@@ -70,18 +70,19 @@ Distributions are assumed to be sorted with the highest value on the left, and f
 
 
 #### Distributions follow a particular set of rules, as follows.
-#### - Distributions length is equal to level l (where l is the number of targeted stats - for example 5x31 being l=5)
+**- Distributions length is equal to level l (where l is the number of targeted stats - for example 5x31 being l=5)**
 
 At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 
-#### - The spikiest (most uneven) distribution is represented by the following sequence:
+**- The spikiest (most uneven) distribution is represented by the following sequence:**
 
 ![Spikiest distribution equation](https://imgur.com/tnSH9jM.png)
 
 
 
-#### - Distributions must sum to 2 to the power of the number of stats in the tree minus one
+**- Distributions must sum to 2 to the power of the number of stats in the tree minus one**
+
 Assuming *x sub n* is a sequence containing a potential distribution, and *l* being the target level, this is represented by the following equation:
 
 ![Distribution rule equation 1](https://imgur.com/KBMTX0I.png)
@@ -96,7 +97,8 @@ In a 5x31, there are 5 targeted stats. This means the sum of each distribution f
 9+5+2+1+1 = 18 - this distribution is not valid
 
 
-#### - Distributions cannot contain more than two 1s
+**- Distributions cannot contain more than two 1s**
+
 Again assuming *x sub n* is a sequence containing the distribution and *l* being the target level;
 
 ![Distribution rule equation 2](https://imgur.com/dPX68VM.png)
@@ -105,7 +107,7 @@ This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
 
 
-#### - Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the power of the slot index minus one.
+**- Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the power of the slot index minus one.**
 
 Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
 
