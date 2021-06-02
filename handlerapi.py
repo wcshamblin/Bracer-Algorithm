@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_cors import CORS, cross_origin
 from json import dumps
 
-from Bracer-Algorithm import boxbreed
+from Bracer_Algorithm import boxbreed
 
 app = Flask(__name__)
 cors = CORS(app)
