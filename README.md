@@ -1,5 +1,7 @@
 # [Bracer](https://bracer.app/)
 
+This is the backend portion of BracerApp. To see the frontend, visit [Bracer-frontend](https://github.com/EggplantHero/Bracer-frontend)
+
 ## Planned features
 
 - Upstream breeding compat checking
