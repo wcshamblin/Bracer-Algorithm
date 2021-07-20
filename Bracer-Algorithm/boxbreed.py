@@ -9,7 +9,7 @@ from multiprocessing import cpu_count
 from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder, itemify
 
 # Generate tree from distribution and target - this is poorly optimized
-def treegen(distdict, target, breederlist):
+def treegen(distdict, target, breederlist, complextargetivs):
     # simplebreeders follows the format of [iv, iv, iv] (sorted)
     tempbreeders = breederlist.copy()
     simplebreeders = []
@@ -25,10 +25,13 @@ def treegen(distdict, target, breederlist):
                 treedict[level].append([])
                 continue # Restart loop
 
-            if not child["breeder"]: # Isn't a breeder - we can split it!
-                child = convertbreeder(child) # dict -> list
+            if not child["data"]["breeder"]: # Isn't a breeder - we can split it!
+                child = convertbreeder(child, complextargetivs) # dict -> list
                 branched_parents, sharedict = get_parents(child, sharedict) # Split
-                branched_parents = [convertbreeder(parent) for parent in branched_parents] # Convert split back into dict
+
+                branched_parents = [convertbreeder(parent, complextargetivs) for parent in branched_parents] # Convert split back into dict
+                print(branched_parents)
+
 
                 # If findbreeder, findcompatbreeder fails, input mon is returned (simple)
                 firstisbreeder, firstbreeders = findbreeder(branched_parents[0], tempbreeders)
@@ -84,25 +87,42 @@ def boxbreed(data):
     # Data preprocessing
     breederlist = data["breeders"]
 
+
     # Set target
     target = data["target"]
+    complextargetivs = target["data"]["ivs"]
     simpletarget = []
-    for iv, state in data["target"]["ivs"].items():
-        if state is not False:
+    for iv, state in target["data"]["ivs"].items():
+        if state != -1:
             simpletarget.append(iv)
-    
+
+    prunedbreeders = []
+
+    for breeder in breederlist:
+        toappend = False
+        for iv, value in breeder["data"]["ivs"].items():
+            if complextargetivs[iv] != value:
+                breeder["data"]["ivs"][iv] = -1
+            if complextargetivs[iv] == value and value != -1:
+                toappend = True
+        if toappend:
+            prunedbreeders.append(breeder)
+
 
     distributions = {} # key:[list] of (sets)
     # Start with 1
     for lnum in range(2,7): # 2x - 6x
         distributions[lnum] = combinate(lnum)
+
+    ## TO DO
     # Ditch obviously non-optimal distributions
     # In a 6x tree, if there is a 5x and 1 1xs, then you have to use the 5x in the most optimal tree
 
 
     # Generate all trees from distributions
     t1=time()
-    procpool = Pool(cpu_count()) # Set up processing pool
+    # procpool = Pool(cpu_count()) # Set up processing pool
+    
     args = []
     treedict = {}
     for distribution in distributions[len(simpletarget)]:
@@ -110,8 +130,8 @@ def boxbreed(data):
         for value, stat in zip(distribution, list(simpletarget)): # Low -> high
             distdict[stat] = value
         distdict=OrderedDict(reversed(list(distdict.items()))) # Reverse so we can iterate high -> low
-        tree, perfect, score, remainingbreeders = treegen(distdict, target, breederlist)
-        treedict[score] = {"tree":tree, "remaining": remainingbreeders}
+        tree, perfect, score, remainingbreeders = treegen(distdict, target, prunedbreeders, complextargetivs)
+        treedict[score] = tree
         if perfect:
             break
     treedict = treedict[min(treedict.keys())]    
@@ -124,16 +144,17 @@ def boxbreed(data):
     # JSONify entire tree
     outtree = {}
 
+    print(treedict)
 
-    for lnum, breeders in treedict["tree"].items():
+    for lnum, breeders in treedict.items():
         outtree[lnum] = []
         if len(breeders) == 1:
-            outtree[lnum].append(jsonify(breeders[0]))
+            outtree[lnum].append(jsonify(breeders[0], complextargetivs))
             continue
 
         for i in range(0, len(breeders), 2):
-            b1 = jsonify(breeders[i])
-            b2 = jsonify(breeders[i+1])
+            b1 = jsonify(breeders[i], complextargetivs)
+            b2 = jsonify(breeders[i+1], complextargetivs)
 
             outtree[lnum].append(itemify(b1, b2))
             outtree[lnum].append(itemify(b2, b1))
@@ -141,6 +162,7 @@ def boxbreed(data):
     t2=time()
     # print("JSONify:", t2-t1)
 
+    return(tree)
     return({"tree": outtree, "remainingbreeders": treedict["remaining"]})
 
 
