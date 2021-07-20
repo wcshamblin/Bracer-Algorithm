@@ -30,7 +30,6 @@ def treegen(distdict, target, breederlist, complextargetivs):
                 branched_parents, sharedict = get_parents(child, sharedict) # Split
 
                 branched_parents = [convertbreeder(parent, complextargetivs) for parent in branched_parents] # Convert split back into dict
-                print(branched_parents)
 
 
                 # If findbreeder, findcompatbreeder fails, input mon is returned (simple)
@@ -143,8 +142,6 @@ def boxbreed(data):
     t1=time()
     # JSONify entire tree
     outtree = {}
-
-    print(treedict)
 
     for lnum, breeders in treedict.items():
         outtree[lnum] = []
