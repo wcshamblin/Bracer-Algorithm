@@ -34,21 +34,24 @@ def combinate(lnum):
     perms = list(chain.from_iterable([list(set([i for i in permutations(p)])) for p in combs_validated])) # Set removes dups (4 2 1 <-> 1)
     return(perms)
 
+# Works
 def egggroupcompat(breeder1, breeder2):
-    if bool(set(breeder1["eggGroups"]) & set(breeder2["eggGroups"])) and not breeder1["name"]==breeder2["name"]=="ditto":
+    if bool(set(breeder1["data"]["eggGroups"]) & set(breeder2["data"]["eggGroups"])) and not breeder1["data"]["name"] == breeder2["data"]["name"] == "ditto":
         return True
     return False
 
+# Works
 def gendercompat(breeder1, breeder2):
-    genders = sorted([breeder1["gender"], breeder2["gender"]])
+    genders = sorted([breeder1["data"]["gender"], breeder2["data"]["gender"]])
     if genders == ["female", "male"]:
         return True
-    if genders == ["genderless", "genderless"] and breeder1["name"] == breeder2["name"]:
+    if genders == ["genderless", "genderless"] and breeder1["data"]["name"] == breeder2["data"]["name"]:
         return True
     return False
 
+# Works
 def breedercompat(breeder1, breeder2):
-    if (breeder1["name"] == "ditto" or breeder2["name"] == "ditto") and (breeder2["name"] != breeder1["name"]):
+    if (breeder1["data"]["name"] == "ditto" or breeder2["data"]["name"] == "ditto") and (breeder2["data"]["name"] != breeder1["data"]["name"]):
         return True
     if egggroupcompat(breeder1, breeder2) and gendercompat(breeder1, breeder2):
         return True
@@ -59,56 +62,77 @@ def listdistance(l1, l2):
     squares = [(p-q)**2 for p, q in zip(l1, l2)]
     return sum(squares)**.5
 
-def jsonify(ivlist, item=False):
+def jsonify(ivlist, targetivs, item=False):
     if type(ivlist) == dict:
         ivlist["item"] = item
         return ivlist
-    breeder = {"name": False,"ivs":{"hp":False,"atk":False,"def":False,"spa":False,"spd":False,"spe":False},"nature":False,"gender":False,"eggGroups":[], "breeder":False, "item": False}
-    breeder["item"] = item
+    breeder = {'id': '', 'data': {'name': False, 'ivs': {'hp': -1, 'atk': -1, 'def': -1, 'spa': -1, 'spd': -1, 'spe': -1}, 'nature': '', 'eggGroups': [], 'gender': '', 'possibleGenders': [], 'breeder': False, 'item': False}}
+
+    breeder["data"]["item"] = item
     for iv in ivlist:
-        breeder["ivs"][iv] = True
+        breeder["data"]["ivs"][iv] = targetivs[iv]
     return breeder
+
+
 
 def itemify(breeder1, breeder2):
     # Define power items
-    for iv, state in breeder1["ivs"].items():
-        if state and not breeder2["ivs"][iv]:
+    for iv, state in breeder1["data"]["ivs"].items():
+        if state != -1 and not breeder2["data"]["ivs"][iv]:
             breeder1 = jsonify(breeder1, iv)
             break
     return breeder1
 
-def convertbreeder(breeder):
+
+# Works
+def convertbreeder(breeder, targetivs=False):
     if type(breeder) == dict:
-        return sorted([iv for iv, state in breeder["ivs"].items() if state != False])
-    if type(breeder) == list:
-        return jsonify(breeder)
+        return sorted([iv for iv, state in breeder["data"]["ivs"].items() if state != -1])
+    if type(breeder) == list: # Simplebreeder
+        return jsonify(breeder, targetivs)
     return []
     
+
+
 def findbreeder(inputmon, breeders):
     matchedbreeders = []
     for breeder in breeders:
         isbreeder = True
-        for attribute, value in inputmon.items():
-            if value != False and value:
-                if breeder[attribute] != value:
-                    isbreeder = False
-                    continue
+
+        # This is only checking IVs
+        if inputmon["data"]["ivs"] != breeder["data"]["ivs"]:
+            isbreeder = False
+
+        # Checking for more?
+        # for attribute, value in inputmon["data"].items():
+        #     if value != -1 and value:
+        #         if breeder["data"][attribute] != value:
+        #             isbreeder = False
+        #             continue
+
         if isbreeder:
             matchedbreeders.append(breeder)
     if matchedbreeders: # There is a match found
         return True, matchedbreeders
     return False, [inputmon]
 
+
+
 def findcompatbreeder(inputmon, compatto, breeders):
     for breeder in breeders:
         isbreeder = True
-        for attribute, value in inputmon[1].items():
-            if value != False and value:
-                if breeder[attribute] != value:
-                    isbreeder = False
-                    continue
+        # Find a valid breeder for the second input mon based on IVs
+        # for attribute, value in inputmon[1].items():
+        #     if value != False and value:
+        #         if breeder[attribute] != value:
+        #             isbreeder = False
+        #             continue
+        if inputmon[1]["data"]["ivs"] != breeder["data"]["ivs"]:
+            isbreeder = False 
+        # Did we find a valid breeder? If so, check compat
         if isbreeder:
             for possiblecompat in compatto:
                 if breedercompat(breeder, possiblecompat):
                     return True, possiblecompat, breeder
+    # If no compat, return simple breeders (input)
     return False, inputmon[0], inputmon[1]
