@@ -95,6 +95,9 @@ def boxbreed(data):
         if state != -1:
             simpletarget.append(iv)
 
+    target["data"]["breeder"] = False
+
+
     prunedbreeders = []
 
     for breeder in breederlist:
