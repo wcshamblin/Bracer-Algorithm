@@ -79,7 +79,7 @@ def itemify(breeder1, breeder2):
     # Define power items
     for iv, state in breeder1["data"]["ivs"].items():
         if state != -1 and not breeder2["data"]["ivs"][iv]:
-            breeder1 = jsonify(breeder1, iv)
+            breeder1 = jsonify(breeder1, iv, iv)
             break
     return breeder1
 
