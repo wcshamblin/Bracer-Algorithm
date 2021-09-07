@@ -100,16 +100,20 @@ def boxbreed(data):
 
     prunedbreeders = []
 
+    print(complextargetivs)
+
     for breeder in breederlist:
         toappend = False
         for iv, value in breeder["data"]["ivs"].items():
+            if value == 31 and complextargetivs[iv] == -1:
+                toappend = False
+                break
             if complextargetivs[iv] != value:
                 breeder["data"]["ivs"][iv] = -1
             if complextargetivs[iv] == value and value != -1:
                 toappend = True
         if toappend:
             prunedbreeders.append(breeder)
-
 
     distributions = {} # key:[list] of (sets)
     # Start with 1
