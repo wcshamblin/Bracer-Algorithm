@@ -10,6 +10,7 @@ from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findb
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist, complextargetivs):
+    print("\nStarting a new tree")
     # simplebreeders follows the format of [iv, iv, iv] (sorted)
     tempbreeders = breederlist.copy()
     simplebreeders = []
@@ -86,7 +87,6 @@ def boxbreed(data):
     # Data preprocessing
     breederlist = data["breeders"]
 
-
     # Set target
     target = data["target"]
     complextargetivs = target["data"]["ivs"]
@@ -100,8 +100,6 @@ def boxbreed(data):
 
     prunedbreeders = []
 
-    print(complextargetivs)
-
     for breeder in breederlist:
         toappend = False
         for iv, value in breeder["data"]["ivs"].items():
@@ -114,6 +112,10 @@ def boxbreed(data):
                 toappend = True
         if toappend:
             prunedbreeders.append(breeder)
+
+    [print("Breeder (after prune):", breeder) for breeder in prunedbreeders]
+    print("\nTarget:", complextargetivs, "\n")
+
 
     distributions = {} # key:[list] of (sets)
     # Start with 1
@@ -140,34 +142,37 @@ def boxbreed(data):
         treedict[score] = tree
         if perfect:
             break
-    treedict = treedict[min(treedict.keys())]    
 
-    t2=time()
-    # print("Treegen:", t2-t1)
+    # Use the tree with the lowest score as the final tree
+    treedict = treedict[min(treedict.keys())]
+    print("Final treedict:", treedict)   
+
+    # t2=time()
+    # # print("Treegen:", t2-t1)
 
 
-    t1=time()
-    # JSONify entire tree
-    outtree = {}
+    # t1=time()
+    # # JSONify entire tree
+    # outtree = {}
 
-    for lnum, breeders in treedict.items():
-        outtree[lnum] = []
-        if len(breeders) == 1:
-            outtree[lnum].append(jsonify(breeders[0], complextargetivs))
-            continue
+    # for lnum, breeders in treedict.items():
+    #     outtree[lnum] = []
+    #     if len(breeders) == 1:
+    #         outtree[lnum].append(jsonify(breeders[0], complextargetivs))
+    #         continue
 
-        for i in range(0, len(breeders), 2):
-            b1 = jsonify(breeders[i], complextargetivs)
-            b2 = jsonify(breeders[i+1], complextargetivs)
+    #     for i in range(0, len(breeders), 2):
+    #         b1 = jsonify(breeders[i], complextargetivs)
+    #         b2 = jsonify(breeders[i+1], complextargetivs)
 
-            outtree[lnum].append(itemify(b1, b2))
-            outtree[lnum].append(itemify(b2, b1))
+    #         outtree[lnum].append(itemify(b1, b2))
+    #         outtree[lnum].append(itemify(b2, b1))
 
-    t2=time()
+    # t2=time()
     # print("JSONify:", t2-t1)
 
-    return(tree)
-    return({"tree": outtree, "remainingbreeders": treedict["remaining"]})
+    return(treedict)
+    # return({"tree": outtree, "remainingbreeders": treedict["remaining"]})
 
 
 if __name__ == '__main__':
