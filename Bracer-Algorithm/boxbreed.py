@@ -153,25 +153,25 @@ def boxbreed(data):
 
     # t1=time()
     # # JSONify entire tree
-    # outtree = {}
+    outtree = {}
 
-    # for lnum, breeders in treedict.items():
-    #     outtree[lnum] = []
-    #     if len(breeders) == 1:
-    #         outtree[lnum].append(jsonify(breeders[0], complextargetivs))
-    #         continue
+    for lnum, breeders in treedict.items():
+        outtree[lnum] = []
+        if len(breeders) == 1:
+            outtree[lnum].append(jsonify(breeders[0], complextargetivs))
+            continue
 
-    #     for i in range(0, len(breeders), 2):
-    #         b1 = jsonify(breeders[i], complextargetivs)
-    #         b2 = jsonify(breeders[i+1], complextargetivs)
+        for i in range(0, len(breeders), 2):
+            b1 = jsonify(breeders[i], complextargetivs)
+            b2 = jsonify(breeders[i+1], complextargetivs)
 
-    #         outtree[lnum].append(itemify(b1, b2))
-    #         outtree[lnum].append(itemify(b2, b1))
+            outtree[lnum].append(itemify(b1, b2))
+            outtree[lnum].append(itemify(b2, b1))
 
     # t2=time()
     # print("JSONify:", t2-t1)
 
-    return(treedict)
+    return(outtree)
     # return({"tree": outtree, "remainingbreeders": treedict["remaining"]})
 
 
