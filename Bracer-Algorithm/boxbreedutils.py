@@ -63,7 +63,6 @@ def listdistance(l1, l2):
     return sum(squares)**.5
 
 def jsonify(ivlist, targetivs, item=False):
-    print(item)
     if type(ivlist) == dict:
         ivlist["data"]["item"] = item
         return ivlist
