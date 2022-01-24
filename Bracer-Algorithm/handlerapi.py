@@ -41,5 +41,5 @@ def boxroute():
         data = jsonify(boxbreed(request.json))
         resp = make_response(data)
         resp.mimetype = "application/json"
-        print("Returning JSON to frontend")
+        logger.debug("Returning JSON to frontend")
         return(resp)

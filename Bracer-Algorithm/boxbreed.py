@@ -8,7 +8,7 @@ from multiprocessing import Pool
 from multiprocessing import cpu_count
 from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder, itemify, logger_set
 
-logger = logger_set('boxbreed.py')
+logger = logger_set('boxbreed  ')
 logger.info("Backend live")
 
 # Generate tree from distribution and target - this is poorly optimized
@@ -116,7 +116,7 @@ def boxbreed(data):
         if toappend:
             prunedbreeders.append(breeder)
 
-    [print("Breeder (after prune):", breeder) for breeder in prunedbreeders]
+    [logger.debug("Breeder (after prune):", breeder) for breeder in prunedbreeders]
     print("\nTarget:", complextargetivs, "\n")
 
 
@@ -148,7 +148,7 @@ def boxbreed(data):
 
     # Use the tree with the lowest score as the final tree
     treedict = treedict[min(treedict.keys())]
-    print("Final treedict:", treedict)   
+    logger.debug("Final treedict:", treedict)   
 
     # t2=time()
     # # print("Treegen:", t2-t1)
