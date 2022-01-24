@@ -117,7 +117,7 @@ def boxbreed(data):
             prunedbreeders.append(breeder)
 
     [logger.debug("Breeder (after prune): "+ str(breeder)) for breeder in prunedbreeders]
-    logger.debug("\nTarget:", complextargetivs, "\n")
+    logger.debug("\nTarget: "+str(complextargetivs)+"\n")
 
 
     distributions = {} # key:[list] of (sets)
