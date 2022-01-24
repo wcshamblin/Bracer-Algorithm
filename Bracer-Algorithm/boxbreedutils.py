@@ -3,6 +3,20 @@ import copy
 from itertools import combinations_with_replacement as combinations_wr
 from itertools import permutations
 from itertools import chain
+import logging
+
+
+def logger_set(name):
+    log_format = '%(asctime)s | %(name)8s | %(levelname)5s | %(message)s'
+    logging.basicConfig(level=logging.DEBUG,
+                        format=log_format,
+                        filename='dev.log',
+                        filemode='w')
+    console = logging.StreamHandler()
+    console.setLevel(logging.DEBUG)
+    console.setFormatter(logging.Formatter(log_format))
+    logging.getLogger(name).addHandler(console)
+    return logging.getLogger(name)
 
 # Binary tree deconstructor
 # The most Python code to ever Python
@@ -76,16 +90,16 @@ def jsonify(ivlist, targetivs, item=False):
 
 
 def itemify(breeder1, breeder2):
-    print("Itemifying")
-    print(breeder1["data"]["ivs"].items(), breeder2["data"]["ivs"].items())
+    # print("Itemifying")
+    # print(breeder1["data"]["ivs"].items(), breeder2["data"]["ivs"].items())
     # Define power items
     for iv, state in breeder1["data"]["ivs"].items():
-        print(iv, state)
+        # print(iv, state)
         if state != -1 and breeder2["data"]["ivs"][iv] == -1:
-            print("Itemifying with", iv)
+            # print("Itemifying with", iv)
             breeder1 = jsonify(breeder1, iv, iv)
             break
-    print("Breeder after itemify:", breeder1)
+    # print("Breeder after itemify:", breeder1)
     return breeder1
 
 

@@ -5,7 +5,10 @@ from flask import jsonify
 from flask_cors import CORS, cross_origin
 from json import dumps
 
-from boxbreed import boxbreed
+from boxbreed import boxbreed, logger_set
+
+logger = logger_set('Flask-CORS')
+logger.info("EEEEEEE")
 
 
 app = Flask(__name__)
@@ -38,4 +41,5 @@ def boxroute():
         data = jsonify(boxbreed(request.json))
         resp = make_response(data)
         resp.mimetype = "application/json"
+        print("Returning JSON to frontend")
         return(resp)
