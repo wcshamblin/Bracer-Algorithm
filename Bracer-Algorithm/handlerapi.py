@@ -37,6 +37,7 @@ def boxroute():
     if request.method == 'GET':
         return("No data to return - need POST")
     if request.method == 'POST':
+        logger.debug("POST recieved")
         # Get data from box breed algo
         data = jsonify(boxbreed(request.json))
         resp = make_response(data)
