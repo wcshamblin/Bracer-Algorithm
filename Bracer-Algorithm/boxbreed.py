@@ -8,8 +8,8 @@ from multiprocessing import Pool
 from multiprocessing import cpu_count
 from boxbreedutils import get_parents, combinate, jsonify, convertbreeder, findbreeder, findcompatbreeder, itemify, logger_set
 
-logger = logger_set('boxbreed')
-logger.info("EEEEEEE")
+logger = logger_set('boxbreed.py')
+logger.info("Backend live")
 
 # Generate tree from distribution and target - this is poorly optimized
 def treegen(distdict, target, breederlist, complextargetivs):

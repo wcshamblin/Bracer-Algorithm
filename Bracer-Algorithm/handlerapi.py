@@ -8,7 +8,7 @@ from json import dumps
 from boxbreed import boxbreed, logger_set
 
 logger = logger_set('Flask-CORS')
-logger.info("EEEEEEE")
+logger.info("Handler live")
 
 
 app = Flask(__name__)
