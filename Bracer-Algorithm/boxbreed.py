@@ -116,8 +116,8 @@ def boxbreed(data):
         if toappend:
             prunedbreeders.append(breeder)
 
-    [logger.debug("Breeder (after prune):", breeder) for breeder in prunedbreeders]
-    print("\nTarget:", complextargetivs, "\n")
+    [logger.debug(str("Breeder (after prune):", breeder)) for breeder in prunedbreeders]
+    logger.debug("\nTarget:", complextargetivs, "\n")
 
 
     distributions = {} # key:[list] of (sets)
@@ -148,7 +148,7 @@ def boxbreed(data):
 
     # Use the tree with the lowest score as the final tree
     treedict = treedict[min(treedict.keys())]
-    logger.debug("Final treedict:", treedict)   
+    logger.debug(str("Final treedict:", treedict))   
 
     # t2=time()
     # # print("Treegen:", t2-t1)
