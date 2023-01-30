@@ -79,16 +79,14 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 **- The spikiest (most uneven) distribution is represented by the following sequence:**
 
-$x_{n} = \left \lceil 2^{n-1} \right \rceil$
-
+$$\huge x_{n} = \left \lceil 2^{n-1} \right \rceil$$
 
 
 **- Distributions must sum to 2 to the power of the number of stats in the tree minus one**
 
 Assuming *x sub n* is a sequence containing a potential distribution, and *l* being the target level, this is represented by the following equation:
 
-![Distribution rule equation 1](https://imgur.com/KBMTX0I.png)
-
+$$\huge \sum_{n=0}^{l} x_{n} = 2^{l-1}$$
 
 
 In a 5x31, there are 5 targeted stats. This means the sum of each distribution for a 5x31 must sum to `2^(5-1) = 16`.
@@ -103,7 +101,7 @@ In a 5x31, there are 5 targeted stats. This means the sum of each distribution f
 
 Again assuming *x sub n* is a sequence containing the distribution and *l* being the target level;
 
-![Distribution rule equation 2](https://imgur.com/dPX68VM.png)
+$$\huge \sum_{n=0}^{l} [x_{n} = 1] \leq 2$$
 
 This is due to the way the binary tree shares IVs through the branches.
 The two 1s are able to rest on the very outside edge of the base of the tree and pass upward, but there is no other space for another 1 to fit. (This does not mean distributions HAVE to contain two 1s)
@@ -113,8 +111,7 @@ The two 1s are able to rest on the very outside edge of the base of the tree and
 
 Represented mathematically where *s* is the index of the current slot, this rule must apply to every *s* within any particular distribution;
 
-![Distribution rule equation 3](https://imgur.com/DuBfhSz.png)
-
+$$\huge \sum_{n=0}^{s} x_{n} \leq 2^{s-1}$$
 
 Represented programatically;
 ```py
