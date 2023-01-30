@@ -74,7 +74,7 @@ Distributions are assumed to be sorted with the highest value on the left, and f
 #### Distributions follow a particular set of rules, as follows.
 **- Distributions length is equal to level $l$ (where $l$ is the number of targeted stats - for example 5x31 being $l=5$)**
 
-At l=4, distributions must have 4 individual numbers corresponding to each stat
+At $l=4$, distributions must have 4 individual numbers corresponding to each stat
 
 
 **- The spikiest (most uneven) distribution is represented by the following sequence:**
@@ -131,7 +131,7 @@ The spikiest distribution is unstable as the water level is uneven, and since *w
 
 ![Water visualization](https://i.imgur.com/QWVxDfI.png)
 
-After permutation, generation of all distributions falls (about) under O(n!).
+After permutation, generation of all distributions falls (about) under $O(n!)$.
 
 For more details on programatic distribution generation, see `combinate()` within `BreedingAlgorithm/boxbreedutils.py`
 
