@@ -79,7 +79,7 @@ At l=4, distributions must have 4 individual numbers corresponding to each stat
 
 **- The spikiest (most uneven) distribution is represented by the following sequence:**
 
-![Spikiest distribution equation](https://imgur.com/tnSH9jM.png)
+$x_{n} = \left \lceil 2^{n-1} \right \rceil$
 
 
 
