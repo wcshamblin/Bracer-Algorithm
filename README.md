@@ -72,7 +72,7 @@ Distributions are assumed to be sorted with the highest value on the left, and f
 
 
 #### Distributions follow a particular set of rules, as follows.
-**- Distributions length is equal to level $$l$$ (where $$l$$ is the number of targeted stats - for example 5x31 being $$l=5$$)**
+**- Distributions length is equal to level $l$ (where $l$ is the number of targeted stats - for example 5x31 being $l=5$)**
 
 At l=4, distributions must have 4 individual numbers corresponding to each stat
 
@@ -84,22 +84,22 @@ $$\huge x_{n} = \left \lceil 2^{n-1} \right \rceil$$
 
 **- Distributions must sum to 2 to the power of the number of stats in the tree minus one**
 
-Assuming $$x_{n}$$ is a sequence containing a potential distribution, and $$l$$ being the target level, this is represented by the following equation:
+Assuming $x_{n}$ is a sequence containing a potential distribution, and $l$ being the target level, this is represented by the following equation:
 
 $$\huge \sum_{n=0}^{l} x_{n} = 2^{l-1}$$
 
 
-In a 5x31, there are 5 targeted stats. This means the sum of each distribution for a 5x31 must sum to $$2^{(5-1)} = 16$$.
+In a 5x31, there are 5 targeted stats. This means the sum of each distribution for a 5x31 must sum to $2^{(5-1)} = 16$.
 
 
-$$8+4+2+1+1 = 16$$ - this distribution is valid
+$8+4+2+1+1 = 16$ - this distribution is valid
 
-$$9+5+2+1+1 = 18$$ - this distribution is not valid
+$9+5+2+1+1 = 18$ - this distribution is not valid
 
 
 **- Distributions cannot contain more than two 1s**
 
-Again assuming $$x_{n}$$ is a sequence containing the distribution and $$l$$ being the target level;
+Again assuming $x_{n}$ is a sequence containing the distribution and $l$ being the target level;
 
 $$\huge \sum_{n=0}^{l} [x_{n} = 1] \leq 2$$
 
@@ -109,7 +109,7 @@ The two 1s are able to rest on the very outside edge of the base of the tree and
 
 **- Assuming a sorted distribution where the leftmost value is the highest, for every slot of any distribution (excluding the first slot), the sum of the slots to the left must be less than 2 to the power of the slot index minus one.**
 
-Represented mathematically where $$s$$ is the index of the current slot, this rule must apply to every $$s$$ within any particular distribution;
+Represented mathematically where $s$ is the index of the current slot, this rule must apply to every $s$ within any particular distribution;
 
 $$\huge \sum_{n=0}^{s} x_{n} \leq 2^{s-1}$$
 
